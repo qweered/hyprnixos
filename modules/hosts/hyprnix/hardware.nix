@@ -18,6 +18,7 @@
     # NOTE: a lot of mess comes from here https://github.com/NixOS/nixpkgs/blob/103ac534018bbc99254a1e0b043f423b855b55b6/nixos/modules/hardware/all-firmware.nix
     enableRedistributableFirmware = false;
     cpu.amd.updateMicrocode = true;
+    amdgpu.initrd.enable = true; # load driver before plymouth
     firmware = with pkgs; [
       linux-firmware
       # intel2200BGFirmware
@@ -34,7 +35,6 @@
   boot.initrd = {
     # NOTE: USB keyboards may become broken https://github.com/NixOS/nixpkgs/blob/22c3f2cf41a0e70184334a958e6b124fb0ce3e01/nixos/modules/system/boot/kernel.nix#L292
     includeDefaultModules = false;
-    kernelModules = [ "amdgpu" ]; # always load early for no plymouth fleek
     availableKernelModules = [
       "nvme"
       "xhci_pci"
