@@ -38,7 +38,7 @@
         du = "gdu";
         top = "btop";
         htop = "btop";
-        rm = "rip --graveyard ~/.local/share/Trash";
+        rm = "rip";
         # "ps aux" = "procs"; TODO: add this
       };
   };
