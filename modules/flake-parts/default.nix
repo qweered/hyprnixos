@@ -14,7 +14,6 @@ in
   imports = with inputs; [
     treefmt-nix.flakeModule
     git-hooks.flakeModule
-    # pkgs-by-name-for-flake-parts.flakeModule
   ];
 
   flake.nixosConfigurations.hyprnix = inputs.nixpkgs.lib.nixosSystem {
@@ -23,8 +22,8 @@ in
       users.qweered = true;
       hosts.hyprnix = true;
       system.unused = false;
-      home = false; # loaded in by user
-      flake-parts = false; # loaded in flake.nix already
+      home = false; # loaded by user
+      flake-parts = false; # loaded by flake.nix
     };
   };
 

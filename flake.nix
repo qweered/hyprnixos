@@ -10,17 +10,6 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
 
-    dgop = {
-      url = "github:AvengeMedia/dgop";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    dankMaterialShell = {
-      url = "github:AvengeMedia/DankMaterialShell";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.dgop.follows = "dgop";
-    };
-
     nfh.url = "github:name-snrl/nfh";
     flake-parts.url = "github:hercules-ci/flake-parts";
     treefmt-nix.url = "github:numtide/treefmt-nix";
@@ -64,12 +53,9 @@
       flake-parts,
       ...
     }:
-    let
-      moduleTree = nfh ./modules;
-    in
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      flake.moduleTree = moduleTree;
-      imports = moduleTree.flake-parts { };
+    flake-parts.lib.mkFlake { inherit inputs; } rec {
+      flake.moduleTree = nfh ./modules;
+      imports = flake.moduleTree.flake-parts { };
       systems = nixpkgs.lib.systems.flakeExposed;
     };
 }
