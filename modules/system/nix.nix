@@ -7,12 +7,6 @@
 }:
 let
   flakeInputs = lib.filterAttrs (_: v: lib.isType "flake" v) inputs;
-  inherit (pkgs.lixPackageSets.latest) lix;
-  nixpkgs-review = pkgs.nixpkgs-review.override { nix = lix; };
-  nix-update = pkgs.nix-update.override {
-    nix = lix;
-    inherit nixpkgs-review;
-  };
 in
 {
   nixpkgs.config = {
@@ -25,20 +19,33 @@ in
     libraries = with pkgs; [ oxlint ];
   };
 
-  environment.systemPackages = [
-    pkgs.nixd # lsp
-    pkgs.nix-tree # inspect nix store
-    pkgs.nix-inspect # inspect flake
-    pkgs.manix # search nix docs
-    pkgs.nix-output-monitor # pretty rebuild output
-
+  environment.systemPackages = with pkgs; [
+    nixd # lsp
+    nix-tree # inspect nix store
+    nix-inspect # inspect flake
+    manix # search nix docs
+    nix-output-monitor # pretty rebuild output
     nixpkgs-review # review nix packages
     nix-update # update nix packages
   ];
 
+  # TODO: why overlays don't work in flake-parts?
+  nixpkgs.overlays = [
+    (_final: prev: {
+      nix = prev.lixPackageSets.latest.lix;
+      nix-output-monitor = prev.nix-output-monitor.overrideAttrs (_old: {
+        src = prev.fetchFromGitHub {
+          owner = "maralorn";
+          repo = "nix-output-monitor";
+          rev = "20ad9727e49bf686bea1c5e6769241234a56804b";
+          hash = "sha256-iEvbCIlHX6WUblrnoF7gwUQtu2ay97zoZsvoP85I2BA=";
+        };
+      });
+    })
+  ];
+
   nix = {
     channel.enable = false;
-    package = lix;
 
     # TODO: i don't need all the flakes in registry and path, nixpkgs is set by default nixpkgs.flake.setFlakeRegistry
     registry = lib.mapAttrs (_: v: { flake = v; }) flakeInputs; # pin the registry
