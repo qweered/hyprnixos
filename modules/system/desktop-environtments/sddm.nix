@@ -22,5 +22,8 @@ in
     };
   };
 
+  # NOTE: workaround for https://github.com/NixOS/nixpkgs/issues/86884
+  security.pam.services.sddm.enableGnomeKeyring = true;
+
   environment.systemPackages = [ sddm-astronaut ];
 }
