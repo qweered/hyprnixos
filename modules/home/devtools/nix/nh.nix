@@ -7,7 +7,7 @@
     clean = {
       enable = true;
       dates = "monthly";
-      extraArgs = "--optimise --keep 3 --no-gcroots";
+      extraArgs = "--optimise --keep 3";
     };
   };
 }

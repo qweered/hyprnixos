@@ -15,11 +15,12 @@
     '';
     shellAliases =
       let
-        nhCmd = "nh os switch --ask --diff=always --keep-going --keep-failed --fallback";
+        nhCmd = "nh os switch --ask --diff=always --keep-going --keep-failed --fallback --repair --show-trace";
       in
       {
         nh-switch = "${nhCmd}";
         nh-update = "${nhCmd} --update";
+        nh-clean = "nh clean all --optimise --keep 3";
 
         manix = "manix \"\" | grep '^# ' | sed 's/^# \(.*\) (.*/\1/;s/ (.*//;s/^# //' | fzf --preview=\"manix '{}'\" | xargs manix";
 
