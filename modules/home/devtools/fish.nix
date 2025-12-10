@@ -15,7 +15,7 @@
     '';
     shellAliases =
       let
-        nhCmd = "nh os switch --ask --diff=always --keep-going --keep-failed --fallback --repair --show-trace";
+        nhCmd = "nh os switch --ask --diff=always --keep-going --keep-failed --fallback --show-trace";
       in
       {
         nh-switch = "${nhCmd}";
