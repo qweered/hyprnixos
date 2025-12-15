@@ -1,8 +1,6 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 
 {
-  imports = [ inputs.chaotic.nixosModules.default ];
-
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
@@ -11,7 +9,7 @@
     # NOTE: Not feature-complete yet https://blog.decent.id/post/nixos-systemd-initrd/
     initrd.systemd.enable = true;
 
-    kernelPackages = pkgs.linuxPackages_cachyos;
+    kernelPackages = pkgs.linuxPackages_zen;
 
     plymouth = {
       enable = true;

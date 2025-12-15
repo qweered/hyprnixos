@@ -8,7 +8,6 @@
     # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:nixos/nixpkgs/master";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
 
     nfh.url = "github:name-snrl/nfh";
     flake-parts.url = "github:hercules-ci/flake-parts";
