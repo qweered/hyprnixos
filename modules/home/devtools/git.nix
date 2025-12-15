@@ -11,6 +11,7 @@
     git = {
       enable = true;
       signing = {
+        format = "openpgp";
         key = config.programs.gpg.settings.default-key;
         signByDefault = true;
       };
@@ -64,6 +65,10 @@
         merge.autoStash = true;
         merge.tool = "nvimdiff";
         merge.ff = "only"; # try to not crate merge commits
+
+        advice = {
+          skippedCherryPicks = "false";
+        };
 
         url = {
           "https://github.com/" = {
