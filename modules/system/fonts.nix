@@ -2,13 +2,14 @@
 
 {
   fonts = {
-    enableDefaultPackages = false;
+    enableDefaultPackages = true;
     packages = with pkgs; [
       # icons
       material-symbols
 
       # sans-serif
       noto-fonts
+      noto-fonts-cjk-serif
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
       roboto
@@ -22,9 +23,18 @@
     ];
 
     fontconfig.defaultFonts = {
-      serif = [ "Noto Serif" ];
-      sansSerif = [ "Noto Sans" ];
-      monospace = [ "JetBrains Mono Nerd Font" ];
+      serif = [
+        "Noto Serif"
+        "Noto Color Emoji"
+      ];
+      sansSerif = [
+        "Noto Sans"
+        "Noto Color Emoji"
+      ];
+      monospace = [
+        "JetBrains Mono Nerd Font"
+        "Noto Color Emoji"
+      ];
       emoji = [ "Noto Color Emoji" ];
     };
   };
