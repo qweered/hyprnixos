@@ -16,6 +16,8 @@
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
+    declarative-flatpak.url = "github:in-a-dil-emma/declarative-flatpak/latest";
+
     # stylix = {
     #   url = "github:nix-community/stylix";
     #   inputs.nixpkgs.follows = "nixpkgs";
