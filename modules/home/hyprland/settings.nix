@@ -79,8 +79,15 @@
       };
 
       misc = {
+        # vrr = 1; TODO: enable on compatible hardware
+        focus_on_activate = true;
         disable_hyprland_logo = true; # no default wallpaper
         disable_splash_rendering = true; # no funny text from vaxry
+      };
+
+      render = {
+        # direct_scanout = 1; TODO: enable on compatible hardware
+        new_render_scheduling = true; # triple buffering
       };
 
       input = {
