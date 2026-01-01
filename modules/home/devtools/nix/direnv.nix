@@ -1,15 +1,14 @@
-{ pkgs, ... }:
-let
-  nix-direnv = pkgs.nix-direnv.override { nix = pkgs.lixPackageSets.latest.lix; };
-in
 {
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
-    nix-direnv.package = nix-direnv;
-  };
-
-  home.sessionVariables = {
-    DIRENV_LOG_FORMAT = "";
+    silent = true;
+    config = {
+      global = {
+        warn_timeout = "60s";
+        strict_env = true; # will become default
+        hide_env_diff = true;
+      };
+    };
   };
 }
