@@ -6,17 +6,12 @@
 }:
 
 let
-  inherit (lib)
-    getExe'
-    getExe
-    head
-    split
-    ;
+  inherit (lib) getExe' getExe;
   inherit (pkgs)
     writeShellScript
     wireplumber
     playerctl
-    rofi
+    vicinae
     uwsm
     ghostty
     brillo
@@ -28,13 +23,13 @@ let
     ;
   wpctl = getExe' wireplumber "wpctl";
   wlCopy = getExe' wl-clipboard "wl-copy";
-  appRunner = "${getExe rofi} -show drun -run-command \"${getExe uwsm} app -- {cmd}\"";
+  launcher = "${getExe vicinae} toggle";
   terminal = "${getExe ghostty}";
   brightnessUp = "${getExe brillo} -q -u 300000 -A 5";
   brightnessDown = "${getExe brillo} -q -u 300000 -U 5";
+  clipboardManager = "${terminal} --class=clipse.app -e ${getExe clipse}";
   volumeUp = "${wpctl} set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
   volumeDown = "${wpctl} set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-";
-  toggle = app: "pkill ${head (split " " app)} || ${getExe uwsm} app -- ${app}";
   run = app: "${getExe uwsm} app -- ${app}";
   micInsteadOfSpeaker = if osConfig.networking.hostName == "hyprnix" then "@DEFAULT_AUDIO_SOURCE@" else "@DEFAULT_AUDIO_SINK@";
   screenshot = writeShellScript "screenshot" ''
@@ -81,9 +76,9 @@ in
       in
       [
         "SUPER, Return, exec, ${run terminal}"
-        "SUPER, V, exec, ${run terminal} --class=clipse.app -e ${getExe clipse}"
+        "SUPER, V, exec, ${run clipboardManager}"
         "SUPER, B, exec, ${run "$BROWSER"}"
-        "SUPER_CTRL, RETURN, exec, ${toggle appRunner}"
+        "SUPER_CTRL, RETURN, exec, ${launcher}"
         "SUPER, Print, exec, ${screenshot}"
 
         "ALT, Tab, focuscurrentorlast"

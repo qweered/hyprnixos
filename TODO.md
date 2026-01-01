@@ -64,5 +64,4 @@
 * unzip zip rar unrar - over 7z
 * mc superfile xplr ranger lf nnn yazi broot - over ranger (yazi is best?)
 * xxh + sshpass - transfer shell config over ssh
-* walker anyrun - over rofi
 * activate-linux - fun windows watermark

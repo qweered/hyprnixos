@@ -68,6 +68,17 @@
       inputs.cpu-microcodes.follows = "cpu-microcodes";
     };
     declarative-flatpak.url = "github:in-a-dil-emma/declarative-flatpak/latest";
+    vicinae = {
+      url = "github:vicinaehq/vicinae";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
+    };
+    vicinae-extensions = {
+      url = "github:vicinaehq/extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.vicinae.follows = "vicinae";
+      inputs.systems.follows = "systems";
+    };
 
     # stylix = {
     #   url = "github:nix-community/stylix";
