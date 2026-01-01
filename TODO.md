@@ -1,7 +1,6 @@
 # TODO
 
 * make lazydocker work with podman
-* add devenv, in flake.nix or in home-manager?
 * home-manager in flake-parts? https://github.com/khaneliman/khanelinix/blob/4f55285944563cd24e07753eb484a557fa2d5cd1/flake/home.nix#L35
 * matrix client
 * right now users can't influence anything in system, only in home-manager
@@ -11,7 +10,6 @@
 * stylix
 * check if anything in system have home-manager stuff (for example podman)
 * disko
-* allow-dirty = false;
 * remove all TODO todos
 * Hyprcursor
 * home-manager.sharedModules
@@ -38,8 +36,9 @@
 
 ## No longer want
 
+* allow-dirty = false - i don't commit immediately some changes though it is bad practice
 * deduplicate all flake inputs like fufexan did - no point saves few megabytes and can invalidate cache
-* zfs [chaotic](https://www.nyx.chaotic.cx) - don't need its features
+* zfs - don't need its features
 
 ## Nixpkgs contributions
 
@@ -54,14 +53,11 @@
 * kando-menu
 * clight, hyprsunset
 * ddcutil
-* nix-search-tv
 * diffoscope
 * hellwal
-* [fd](https://github.com/sharkdp/fd)
 * [firedragon](https://firedragon.garudalinux.org)
 * zathura imv - pdf/image viewer
 * wluma - automatic brightness control
 * unzip zip rar unrar - over 7z
 * mc superfile xplr ranger lf nnn yazi broot - over ranger (yazi is best?)
 * xxh + sshpass - transfer shell config over ssh
-* activate-linux - fun windows watermark
