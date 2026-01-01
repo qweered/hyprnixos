@@ -22,8 +22,6 @@
         nh-update = "${nhCmd} --update";
         nh-clean = "nh clean all --optimise --keep 3";
 
-        manix = "manix \"\" | grep '^# ' | sed 's/^# \(.*\) (.*/\1/;s/ (.*//;s/^# //' | fzf --preview=\"manix '{}'\" | xargs manix";
-
         svi = "sudo nvim";
         ls = "eza --icons";
         ll = "eza -l --icons";
