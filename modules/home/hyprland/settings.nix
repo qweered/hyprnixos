@@ -12,8 +12,6 @@
 
       general = {
         border_size = 5;
-        no_border_on_floating = false;
-
         gaps_in = 10;
         gaps_out = 10;
         gaps_workspaces = 5;
