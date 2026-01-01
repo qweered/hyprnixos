@@ -5,7 +5,6 @@
 
   services.upower.enable = true; # power daemon, used by eg. chromium
   services.power-profiles-daemon.enable = true; # power daemon, for laptops mainly
-  services.devmon.enable = true; # device mounting daemon
   services.udisks2.enable = true; # disk storage daemon
   services.gvfs.enable = true; # mount, trash, etc in file managers
   services.tumbler.enable = true; # thumbnails in file managers
