@@ -8,6 +8,8 @@
   programs.nano.enable = false;
   boot.loader.grub.enable = lib.mkDefault false;
 
+  i18n.extraLocales = [ "ru_RU.UTF-8/UTF-8" ];
+
   environment.defaultPackages = [ ];
   environment.systemPackages = with pkgs; [
     uutils-coreutils-noprefix
