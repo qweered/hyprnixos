@@ -31,6 +31,7 @@ let
   volumeUp = "${wpctl} set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
   volumeDown = "${wpctl} set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-";
   run = app: "${getExe uwsm} app -- ${app}";
+  toggle = app: "pkill ${builtins.head (builtins.split " " app)} || uwsm app -- ${app}";
   micInsteadOfSpeaker = if osConfig.networking.hostName == "hyprnix" then "@DEFAULT_AUDIO_SOURCE@" else "@DEFAULT_AUDIO_SINK@";
   screenshot = writeShellScript "screenshot" ''
     ${getExe grim} -g "$(${getExe slurp} -b 1B1F28CC -c E06B74ff -s C778DD0D -w 2)" - | \
@@ -80,6 +81,7 @@ in
         "SUPER, B, exec, ${run "$BROWSER"}"
         "SUPER_CTRL, RETURN, exec, ${launcher}"
         "SUPER, Print, exec, ${screenshot}"
+        "SUPER, W, exec, ${toggle "activate-linux -d"}"
 
         "ALT, Tab, focuscurrentorlast"
         "CTRL_ALT, Delete, exit"
