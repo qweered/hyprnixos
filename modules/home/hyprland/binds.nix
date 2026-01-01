@@ -1,43 +1,21 @@
-{
-  lib,
-  pkgs,
-  osConfig,
-  ...
-}:
+{ pkgs, osConfig, ... }:
 
 let
-  inherit (lib) getExe' getExe;
-  inherit (pkgs)
-    writeShellScript
-    wireplumber
-    playerctl
-    vicinae
-    uwsm
-    ghostty
-    brillo
-    clipse
-    grim # screenshot
-    slurp # screenshot
-    satty # screenshot, over hyprshot swappy
-    wl-clipboard # copy-paste in shell, over wl-clipboard-rs
-    ;
-  wpctl = getExe' wireplumber "wpctl";
-  wlCopy = getExe' wl-clipboard "wl-copy";
-  launcher = "${getExe vicinae} toggle";
-  terminal = "${getExe ghostty}";
-  brightnessUp = "${getExe brillo} -q -u 300000 -A 5";
-  brightnessDown = "${getExe brillo} -q -u 300000 -U 5";
-  clipboardManager = "${terminal} --class=clipse.app -e ${getExe clipse}";
-  volumeUp = "${wpctl} set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
-  volumeDown = "${wpctl} set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-";
-  run = app: "${getExe uwsm} app -- ${app}";
+  launcher = "vicinae toggle";
+  terminal = "ghostty";
+  brightnessUp = "brillo -q -u 300000 -A 5";
+  brightnessDown = "brillo -q -u 300000 -U 5";
+  clipboardManager = "${terminal} --class=clipse.app -e clipse";
+  volumeUp = "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
+  volumeDown = "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-";
+  run = app: "uwsm app -- ${app}";
   toggle = app: "pkill ${builtins.head (builtins.split " " app)} || uwsm app -- ${app}";
   micInsteadOfSpeaker = if osConfig.networking.hostName == "hyprnix" then "@DEFAULT_AUDIO_SOURCE@" else "@DEFAULT_AUDIO_SINK@";
-  screenshot = writeShellScript "screenshot" ''
-    ${getExe grim} -g "$(${getExe slurp} -b 1B1F28CC -c E06B74ff -s C778DD0D -w 2)" - | \
-    ${getExe satty} --filename - --fullscreen \
+  screenshot = pkgs.writeShellScript "screenshot" ''
+    grim -g "$(slurp -b 1B1F28CC -c E06B74ff -s C778DD0D -w 2)" - | \
+    satty --filename - --fullscreen \
       --output-filename ~/Pictures/Screenshots/Screenshot_$(date +"%Y%m%d_%H%M%S").png \
-      --init-tool brush --copy-command ${wlCopy}
+      --init-tool brush --copy-command wl-copy
   '';
 in
 {
@@ -118,11 +96,11 @@ in
     ];
 
     bindl = [
-      ",XF86AudioPlay,  exec, ${getExe playerctl} play-pause"
-      ",XF86AudioPrev,  exec, ${getExe playerctl} previous"
-      ",XF86AudioNext,  exec, ${getExe playerctl} next"
-      ",XF86AudioMute,    exec, ${wpctl} set-mute ${micInsteadOfSpeaker} toggle"
-      ",XF86AudioMicMute, exec, ${wpctl} set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+      ",XF86AudioPlay,  exec, playerctl play-pause"
+      ",XF86AudioPrev,  exec, playerctl previous"
+      ",XF86AudioNext,  exec, playerctl next"
+      ",XF86AudioMute,    exec, wpctl set-mute ${micInsteadOfSpeaker} toggle"
+      ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
     ];
 
     bindm = [
