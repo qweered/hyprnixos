@@ -9,20 +9,6 @@
 
     settings = {
       close_on_focus_loss = true;
-      theme = {
-        light = {
-          name = "vicinae-light";
-          icon_theme = "default";
-        };
-        dark = {
-          name = "vicinae-dark";
-          icon_theme = "default";
-        };
-      };
-
-      launcher_window = {
-        opacity = 0.5;
-      };
 
       providers = {
         "@Gelei/bluetooth-0" = {
@@ -40,8 +26,10 @@
 
     extensions = with inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system}; [
       bluetooth
+      # over manix, nix-search-tv
       nix
       wifi-commander
+      power-profile
     ];
   };
 }
