@@ -57,10 +57,6 @@ in
       builders-use-substitutes = true;
       flake-registry = "/etc/nix/registry.json";
 
-      # # for direnv GC roots
-      # keep-derivations = true;
-      # keep-outputs = true;
-
       experimental-features = [
         "nix-command"
         "flakes"
