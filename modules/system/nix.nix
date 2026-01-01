@@ -38,7 +38,7 @@ in
           owner = "maralorn";
           repo = "nix-output-monitor";
           rev = "20ad9727e49bf686bea1c5e6769241234a56804b";
-          hash = "sha256-iEvbCIlHX6WUblrnoF7gwUQtu2ay97zoZsvoP85I2BA=";
+          hash = "sha256-Llmi7oE0ayOupM7Cc1lnYv7O0mPKvRtFPI4M+eYaMew=";
         };
       });
     })
