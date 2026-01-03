@@ -52,7 +52,7 @@ in
 
     settings = {
       auto-optimise-store = false; # optimized with nh instead, faster build
-      allow-import-from-derivation = false;
+      allow-import-from-derivation = true; # for devenv
       builders-use-substitutes = true;
       flake-registry = "/etc/nix/registry.json";
 
