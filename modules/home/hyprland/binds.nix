@@ -21,17 +21,29 @@ in
 {
   wayland.windowManager.hyprland.settings = {
 
-    #      bind = ${modifier},P,pseudo,
     #      bind = ${modifier}SHIFT,SPACE,movetoworkspace,special
-    #      bind = ${modifier},SPACE,togglespecialworkspace
     #      bind = ${modifier}CONTROL,right,workspace,e+1
     #      bind = ${modifier}CONTROL,left,workspace,e-1
     #      bind = ${modifier},mouse_down,workspace, e+1
     #      bind = ${modifier},mouse_up,workspace, e-1
-    #      bind = ALT,Tab,bringactivetotop
     binds = {
       allow_workspace_cycles = true;
     };
+
+    gestures = {
+      workspace_swipe_forever = false; # swipe multiple workspaces at once
+      gesture = [
+        "3, horizontal, workspace"
+        "4, left, dispatcher, movetoworkspace, -1" # or monitor when i have more than one
+        "4, right, dispatcher, movetoworkspace, +1"
+        "4, pinch, fullscreen"
+      ];
+    };
+
+    bindm = [
+      "SUPER, mouse:272, movewindow"
+      "SUPER, mouse:273, resizewindow"
+    ];
 
     bind =
       let
@@ -57,11 +69,14 @@ in
         "SUPER, Return, exec, ${run terminal}"
         "SUPER, V, exec, ${run clipboardManager}"
         "SUPER, B, exec, ${run "$BROWSER"}"
-        "SUPER_CTRL, RETURN, exec, ${launcher}"
+        "SUPER, SPACE, exec, ${launcher}"
         "SUPER, Print, exec, ${screenshot}"
         "SUPER, W, exec, ${toggle "activate-linux -d"}"
 
         "ALT, Tab, focuscurrentorlast"
+        "SUPER_ALT, Tab, bringactivetotop"
+        "SUPER, M, togglespecialworkspace, magic"
+        "SUPER, P, movetoworkspace, special:magic"
         "CTRL_ALT, Delete, exit"
         "SUPER, Q, killactive"
         "SUPER, T, togglefloating"
@@ -101,11 +116,6 @@ in
       ",XF86AudioNext,  exec, playerctl next"
       ",XF86AudioMute,    exec, wpctl set-mute ${micInsteadOfSpeaker} toggle"
       ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-    ];
-
-    bindm = [
-      "SUPER, mouse:272, movewindow"
-      "SUPER, mouse:273, resizewindow"
     ];
   };
 }
