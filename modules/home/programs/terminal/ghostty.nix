@@ -13,4 +13,10 @@
       gtk-titlebar-hide-when-maximized = true;
     };
   };
+
+  xdg.configFile."kdeglobals".text = ''
+    [General]
+    TerminalApplication=ghostty
+  '';
+
 }
