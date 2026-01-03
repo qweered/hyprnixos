@@ -5,6 +5,7 @@
   services.scx = {
     enable = true;
     package = pkgs.scx.rustscheds;
-    scheduler = "scx_lavd";
+    # Lest use default for now understand what is better for my system
+    # scheduler = "scx_lavd";
   };
 }
