@@ -1,7 +1,6 @@
 {
-  # over alacritty (slow development), ghostty (1 sec startup, recheck after 1.2.0)
+  # over alacritty (slow development), wezterm,
   # foot (very lightweight), kitty (3 langs, but it may be better idk)
-  # TODO: fix comment
 
   programs.ghostty = {
     enable = true;
