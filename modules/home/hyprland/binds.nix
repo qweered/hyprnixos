@@ -5,7 +5,6 @@ let
   terminal = "ghostty";
   brightnessUp = "brillo -q -u 300000 -A 5";
   brightnessDown = "brillo -q -u 300000 -U 5";
-  clipboardManager = "${terminal} --class=clipse.app -e clipse";
   volumeUp = "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
   volumeDown = "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-";
   run = app: "uwsm app -- ${app}";
@@ -67,7 +66,6 @@ in
       in
       [
         "SUPER, Return, exec, ${run terminal}"
-        "SUPER, V, exec, ${run clipboardManager}"
         "SUPER, B, exec, ${run "$BROWSER"}"
         "SUPER, SPACE, exec, ${launcher}"
         "SUPER, Print, exec, ${screenshot}"

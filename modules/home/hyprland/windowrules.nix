@@ -9,7 +9,6 @@ in
     (fc "xdg-desktop-portal")
     (fc "pwvucontrol")
     (fc "easyeffects")
-    (fc "clipse")
     (fc "Overskride")
     (ft "Picture-in-Picture")
     (ft "Bitwarden - Vivaldi")
