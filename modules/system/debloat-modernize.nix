@@ -10,6 +10,9 @@
 
   i18n.extraLocales = [ "ru_RU.UTF-8/UTF-8" ];
 
+  # fixes "open with" in dolphin, see https://github.com/NixOS/nixpkgs/issues/409986
+  environment.etc."xdg/menus/applications.menu".source = "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";
+
   environment.defaultPackages = [ ];
   environment.systemPackages = with pkgs; [
     uutils-coreutils-noprefix
