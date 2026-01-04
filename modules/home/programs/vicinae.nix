@@ -1,6 +1,7 @@
 { inputs, pkgs, ... }:
 {
   imports = [ inputs.vicinae.homeManagerModules.default ];
+  disabledModules = [ "programs/vicinae.nix" ];
 
   services.vicinae = {
     enable = true;
