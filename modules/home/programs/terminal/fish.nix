@@ -15,12 +15,14 @@
     '';
     shellAliases =
       let
-        nhCmd = "nh os switch --ask --diff=always --keep-going --keep-failed --fallback --show-trace";
+        common-nix-args = "--keep-going --keep-failed --fallback --show-trace";
+        nhCmd = "nh os switch --ask --diff=always ${common-nix-args}";
       in
       {
         nh-switch = "${nhCmd}";
         nh-update = "${nhCmd} --update";
         nh-clean = "nh clean all --optimise --keep 3";
+        nom-build = "nom-build ${common-nix-args}";
 
         svi = "sudo nvim";
         ls = "eza --icons";
