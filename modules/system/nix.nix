@@ -31,7 +31,7 @@ in
   # TODO: why overlays don't work in flake-parts?
   nixpkgs.overlays = [
     (_final: prev: {
-      nix = prev.lixPackageSets.latest.lix;
+      nix = prev.lixPackageSets.git.lix;
       nix-output-monitor = prev.nix-output-monitor.overrideAttrs (_old: {
         src = prev.fetchFromGitHub {
           owner = "maralorn";
