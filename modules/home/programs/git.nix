@@ -1,13 +1,28 @@
 { config, ... }:
 
 {
-  # TODO: migrate to jj? Map jj to gg for comfort
   programs = {
     gh.enable = true;
+    mergiraf.enable = true;
     lazygit.enable = true;
-    jujutsu.enable = true;
     delta.enable = true; # CONFIG for grep and other stuff
-    delta.enableGitIntegration = true;
+    delta.enableJujutsuIntegration = true;
+
+    jujutsu = {
+      enable = true;
+      # aliases
+      # jj resolve --tool mergiraf
+      settings = {
+        user = {
+          name = "Aliaksandr";
+          email = "grubian2@gmail.com";
+        };
+        signing = {
+          sing-all = true;
+        };
+      };
+    };
+
     git = {
       enable = true;
       signing = {
@@ -61,7 +76,6 @@
         log.date = "relative";
         log.decorate = "auto";
         log.follow = true;
-        merge.conflictstyle = "zdiff3"; # better than diff3
         merge.autoStash = true;
         merge.tool = "nvimdiff";
         merge.ff = "only"; # try to not crate merge commits
