@@ -16,8 +16,9 @@ in
     git-hooks.flakeModule
   ];
 
-  flake.nixosConfigurations.hyprnix = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.hyprnix = inputs.nixpkgs-patcher.lib.nixosSystem {
     specialArgs = { inherit inputs hostPlatform pkgs-stable; };
+    nixpkgsPatcher.inputs = inputs;
     modules = inputs.self.moduleTree {
       users.qweered = true;
       hosts.hyprnix = true;

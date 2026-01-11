@@ -8,6 +8,11 @@
     # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:nixos/nixpkgs/master";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
+    nixpkgs-patch-cursor-update = {
+      url = "https://github.com/NixOS/nixpkgs/pull/479033.diff";
+      flake = false;
+    };
 
     # global inputs, other will follow them
     lib.url = "github:nix-community/nixpkgs.lib";
