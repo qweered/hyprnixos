@@ -6,6 +6,7 @@
       position = "auto";
       bitdepth = "10";
       cm = "auto"; # can be hdr for supported monitors, see https://wiki.hypr.land/Configuring/Monitors/#color-management-presets
+      mirror = "HDMI-A-1";
     };
 
     device = {
