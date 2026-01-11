@@ -77,6 +77,7 @@
         log.decorate = "auto";
         log.follow = true;
         merge.autoStash = true;
+        merge.conflictstyle = "diff3";
         merge.tool = "nvimdiff";
         merge.ff = "only"; # try to not crate merge commits
 
