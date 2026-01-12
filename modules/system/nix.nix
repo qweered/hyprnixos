@@ -55,6 +55,7 @@ in
       allow-import-from-derivation = true; # for devenv
       builders-use-substitutes = true;
       flake-registry = "/etc/nix/registry.json";
+      access-tokens = "!include /home/qweered/hyprnixos/secrets/git-token";
 
       experimental-features = [
         "nix-command"
