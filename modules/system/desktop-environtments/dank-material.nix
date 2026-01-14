@@ -2,6 +2,7 @@
   programs.dms-shell = {
     enable = true;
     enableVPN = false;
+    enableClipboardPaste = false;
   };
 
   # TODO: requires config for keyboard etc.
