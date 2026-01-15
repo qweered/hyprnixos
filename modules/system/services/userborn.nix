@@ -1,3 +1,4 @@
 {
-  services.userborn.enable = true; # declarative users
+  # declarative user management
+  services.userborn.enable = true;
 }

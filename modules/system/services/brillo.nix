@@ -1,3 +1,4 @@
 {
-  hardware.brillo.enable = true; # over brightnessctl (smooth transitions)
+  # over brightnessctl (smooth transitions)
+  hardware.brillo.enable = true;
 }

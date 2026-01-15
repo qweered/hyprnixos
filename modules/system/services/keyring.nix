@@ -1,3 +1,4 @@
 {
-  services.gnome.gnome-keyring.enable = true; # store secrets
+  # store secrets
+  services.gnome.gnome-keyring.enable = true;
 }
