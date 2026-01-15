@@ -1,5 +1,3 @@
-{ pkgs, ... }:
-
 {
   # CONFIG: https://wiki.nixos.org/wiki/Bluetooth
   hardware.bluetooth = {
@@ -15,5 +13,4 @@
       };
     };
   };
-  environment.systemPackages = [ pkgs.overskride ]; # over blueman, bluetuith
 }
