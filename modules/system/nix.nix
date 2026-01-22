@@ -36,8 +36,8 @@ in
         src = prev.fetchFromGitHub {
           owner = "maralorn";
           repo = "nix-output-monitor";
-          rev = "20ad9727e49bf686bea1c5e6769241234a56804b";
-          hash = "sha256-Llmi7oE0ayOupM7Cc1lnYv7O0mPKvRtFPI4M+eYaMew=";
+          rev = "7f35aa1270409bfd6ab947c5a168a07ae796a555";
+          hash = "sha256-c62ESESW+KhkhK5P5Mq46e+9QG9zTOIDvt/tOMZt6Qo=";
         };
       });
     })
