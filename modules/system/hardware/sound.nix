@@ -3,7 +3,9 @@
   # Other options already enabled by https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/services/misc/graphical-desktop.nix
 
   services.pipewire = {
-    alsa.support32Bit = true;
+    pulse.enable = true;
+    alsa.enable = false;
+
     # CONFIG: pipewire for low latency / high quality https://wiki.nixos.org/wiki/PipeWire
     # All stuff at the bottom needs more research
 
