@@ -13,7 +13,7 @@ in
     (ft "Picture-in-Picture")
     (ft "Bitwarden - Vivaldi")
     (ft "Bitwarden Password Manager")
-    (ft "portproton")
+    (ft "PortProton")
 
     (fct "ayugram" "Media viewer")
     (fct "thunar" "File Operation Progress")
@@ -32,6 +32,5 @@ in
     # "match:title ^(YouTube Music)$, workspace 9 silent"
 
     "suppress_event maximize, match:class .*" # ignore maximizing requests from apps
-    "no_focus on, match:xwayland true, match:float true, match:fullscreen false, match:pin false" # fixes dragging issues with XWayland
   ];
 }
