@@ -44,5 +44,5 @@
 
   nixpkgs.hostPlatform = hostPlatform;
   networking.hostName = "hyprnix";
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 }
