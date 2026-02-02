@@ -6,9 +6,14 @@
     # nixpkgs-try-pr.url = "github:nixos/nixpkgs?ref=pull/379731/merge";
     # nixpkgs-local-testing.url = "git+file:///home/qweered/Projects/nixpkgs";
     # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:SFrijters/nixpkgs/structuredattrs-prs-stacked-staging-2026-01-30";
     nixpkgs.url = "github:nixos/nixpkgs/master";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
+    #nixpkgs-patch-cursor-update = {
+    # url = "https://github.com/NixOS/nixpkgs/pull/482802.diff";
+    #flake = false;
+    #};
 
     # global inputs, other will follow them
     lib.url = "github:nix-community/nixpkgs.lib";

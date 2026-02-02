@@ -12,6 +12,10 @@ in
   nixpkgs.config = {
     allowUnfree = true;
     allowAliases = false;
+    # fetchedSourceNameDefault = "versioned";
+    # strictDepsByDefault = true;
+    # structuredAttrsByDefault = true;
+    # contentAddressedByDefault = true;
   };
 
   programs.nix-ld = {
@@ -55,6 +59,7 @@ in
       allow-import-from-derivation = true; # for devenv
       builders-use-substitutes = true;
       flake-registry = "/etc/nix/registry.json";
+      # TODO: doesn't work
       access-tokens = "!include /home/qweered/hyprnixos/secrets/git-token";
 
       experimental-features = [

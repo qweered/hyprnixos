@@ -10,8 +10,6 @@
 
     jujutsu = {
       enable = true;
-      # aliases
-      # jj resolve --tool mergiraf
       settings = {
         user = {
           name = "Aliaksandr";
@@ -77,7 +75,7 @@
         log.decorate = "auto";
         log.follow = true;
         merge.autoStash = true;
-        merge.conflictstyle = "diff3";
+        # conflictStyle is automatically set by mergiraf
         merge.tool = "nvimdiff";
         merge.ff = "only"; # try to not crate merge commits
 
