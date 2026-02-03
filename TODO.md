@@ -22,7 +22,6 @@
 * refactor assets into github repository
 * setup portals (what application opens what file)
 * configure more kernel parameters
-* [declarative-flatpak](https://github.com/GermanBread/declarative-flatpak) or [nix-flatpak](https://github.com/gmodena/nix-flatpak)
 * snap ? appimage ?
 * remove all CONFIG todos
 * check all comments
