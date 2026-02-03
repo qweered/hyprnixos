@@ -10,6 +10,7 @@
 * stylix
 * check if anything in system have home-manager stuff (for example podman)
 * disko
+* nixpkgs-unstable-with-unfree.url = "github:numtide/nixpkgs-unfree/nixpkgs-unstable" - can't get this to work
 * remove all TODO todos
 * Hyprcursor
 * home-manager.sharedModules

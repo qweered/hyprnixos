@@ -2,10 +2,9 @@
   description = "HyprNixOS";
 
   inputs = {
-    # nixpkgs-unstable-with-unfree.url = "github:numtide/nixpkgs-unfree/nixpkgs-unstable";
     # nixpkgs-local-testing.url = "git+file:///home/qweered/Projects/nixpkgs";
-    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    # nixpkgs.url = "github:SFrijters/nixpkgs/structuredattrs-prs-stacked-staging-2026-01-30";
+    # nixpkgs-master.url = "github:nixos/nixpkgs/master";
+    # nixpkgs-structurred.url = "github:SFrijters/nixpkgs/structuredattrs-prs-stacked-staging-2026-01-30";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
