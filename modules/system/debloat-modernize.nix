@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 
 {
   # Perlless https://github.com/NixOS/nixpkgs/blob/0260f927b7c1578b5c7cdefd7db7b660565cd362/nixos/modules/profiles/perlless.nix
@@ -7,6 +12,17 @@
   system.tools.nixos-rebuild.enable = true; # but keep rebuild
   programs.nano.enable = false;
   boot.loader.grub.enable = lib.mkDefault false;
+
+  # https://discourse.nixos.org/t/i-can-unbloat-systemd/74021/4
+  services.timesyncd.enable = false;
+  services.chrony.enable = true;
+  # work around https://github.com/NixOS/nixpkgs/issues/445035
+  systemd.tmpfiles.rules = lib.mkAfter [ "z ${config.services.chrony.directory}/chrony.keys 0640 root chrony - -" ];
+
+  # https://blog.nsrun.io/2026/01/15/systemd-vsock-openssh-server
+  systemd.generators.systemd-ssh-generator = "/dev/null";
+  systemd.sockets.sshd-unix-local.enable = lib.mkForce false;
+  systemd.sockets.sshd-vsock.enable = lib.mkForce false;
 
   i18n.extraLocales = [ "ru_RU.UTF-8/UTF-8" ];
 
