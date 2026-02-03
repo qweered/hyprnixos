@@ -22,7 +22,7 @@ in
     modules = inputs.self.moduleTree {
       users.qweered = true;
       hosts.hyprnix = true;
-      system.unused = false;
+      unused = false;
       home = false; # loaded by user
       flake-parts = false; # loaded by flake.nix
     };
