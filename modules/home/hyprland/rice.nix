@@ -7,6 +7,7 @@
       gaps_workspaces = 5;
 
       # CONFIG: color based on wallpaper
+      # TODO: col = {}
       "col.inactive_border" =
         "rgba(90,90,110,0.3) rgba(100,100,120,0.3) rgba(110,110,130,0.3) rgba(120,120,140,0.3) rgba(130,130,150,0.3) rgba(140,140,160,0.3) rgba(150,150,170,0.3) 45deg";
       # LGBT lightning

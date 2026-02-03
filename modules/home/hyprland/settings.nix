@@ -32,7 +32,7 @@
       render = {
         direct_scanout = 1;
         # damages my screen on high load
-        # new_render_scheduling = true; # triple buffering
+        new_render_scheduling = true; # triple buffering
       };
 
       input = {
