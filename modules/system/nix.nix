@@ -12,10 +12,16 @@ in
   nixpkgs.config = {
     allowUnfree = true;
     allowAliases = false;
-    # fetchedSourceNameDefault = "versioned";
+    warnUndeclaredOptions = true;
+    checkMeta = true;
+    # showDerivationWarnings = [ "maintainerless" ];
     # strictDepsByDefault = true;
     # structuredAttrsByDefault = true;
+    # fetchedSourceNameDefault = "versioned";
+    # enableParallelBuildingByDefault = true;
     # contentAddressedByDefault = true;
+    # configurePlatformsByDefault = true;
+    # doCheckByDefault = true;
   };
 
   programs.nix-ld = {
