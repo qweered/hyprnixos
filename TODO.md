@@ -14,6 +14,7 @@
 * remove all TODO todos
 * Hyprcursor
 * home-manager.sharedModules
+* this page https://github.com/nix-community/srvos/blob/c4a21c42efec0506ec352891fec84490dae2ded0/nixos/common/nix.nix
 * see nixos-ex-flake and blueprint
 * fix that i need to enter gpg and immediately keyring password on every boot
 * my own plymouth theme

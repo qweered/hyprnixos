@@ -20,7 +20,7 @@
 
       misc = {
         vrr = 1;
-        focus_on_activate = true;
+        focus_on_activate = false; # too noisy and causes issues with windows apps
         key_press_enables_dpms = true;
         animate_manual_resizes = true;
         animate_mouse_windowdragging = true;

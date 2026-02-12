@@ -37,7 +37,7 @@ in
       devShells.default = pkgs.mkShell {
         name = "hyprnixos";
         shellHook = ''
-          ${config.pre-commit.installationScript}
+          ${config.pre-commit.shellHook}
         '';
       };
 

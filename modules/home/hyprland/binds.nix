@@ -11,7 +11,7 @@ let
   toggle = app: "pkill ${builtins.head (builtins.split " " app)} || uwsm app -- ${app}";
   micInsteadOfSpeaker = if osConfig.networking.hostName == "hyprnix" then "@DEFAULT_AUDIO_SOURCE@" else "@DEFAULT_AUDIO_SINK@";
   screenshot = pkgs.writeShellScript "screenshot" ''
-    grim -g "$(slurp -b 1B1F28CC -c E06B74ff -s C778DD0D -w 2)" - | \
+    grim -g "$(slurp -b 1B1F28CC -s C778DD0D)" - | \
     satty --filename - --fullscreen \
       --output-filename ~/Pictures/Screenshots/Screenshot_$(date +"%Y%m%d_%H%M%S").png \
       --init-tool brush --copy-command wl-copy
