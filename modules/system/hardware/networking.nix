@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 let
   # use cloudflare, quad9 (slower) and adguard with DNS over TLS
   nameservers = [
@@ -7,12 +8,24 @@ let
   ];
 in
 {
+  # TODO: testing
+  # The notion of "online" is a broken concept
+  # https://github.com/systemd/systemd/blob/e1b45a756f71deac8c1aa9a008bd0dab47f64777/NEWS#L13
+  # systemd.services.NetworkManager-wait-online.enable = false;
+  # systemd.network.wait-online.enable = false;
+
+  programs.nm-applet.enable = true; # TODO: unneeded
+
   networking = {
+    # CONFIG: may replace networkmanager
+    # but currently creates wait-online- (yes with -) service that cannot be disabled
+    # useNetworkd = true;
     inherit nameservers;
     firewall.enable = false; # CONFIG
     networkmanager = {
       enable = true;
       wifi.powersave = true;
+      plugins = with pkgs; [ networkmanager-openvpn ];
       # for captive portals but don't work it seems
       # contribute to nixpkgs https://wiki.archlinux.org/title/NetworkManager#Checking_connectivity
       # settings.connectivity.uri = "http://nmcheck.gnome.org/check_network_status.txt";
