@@ -14,6 +14,7 @@ in
     allowAliases = false;
     warnUndeclaredOptions = true;
     checkMeta = true;
+    # TODO: find a way to make this check less noisy, e.g. showing only one level deep packages
     # showDerivationWarnings = [ "maintainerless" ];
     # strictDepsByDefault = true;
     # structuredAttrsByDefault = true;
@@ -56,6 +57,9 @@ in
   nix = {
     channel.enable = false;
 
+    # improve desktop responsiveness when updating the system
+    # daemonCPUSchedPolicy = "batch"; TODO: configure only for low end devices
+
     # TODO: i don't need all the flakes in registry and path, nixpkgs is set by default nixpkgs.flake.setFlakeRegistry
     registry = lib.mapAttrs (_: v: { flake = v; }) flakeInputs; # pin the registry
     nixPath = lib.mapAttrsToList (key: _: "${key}=flake:${key}") config.nix.registry; # set the path for channels compatibility
@@ -65,12 +69,24 @@ in
       allow-import-from-derivation = true; # for devenv
       builders-use-substitutes = true;
       flake-registry = "/etc/nix/registry.json";
+      log-lines = 25;
+
+      # Switch substitutes on timeouts
+      connect-timeout = 10;
+      stalled-download-timeout = 10;
+      fallback = true;
+
+      # Avoid disk full issues
+      max-free = 3000 * 1024 * 1024; # 3GB
+      min-free = 1024 * 1024 * 1024; # 1GB
+
       # TODO: doesn't work
       access-tokens = "!include /home/qweered/hyprnixos/secrets/git-token";
 
       experimental-features = [
         "nix-command"
         "flakes"
+        # "repl-flake" does not exist in Lix
       ];
 
       trusted-users = [ "@wheel" ];
