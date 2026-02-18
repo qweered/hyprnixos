@@ -29,17 +29,8 @@ in
 
   programs.nix-ld = {
     enable = true;
-    libraries = with pkgs; [ oxlint ];
+    libraries = with pkgs; [ oxlint ]; # TODO: may be unneeded now
   };
-
-  environment.systemPackages = with pkgs; [
-    nixd # lsp
-    nix-tree # inspect nix store
-    nix-inspect # inspect flake
-    nix-output-monitor # pretty rebuild output
-    nixpkgs-review # review nix packages
-    nix-update # update nix packages
-  ];
 
   # TODO: why overlays don't work in flake-parts?
   nixpkgs.overlays = [
