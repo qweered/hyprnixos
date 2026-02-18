@@ -6,7 +6,6 @@
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
     # nixpkgs-structurred.url = "github:SFrijters/nixpkgs/structuredattrs-prs-stacked-staging-2026-01-30";
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz"; # Smaller then github tarball, less api hits
-    nixpkgs-stable.url = "https://channels.nixos.org/nixos-25.11/nixexprs.tar.xz";
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
     nixpkgs-patch-lix-update = {
       url = "https://github.com/NixOS/nixpkgs/pull/480992.diff";

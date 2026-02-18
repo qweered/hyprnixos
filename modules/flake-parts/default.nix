@@ -1,14 +1,6 @@
 { inputs, ... }:
 let
-  config = {
-    allowUnfree = true;
-    allowAliases = false;
-  };
   hostPlatform = "x86_64-linux";
-  pkgs-stable = import inputs.nixpkgs-stable {
-    system = hostPlatform;
-    inherit config;
-  };
 in
 {
   imports = with inputs; [
@@ -17,7 +9,7 @@ in
   ];
 
   flake.nixosConfigurations.hyprnix = inputs.nixpkgs-patcher.lib.nixosSystem {
-    specialArgs = { inherit inputs hostPlatform pkgs-stable; };
+    specialArgs = { inherit inputs hostPlatform; };
     nixpkgsPatcher.inputs = inputs;
     modules = inputs.self.moduleTree {
       users.qweered = true;
