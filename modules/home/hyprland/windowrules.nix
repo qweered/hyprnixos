@@ -25,7 +25,7 @@ in
 
     # throw sharing indicators away
     "match:title ^((Firefox|Zen) — Sharing Indicator)$, workspace special silent"
-    "match:title ^(.*is sharing (your screen|a window)\.)$, workspace special silent"
+    "match:title ^(.*is sharing (your screen|a window).)$, workspace special silent"
 
     # start Spotify and YouTube Music in ws9
     # "match:title ^(Spotify( Premium)?)$, workspace 9 silent"
