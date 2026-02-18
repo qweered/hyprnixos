@@ -14,8 +14,6 @@ in
   # systemd.services.NetworkManager-wait-online.enable = false;
   # systemd.network.wait-online.enable = false;
 
-  programs.nm-applet.enable = true; # TODO: unneeded
-
   networking = {
     # CONFIG: may replace networkmanager
     # but currently creates wait-online- (yes with -) service that cannot be disabled
