@@ -7,9 +7,21 @@
     # nixpkgs-unstable.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz"; # Smaller then github tarball, less api hits
     nixpkgs.url = "github:nixos/nixpkgs/master";
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
-    nixpkgs-patch-lix-update = {
-      url = "https://github.com/NixOS/nixpkgs/pull/480992.diff";
+    # nixpkgs-patch-lix-update = {
+    #   url = "https://github.com/NixOS/nixpkgs/pull/480992.diff";
+    #   flake = false;
+    # };
+
+    lix = {
+      url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
       flake = false;
+    };
+    lix-module = {
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.flakey-profile.follows = "flakey-profile";
+      inputs.lix.follows = "lix";
     };
 
     # global inputs, other will follow them
@@ -25,7 +37,13 @@
     };
     flake-compat = {
       url = "github:NixOS/flake-compat";
-      flake = false;
+    };
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
+    flakey-profile = {
+      url = "github:lf-/flakey-profile";
     };
 
     # other inputs

@@ -9,6 +9,8 @@ let
   flakeInputs = lib.filterAttrs (_: v: lib.isType "flake" v) inputs;
 in
 {
+  imports = [ inputs.lix-module.nixosModules.default ];
+
   nixpkgs.config = {
     allowUnfree = true;
     allowAliases = false;
@@ -42,7 +44,6 @@ in
   # TODO: why overlays don't work in flake-parts?
   nixpkgs.overlays = [
     (_final: prev: {
-      nix = prev.lixPackageSets.git.lix;
       nix-output-monitor = prev.nix-output-monitor.overrideAttrs (_old: {
         src = prev.fetchFromGitHub {
           owner = "maralorn";
