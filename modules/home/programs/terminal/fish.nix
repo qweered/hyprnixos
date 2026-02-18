@@ -40,6 +40,7 @@
         top = "btop";
         htop = "btop";
         rm = "rip";
+        nix-env = "echo 'Do not use nix-env ever, use nix shell or nix run instead'";
         # "ps aux" = "procs"; TODO: add this
       };
   };
