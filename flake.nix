@@ -7,10 +7,10 @@
     # nixpkgs-unstable.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz"; # Smaller then github tarball, less api hits
     nixpkgs.url = "github:nixos/nixpkgs/master";
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
-    # nixpkgs-patch-lix-update = {
-    #   url = "https://github.com/NixOS/nixpkgs/pull/480992.diff";
-    #   flake = false;
-    # };
+    nixpkgs-patch-init-nix-olde = {
+      url = "https://github.com/NixOS/nixpkgs/pull/492280.diff";
+      flake = false;
+    };
 
     lix = {
       url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";

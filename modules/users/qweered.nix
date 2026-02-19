@@ -8,10 +8,12 @@
 
 let
   # TODO: use specialArgs instead of vars or something else
+  # TODO: username should come from args, inherited from name of this file
   vars = rec {
     inherit (config.system) stateVersion;
     username = "qweered";
     homeDirectory = "/home/${username}";
+    flakeDirectory = "/home/${username}/hyprnixos";
     description = "The only and the greatest admin";
     browser = "vivaldi";
     editor = "nvim";

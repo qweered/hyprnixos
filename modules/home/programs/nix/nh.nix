@@ -3,7 +3,7 @@
 {
   programs.nh = {
     enable = true;
-    flake = "/home/${vars.username}/hyprnixos";
+    flake = vars.flakeDirectory;
     clean = {
       enable = true;
       dates = "monthly";

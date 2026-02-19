@@ -1,5 +1,7 @@
-{ pkgs, ... }:
-
+{ pkgs, vars, ... }:
+let
+  inherit (vars) flakeDirectory;
+in
 {
   home.packages = with pkgs; [
     grc
@@ -41,6 +43,7 @@
         htop = "btop";
         rm = "rip";
         nix-env = "echo 'Do not use nix-env ever, use nix shell or nix run instead'";
+        nix-olde = "nix-olde -f ${flakeDirectory} > ${flakeDirectory}/OUTDATED.md"; # TODO: add verbosity for not existing in repology packages
         # "ps aux" = "procs"; TODO: add this
       };
   };
