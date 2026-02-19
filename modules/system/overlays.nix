@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   # TODO: why overlays don't work in flake-parts?
   nixpkgs.overlays = [
@@ -10,6 +11,7 @@
           hash = "sha256-CcdGDNLkCsncYI+S5O71YgxQm2XLD8zPiDQQIebEdJ0=";
         };
       });
+      nurl = prev.nurl.override { nix = config.nix.package; };
     })
   ];
 }
