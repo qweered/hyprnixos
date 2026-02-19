@@ -11,11 +11,10 @@
   system.disableInstallerTools = true; # remove generate, install, enter, option, version, build-vms, firewall
   system.tools.nixos-rebuild.enable = true; # but keep rebuild
   programs.nano.enable = false;
-  boot.loader.grub.enable = lib.mkDefault false;
 
   # https://discourse.nixos.org/t/i-can-unbloat-systemd/74021/4
-  services.timesyncd.enable = false;
-  services.chrony.enable = true;
+  services.timesyncd.enable = lib.mkForce false;
+  services.chrony.enable = lib.mkForce true;
   # work around https://github.com/NixOS/nixpkgs/issues/445035
   systemd.tmpfiles.rules = lib.mkAfter [ "z ${config.services.chrony.directory}/chrony.keys 0640 root chrony - -" ];
 
@@ -29,12 +28,14 @@
   # Less bloated fix for "open with" in dolphin, see https://github.com/NixOS/nixpkgs/issues/409986
   environment.etc."xdg/menus/applications.menu".source = ./dolphin.menu;
 
-  environment.defaultPackages = [ ];
-  environment.systemPackages = with pkgs; [
-    uutils-coreutils-noprefix
-    uutils-findutils
-    uutils-diffutils
-  ];
+  environment = {
+    defaultPackages = lib.mkForce [ ];
+    systemPackages = with pkgs; [
+      uutils-coreutils-noprefix
+      uutils-findutils
+      uutils-diffutils
+    ];
+  };
 
   documentation = {
     doc.enable = false;
@@ -97,7 +98,7 @@
 
   # Man-db cache generation cause it's very slow for fish
   # Stolen from https://github.com/MidAutumnMoon/TaysiTsuki/blob/025509df115b5d589f10d5c0d6d11d56ae74c4a2/nixos/documentation/module.nix
-  documentation.man.generateCaches = false;
+  documentation.man.generateCaches = lib.mkForce false;
   systemd.services."man-db" = {
     requires = [ "sysinit-reactivation.target" ];
     after = [ "sysinit-reactivation.target" ];
