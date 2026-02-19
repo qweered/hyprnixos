@@ -12,12 +12,6 @@
   system.tools.nixos-rebuild.enable = true; # but keep rebuild
   programs.nano.enable = false;
 
-  # https://discourse.nixos.org/t/i-can-unbloat-systemd/74021/4
-  services.timesyncd.enable = lib.mkForce false;
-  services.chrony.enable = lib.mkForce true;
-  # work around https://github.com/NixOS/nixpkgs/issues/445035
-  systemd.tmpfiles.rules = lib.mkAfter [ "z ${config.services.chrony.directory}/chrony.keys 0640 root chrony - -" ];
-
   # https://blog.nsrun.io/2026/01/15/systemd-vsock-openssh-server
   systemd.generators.systemd-ssh-generator = "/dev/null";
   systemd.sockets.sshd-unix-local.enable = lib.mkForce false;
