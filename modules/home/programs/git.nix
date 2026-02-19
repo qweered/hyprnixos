@@ -44,10 +44,21 @@
         feature.experimental = true;
         credential.helper = "libsecret";
 
+        blame = {
+          coloring = "repeatedLines";
+          date = "relative";
+          markUnblamables = true;
+          markIgnoredLines = true;
+        };
+        branch = {
+          autoSetupRebase = "always";
+          sort = "-committerdate";
+        };
+
         # Auto prune # TODO: slow for eg nixpkgs
-        # fetch.prune = true;
-        # fetch.pruneTags = true;
-        # remote.origin.prune = true;
+        fetch.prune = true;
+        fetch.pruneTags = true;
+        remote.origin.prune = true;
 
         # Performance
         core.fsmonitor = true; # will benefit when support linux
@@ -55,12 +66,6 @@
         fetch.writeCommitGraph = true;
         fetch.parallel = 0; # use all available cores
 
-        blame.coloring = "repeatedLines";
-        blame.date = "relative";
-        blame.markUnblamables = true;
-        blame.markIgnoredLines = true;
-        branch.autoSetupRebase = "always";
-        branch.sort = "-committerdate";
         checkout.defaultRemote = "origin";
         color.ui = "auto"; # always breaks some aliases
         column.ui = "auto";
@@ -69,7 +74,7 @@
         diff.mnemonicPrefix = true;
         diff.renames = "copies";
         diff.tool = "nvimdiff";
-        fetch.all = "true";
+        fetch.all = "false"; # fetch manually instead
         init.defaultBranch = "main";
         log.date = "relative";
         log.decorate = "auto";
@@ -100,11 +105,12 @@
 
         # TODO: check settings up to here https://git-scm.com/docs/git-config#Documentation/git-config.txt-pullff
 
-        # Push settings
-        push.autoSetupRemote = true;
-        push.default = "simple";
-        push.followTags = true;
-        push.useForceIfIncludes = true;
+        push = {
+          autoSetupRemote = true;
+          default = "simple";
+          followTags = true;
+          useForceIfIncludes = true;
+        };
 
         # Pull settings
         pull.rebase = true;
@@ -140,7 +146,6 @@
           ".rc"
         ];
         alias = {
-          # Add / delete files
           aa = "add --all";
           ap = "add --patch";
           rs = "restore";
@@ -150,24 +155,30 @@
           rsoft = "reset --soft";
           r2 = "reset HEAD~2";
           r3 = "reset HEAD~3";
+          r4 = "reset HEAD~4";
 
-          # Stash operations
           sl = "stash list";
           sp = "stash pop";
           ss = "stash push"; # modern alternative to stash save
           ssm = "stash push -m"; # stash with message
           ssu = "stash push --include-untracked";
 
-          # Commits
           c = "commit";
+          cm = "commit --message";
           ca = "commit --amend";
           caan = "commit --all --amend --no-edit";
           can = "commit --amend --no-edit";
           wip = "commit --amend --message 'WIP: work in progress'";
           caf = "commit --all --fixup HEAD";
 
-          # Work with branches
           f = "fetch";
+          fum = "fetch upstream main";
+          fuma = "fetch upstream master";
+          fom = "fetch origin main";
+          foma = "fetch origin master";
+          sync-upstream = "!git fuma && git rb upstream/master && git pf";
+          sync-origin = "!git foma && git rb origin/master && git pf";
+
           p = "push";
           po = "push origin";
           pf = "push --force-with-lease"; # safer than --force
@@ -175,6 +186,7 @@
           pu = "push --set-upstream origin HEAD"; # push to remote branch and set upstream
           pl = "pull";
           plo = "pull origin";
+          plu = "pull upstream";
           sw = "switch";
           swc = "switch --create";
 
@@ -192,13 +204,18 @@
           bm = "branch --merged";
           bnm = "branch --no-merged";
 
-          # delete local merged branches
-          cleanup = "!git branch --merged | grep -v '\\*\\|main\\|master\\|develop\\|stable' | xargs -r -n 1 git branch -d";
+          wl = "worktree list";
+          wr = "worktree remove";
+
+          # delete local merged branches, excluding protected/current branch
+          cleanup-merged = "!f() { cur=$(git branch --show-current); git branch --format='%(refname:short)' --merged | while read -r b; do case \"$b\" in ''|main|master|develop|stable|\"$cur\") continue ;; esac; git branch -D \"$b\"; done; }; f";
+          # delete local branches that have no upstream (never pushed/tracked)
+          cleanup-unpushed = "!f() { cur=$(git branch --show-current); git for-each-ref refs/heads --format='%(refname:short)%09%(upstream:short)' | while IFS=$'\\t' read -r b up; do case \"$b\" in ''|main|master|develop|stable|\"$cur\") continue ;; esac; [ -n \"$up\" ] && continue; git branch -D \"$b\"; done; }; f";
+          # delete local branches whose upstream branch no longer exists
+          cleanup-gone = "!f() { cur=$(git branch --show-current); git for-each-ref refs/heads --format='%(refname:short)%09%(upstream:track)' | while IFS=$'\\t' read -r b track; do case \"$b\" in ''|main|master|develop|stable|\"$cur\") continue ;; esac; [ \"$track\" = '[gone]' ] || continue; git branch -D \"$b\"; done; }; f";
           # delete remote merged branches, VERY DANGEROUS
           cleanup-remote = "!git branch -r --merged | grep -v -E '\\*\\s|main|master|develop|stable' | sed -e 's/origin\\///' | xargs -r -n 1 git push origin --delete";
-          # delete local removed branches
-          prune-branches = "!git branch -vv | grep ': gone]' | awk '{print \$1}' | xargs -r -n 1 git branch -d";
-          full-cleanup = "!git cleanup && git prune-branches";
+          full-cleanup = "!git cleanup-merged && git cleanup-unpushed && git cleanup-gone && git cleanup-remote";
 
           # TODO: checked aliases up to here
           # TODO: reverse order of logs
@@ -213,10 +230,6 @@
           dp = "diff HEAD~1 HEAD"; # previous commit diff
           dcv = "difftool HEAD --tool=nvimdiff --no-prompt";
           dpv = "difftool HEAD~1 HEAD --tool=nvimdiff --no-prompt";
-
-          # Merge operations (I don't use merge)
-          # m = "merge";
-          # mnf = "merge --no-ff";
 
           # Utility aliases
           ds = "describe --long --tags --dirty --always";
