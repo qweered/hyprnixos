@@ -1,4 +1,12 @@
-{ config, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
+let
+  llm-agents = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
+in
 {
   # TODO: why overlays don't work in flake-parts?
   nixpkgs.overlays = [
@@ -13,6 +21,8 @@
       });
       nurl = prev.nurl.override { nix = config.nix.package; };
       nix-init = prev.nix-init.override { nix = config.nix.package; };
+      inherit (llm-agents) opencode;
+      amp-cli = llm-agents.amp;
     })
   ];
 }

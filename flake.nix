@@ -51,6 +51,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nfh = {
       url = "github:name-snrl/nfh";
       inputs.nixpkgs.follows = "nixpkgs";

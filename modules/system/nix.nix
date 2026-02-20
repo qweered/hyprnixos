@@ -74,7 +74,8 @@ in
         "https://aseipp-nix-cache.freetls.fastly.net" # nix cache v2 https://wiki.nixos.org/wiki/Maintainers:Fastly#Beta_+_IPv6_+_HTTP/2
         "https://nix-community.cachix.org" # cache for unfree packages
         "https://cache.garnix.io" # some more community packages
-        "https://ekala-corepkgs.cachix.org" # corepkgs
+        # "https://ekala-corepkgs.cachix.org" # corepkgs - unused for now
+        "https://cache.numtide.com" # llm agents
         "https://nix-gaming.cachix.org" # some gaming packages
       ];
       trusted-public-keys = [
@@ -82,6 +83,7 @@ in
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
         "ekala-corepkgs.cachix.org-1:DcZV+vegWoEzacbSdXFXU4S7728C0eS9RfGpKeyHd6w="
+        "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
         "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       ];
     };
