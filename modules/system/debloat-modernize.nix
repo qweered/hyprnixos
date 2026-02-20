@@ -11,6 +11,7 @@
   system.disableInstallerTools = true; # remove generate, install, enter, option, version, build-vms, firewall
   system.tools.nixos-rebuild.enable = true; # but keep rebuild
   programs.nano.enable = false;
+  services.speechd.enable = false; # NOTE: untested, may break things
 
   # https://blog.nsrun.io/2026/01/15/systemd-vsock-openssh-server
   systemd.generators.systemd-ssh-generator = "/dev/null";
