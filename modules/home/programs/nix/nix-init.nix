@@ -1,5 +1,9 @@
-{ pkgs, ... }:
 {
   # create new nix packages
-  home.packages = [ pkgs.nix-init ];
+  programs.nix-init = {
+    enable = true;
+    settings = {
+      maintainers = [ "qweered" ];
+    };
+  };
 }
