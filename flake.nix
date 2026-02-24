@@ -11,6 +11,18 @@
       url = "https://github.com/NixOS/nixpkgs/pull/492280.diff";
       flake = false;
     };
+    nixpkgs-patch-sddm-astronaut-update = {
+      url = "https://github.com/NixOS/nixpkgs/pull/492325.diff";
+      flake = false;
+    };
+    nixpkgs-patch-cursor-update = {
+      url = "https://github.com/NixOS/nixpkgs/pull/491597.diff";
+      flake = false;
+    };
+    nixpkgs-patch-deno-fix = {
+      url = "path:./patches/deno-fix.diff";
+      flake = false;
+    };
 
     lix = {
       url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
@@ -20,17 +32,12 @@
       url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
-      inputs.flakey-profile.follows = "flakey-profile";
       inputs.lix.follows = "lix";
     };
 
     # global inputs, other will follow them
     lib.url = "github:nix-community/nixpkgs.lib";
     systems.url = "github:nix-systems/default";
-    gitignore = {
-      url = "github:hercules-ci/gitignore.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "lib";
@@ -42,8 +49,15 @@
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
     };
-    flakey-profile = {
-      url = "github:lf-/flakey-profile";
+    blueprint = {
+      url = "github:numtide/blueprint";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
+    };
+    gitignore = {
+      # needed for pre-commit
+      url = "github:hercules-ci/gitignore.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # other inputs
@@ -54,6 +68,8 @@
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+      inputs.blueprint.follows = "blueprint";
     };
     nfh = {
       url = "github:name-snrl/nfh";
