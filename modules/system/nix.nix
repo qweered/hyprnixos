@@ -71,7 +71,6 @@ in
 
       substituters = [
         "https://cache.nixos.org?priority=1" # lower number means higher priority
-        "https://aseipp-nix-cache.freetls.fastly.net" # nix cache v2 https://wiki.nixos.org/wiki/Maintainers:Fastly#Beta_+_IPv6_+_HTTP/2
         "https://nix-community.cachix.org" # cache for unfree packages
         "https://cache.garnix.io" # some more community packages
         # "https://ekala-corepkgs.cachix.org" # corepkgs - unused for now
