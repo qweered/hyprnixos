@@ -93,7 +93,7 @@
 
   # Man-db cache generation cause it's very slow for fish
   # Stolen from https://github.com/MidAutumnMoon/TaysiTsuki/blob/025509df115b5d589f10d5c0d6d11d56ae74c4a2/nixos/documentation/module.nix
-  documentation.man.generateCaches = lib.mkForce false;
+  documentation.man.cache.enable = lib.mkForce false;
   systemd.services."man-db" = {
     requires = [ "sysinit-reactivation.target" ];
     after = [ "sysinit-reactivation.target" ];
