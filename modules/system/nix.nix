@@ -76,6 +76,7 @@ in
         "https://cache.garnix.io" # some more community packages
         # "https://ekala-corepkgs.cachix.org" # corepkgs - unused for now
         "https://cache.numtide.com" # llm agents
+        "https://attic.xuyh0120.win/lantian" # cachyos kernel
         "https://nix-gaming.cachix.org" # some gaming packages
       ];
       trusted-public-keys = [
@@ -84,6 +85,7 @@ in
         "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
         "ekala-corepkgs.cachix.org-1:DcZV+vegWoEzacbSdXFXU4S7728C0eS9RfGpKeyHd6w="
         "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+        "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
         "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       ];
     };
