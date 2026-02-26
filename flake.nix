@@ -15,12 +15,8 @@
       url = "https://github.com/NixOS/nixpkgs/pull/492325.diff";
       flake = false;
     };
-    nixpkgs-patch-cursor-update = {
-      url = "https://github.com/NixOS/nixpkgs/pull/491597.diff";
-      flake = false;
-    };
-    nixpkgs-patch-deno-fix = {
-      url = "path:./patches/deno-fix.diff";
+    nixpkgs-patch-khal-build-fix = {
+      url = "https://github.com/NixOS/nixpkgs/pull/493590.diff";
       flake = false;
     };
 
@@ -61,6 +57,12 @@
     };
 
     # other inputs
+    nix-cachyos-kernel = {
+      url = "github:xddxdd/nix-cachyos-kernel/release";
+      inputs.flake-compat.follows = "flake-compat";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.nixpkgs.follows = "nixpkgs"; # test to see how much cache desyncs
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

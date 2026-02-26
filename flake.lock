@@ -23,6 +23,38 @@
         "type": "github"
       }
     },
+    "cachyos-kernel": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1771517207,
+        "narHash": "sha256-+zDtnmXNyMd3hMepErdPDZzqYS0PiZA0Anbbx9Pvs4g=",
+        "owner": "CachyOS",
+        "repo": "linux-cachyos",
+        "rev": "39737576a25091a3c4ca00729b769a1f92ec98d5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CachyOS",
+        "repo": "linux-cachyos",
+        "type": "github"
+      }
+    },
+    "cachyos-kernel-patches": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1771516433,
+        "narHash": "sha256-SuockPZgd2bfjWGmdT8AUBTnBZWvxdA+b8Ss98lNC6c=",
+        "owner": "CachyOS",
+        "repo": "kernel-patches",
+        "rev": "505aef2086e584ba683a5ac1cb8ed8252fea2cfd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CachyOS",
+        "repo": "kernel-patches",
+        "type": "github"
+      }
+    },
     "cpu-microcodes": {
       "flake": false,
       "locked": {
@@ -225,11 +257,11 @@
     "lix": {
       "flake": false,
       "locked": {
-        "lastModified": 1771877555,
-        "narHash": "sha256-GcbL9f5rD2YK7GbWJebKL/rNYtbycvuf0QfLIPVovV4=",
-        "rev": "62a2663436b1f813930aada852ced49b2e343416",
+        "lastModified": 1771956030,
+        "narHash": "sha256-UoDTQ+GPKRb34Cuw4T3jOrwxeyfPfuwc0gVsnG3nzBU=",
+        "rev": "53c0e884d8aa80d34d88270bfc524761fbbcca3d",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/62a2663436b1f813930aada852ced49b2e343416.tar.gz?rev=62a2663436b1f813930aada852ced49b2e343416"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/53c0e884d8aa80d34d88270bfc524761fbbcca3d.tar.gz?rev=53c0e884d8aa80d34d88270bfc524761fbbcca3d"
       },
       "original": {
         "type": "tarball",
@@ -274,11 +306,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1771858033,
-        "narHash": "sha256-/m1I+ZGvA+7C6flVzQZrktOKdb4RRbXX/gup0VrhP4Q=",
+        "lastModified": 1772040231,
+        "narHash": "sha256-9rtEO+VPPLYLiTMYbXShZA5OCKlyU1KfouefrdDwl3w=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "c4c64459db15bb02c5c67b862581c1bfd28144f8",
+        "rev": "5611434a34e8d36b20e6653ce161e1565d5fda3d",
         "type": "github"
       },
       "original": {
@@ -304,6 +336,35 @@
       "original": {
         "owner": "name-snrl",
         "repo": "nfh",
+        "type": "github"
+      }
+    },
+    "nix-cachyos-kernel": {
+      "inputs": {
+        "cachyos-kernel": "cachyos-kernel",
+        "cachyos-kernel-patches": "cachyos-kernel-patches",
+        "flake-compat": [
+          "flake-compat"
+        ],
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1771525883,
+        "narHash": "sha256-XqDuaRbxLGno5HcWRE5lQrgMBeXXs6ncGq+R6eCvsq8=",
+        "owner": "xddxdd",
+        "repo": "nix-cachyos-kernel",
+        "rev": "15fb6039dd248d478a8f3f7f6c067b206da2bf54",
+        "type": "github"
+      },
+      "original": {
+        "owner": "xddxdd",
+        "ref": "release",
+        "repo": "nix-cachyos-kernel",
         "type": "github"
       }
     },
@@ -340,11 +401,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1771604425,
-        "narHash": "sha256-+Dn0nMcA+ceg+t3jsj9EdVl38CANXOs2xFc58CxXar4=",
+        "lastModified": 1771893917,
+        "narHash": "sha256-6nJX/Byne4l4hRtcMhNf0moMXibQnhAm8+aPZxkhXHw=",
         "owner": "kaylorben",
         "repo": "nixcord",
-        "rev": "62c92eca62b733c2b36da480d70cc1f5a9a0e5a7",
+        "rev": "d8b90041b8f5a350df80d61052dad120b9d07cfe",
         "type": "github"
       },
       "original": {
@@ -355,40 +416,15 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1771423170,
-        "narHash": "sha256-V/p5M4cAMbu/MJBDn5YABy5QJgCFpsgrnXVVc2Uo5+k=",
-        "rev": "bcc4a9d9533c033d806a46b37dc444f9b0da49dd",
+        "lastModified": 1771923393,
+        "narHash": "sha256-lJiQtL47xYV37Vod9KgPS7dmi1x51A5+chJE48qKimw=",
+        "rev": "ea7f1f06811ce7fcc81d6c6fd4213150c23edcf2",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre948338.bcc4a9d9533c/nixexprs.tar.xz?lastModified=1771423170&rev=bcc4a9d9533c033d806a46b37dc444f9b0da49dd"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre953762.ea7f1f06811c/nixexprs.tar.xz?lastModified=1771923393&rev=ea7f1f06811ce7fcc81d6c6fd4213150c23edcf2"
       },
       "original": {
         "type": "tarball",
         "url": "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz"
-      }
-    },
-    "nixpkgs-patch-cursor-update": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-kWmUIA54W+LLHHB6+CBkdC9jR4ORxVzbG4PPz/V8i4E=",
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/491597.diff"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/491597.diff"
-      }
-    },
-    "nixpkgs-patch-deno-fix": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-Pq8LdfzetssQA2gNzp7fYVr1xJFowhLbPBGVK5KrFjE=",
-        "path": "./patches/deno-fix.diff",
-        "type": "path"
-      },
-      "original": {
-        "path": "./patches/deno-fix.diff",
-        "type": "path"
       }
     },
     "nixpkgs-patch-init-nix-olde": {
@@ -401,6 +437,18 @@
       "original": {
         "type": "file",
         "url": "https://github.com/NixOS/nixpkgs/pull/492280.diff"
+      }
+    },
+    "nixpkgs-patch-khal-build-fix": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-5EsqOx8T4A/OHLZdRYZkzvhf5mFCrUz44rjCMf7hjF4=",
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/493590.diff"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/493590.diff"
       }
     },
     "nixpkgs-patch-sddm-astronaut-update": {
@@ -447,12 +495,12 @@
         "lix-module": "lix-module",
         "llm-agents": "llm-agents",
         "nfh": "nfh",
+        "nix-cachyos-kernel": "nix-cachyos-kernel",
         "nix-index-database": "nix-index-database",
         "nixcord": "nixcord",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-patch-cursor-update": "nixpkgs-patch-cursor-update",
-        "nixpkgs-patch-deno-fix": "nixpkgs-patch-deno-fix",
         "nixpkgs-patch-init-nix-olde": "nixpkgs-patch-init-nix-olde",
+        "nixpkgs-patch-khal-build-fix": "nixpkgs-patch-khal-build-fix",
         "nixpkgs-patch-sddm-astronaut-update": "nixpkgs-patch-sddm-astronaut-update",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "spicetify": "spicetify",
@@ -551,11 +599,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1771631873,
-        "narHash": "sha256-Q1Y7stQX07bDX+SeEdeIZP5Mp8X71kJfIKQuFwAE8Tg=",
+        "lastModified": 1771893508,
+        "narHash": "sha256-PrbZ3SRmfcy0pANNbY3UxZPCuLKZZA7M2LDXnWc/6+s=",
         "owner": "vicinaehq",
         "repo": "vicinae",
-        "rev": "f84874d1268c4a59b23aea6a2fa9585390a204f5",
+        "rev": "005bfe7cb81df9d3ab02bbe16e9b0e0e7b219e37",
         "type": "github"
       },
       "original": {
