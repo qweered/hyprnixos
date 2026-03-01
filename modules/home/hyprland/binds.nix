@@ -79,7 +79,7 @@ in
         "SUPER, Q, killactive"
         "SUPER, T, togglefloating"
         "SUPER, F, fullscreen"
-        "SUPER, S, togglesplit"
+        "SUPER, S, layoutmsg, togglesplit"
 
         (moveFocus "k" "u")
         (moveFocus "j" "d")
