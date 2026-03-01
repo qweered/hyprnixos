@@ -149,6 +149,7 @@
           aa = "add --all";
           ap = "add --patch";
           rs = "restore";
+          rss = "restore --staged";
           unstage = "reset HEAD --";
           unwip = "reset HEAD~1";
           rhard = "reset --hard";
