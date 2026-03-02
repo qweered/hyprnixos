@@ -7,16 +7,12 @@
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz"; # Smaller then github tarball, less api hits
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
-    nixpkgs-patch-init-nix-olde = {
-      url = "https://github.com/NixOS/nixpkgs/pull/492280.diff";
-      flake = false;
-    };
     nixpkgs-patch-sddm-astronaut-update = {
       url = "https://github.com/NixOS/nixpkgs/pull/492325.diff";
       flake = false;
     };
-    nixpkgs-patch-khal-build-fix = {
-      url = "https://github.com/NixOS/nixpkgs/pull/493590.diff";
+    nixpkgs-patch-sudo-rs = {
+      url = "https://github.com/NixOS/nixpkgs/pull/495216.diff";
       flake = false;
     };
 
