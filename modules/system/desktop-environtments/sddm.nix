@@ -16,7 +16,7 @@ in
     sddm = {
       enable = true;
       wayland.enable = true;
-      wayland.compositor = "weston"; # takes less space than kwin
+      wayland.compositor = "weston"; # takes less space than kwin, kwin may take less space with kde environment
       theme = "sddm-astronaut-theme"; # name of theme package
       extraPackages = [ sddm-astronaut ];
     };
