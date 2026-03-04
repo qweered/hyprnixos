@@ -67,6 +67,9 @@ in
         # "repl-flake" does not exist in Lix
       ];
 
+      # TODO: fix warn in declarative-flatpak
+      extra-deprecated-features = [ "broken-string-escape" ];
+
       trusted-users = [ "@wheel" ];
 
       substituters = [
