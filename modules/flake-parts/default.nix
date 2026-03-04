@@ -10,7 +10,10 @@ in
 
   flake.nixosConfigurations.hyprnix = inputs.nixpkgs-patcher.lib.nixosSystem {
     specialArgs = { inherit inputs hostPlatform; };
-    nixpkgsPatcher.inputs = inputs;
+    nixpkgsPatcher = {
+      inherit inputs;
+      enableTroubleshootingShell = false;
+    };
     modules = inputs.self.moduleTree {
       users.qweered = true;
       hosts.hyprnix = true;
