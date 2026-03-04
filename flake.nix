@@ -15,6 +15,10 @@
       url = "https://github.com/NixOS/nixpkgs/pull/495216.diff";
       flake = false;
     };
+    nixpkgs-patch-cursor-update = {
+      url = "https://github.com/NixOS/nixpkgs/pull/496629.diff";
+      flake = false;
+    };
 
     lix = {
       url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
@@ -57,7 +61,7 @@
       url = "github:xddxdd/nix-cachyos-kernel/release";
       inputs.flake-compat.follows = "flake-compat";
       inputs.flake-parts.follows = "flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs"; # test to see how much cache desyncs
+      # inputs.nixpkgs.follows = "nixpkgs"; # do not override nixpkgs, cache misses
     };
     home-manager = {
       url = "github:nix-community/home-manager";
