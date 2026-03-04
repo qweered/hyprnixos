@@ -22,7 +22,7 @@ in
       });
       nurl = prev.nurl.override { nix = config.nix.package; };
       nix-init = prev.nix-init.override { nix = config.nix.package; };
-      inherit (llm-agents) opencode claude-code;
+      inherit (llm-agents) opencode claude-code coderabbit-cli;
       amp-cli = llm-agents.amp;
     })
   ];
