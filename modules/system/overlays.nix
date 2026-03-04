@@ -10,6 +10,7 @@ in
 {
   # TODO: why overlays don't work in flake-parts?
   nixpkgs.overlays = [
+    inputs.nix-cachyos-kernel.overlays.pinned
     (_final: prev: {
       nix-output-monitor = prev.nix-output-monitor.overrideAttrs (_old: {
         src = prev.fetchFromGitHub {

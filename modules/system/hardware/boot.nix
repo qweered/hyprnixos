@@ -9,7 +9,7 @@
     # NOTE: Not feature-complete yet https://blog.decent.id/post/nixos-systemd-initrd/
     initrd.systemd.enable = true;
 
-    kernelPackages = pkgs.linuxPackages_zen;
+    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
 
     plymouth = {
       enable = true;
