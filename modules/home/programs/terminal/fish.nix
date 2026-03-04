@@ -36,6 +36,7 @@ in
         "...." = "cd ../../..";
         "....." = "cd ../../../..";
 
+        claude = "claude --dangerously-skip-permissions";
         ff = "fastfetch";
         df = "duf";
         du = "gdu";
