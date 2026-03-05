@@ -2,5 +2,6 @@
 
 ## Annoyances
 
-- i can't get to work [nixpkgs-patcher](https://github.com/gepbird/nixpkgs-patcher) with flake.parts
 - something going wrong with sleep
+- fix dms-shell lockscreen
+- nixpkgs-unstable-with-unfree.url = "github:numtide/nixpkgs-unfree/nixpkgs-unstable" - can't get this to work

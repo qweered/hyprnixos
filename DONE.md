@@ -1,6 +1,7 @@
 # In reversed-chronological and then in random order
 
-* zen kernel
+* secrets with agenix + rekeying
+* cachyos kernel
 * hyprland with UWSM
 * multihost, multiuser (partially)
 * nix stuff configured: see modules/home/nix

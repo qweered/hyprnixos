@@ -9,19 +9,16 @@
 * stylix
 * check if anything in system have home-manager stuff (for example podman)
 * disko
-* nixpkgs-unstable-with-unfree.url = "github:numtide/nixpkgs-unfree/nixpkgs-unstable" - can't get this to work
 * remove all TODO todos
 * Hyprcursor
-* home-manager.sharedModules
 * this page https://github.com/nix-community/srvos/blob/c4a21c42efec0506ec352891fec84490dae2ded0/nixos/common/nix.nix
-* see nixos-ex-flake and blueprint
-* fix that i need to enter gpg and immediately keyring password on every boot
-* my own plymouth theme
-* check logs that there are no major errors
+* home-manager.sharedModules
+* see nixos-ez-flake and blueprint, dendritic, vic, den
 * multi-user, multi-gpu [ZaneyOS](https://gitlab.com/Zaney/zaneyos)
 * denoising? [rnnoise](https://github.com/fufexan/dotfiles/blob/17939d902a780a6db459312baa40940ff2a9c149/home/programs/media/rnnoise.nix#L1C1-L41C2)
 * refactor assets into github repository
 * setup portals (what application opens what file)
+* check logs that there are no major errors
 * configure more kernel parameters
 * snap ? appimage ?
 * remove all CONFIG todos
@@ -29,7 +26,6 @@
 * check all config options of nixos and home-manager
 * check all nix-community repos
 * impermanence
-* enable cachy ananicy rules [chaotic](https://www.nyx.chaotic.cx/), apparmor?
 * nix-mineral
 * encrypt filesystem
 * lanzaboote
