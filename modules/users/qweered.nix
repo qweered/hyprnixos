@@ -35,11 +35,11 @@ in
   };
 
   users = {
-    mutableUsers = true; # need agenix password for false
+    mutableUsers = false;
     extraUsers = {
       "${vars.username}" = {
         isNormalUser = true;
-        initialPassword = "password";
+        hashedPasswordFile = config.age.secrets.password-qweered.path;
         shell = pkgs.fish;
         inherit (vars) description;
         extraGroups = [

@@ -23,6 +23,10 @@
         rekeyFile = ../../../secrets/context7-api-key.age;
         owner = "qweered";
       };
+      password-qweered = {
+        rekeyFile = ../../../secrets/password-qweered.age;
+        mode = "0400";
+      };
     };
   };
 }
