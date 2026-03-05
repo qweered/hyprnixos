@@ -42,6 +42,10 @@ in
     registry = lib.mapAttrs (_: v: { flake = v; }) flakeInputs; # pin the registry
     nixPath = lib.mapAttrsToList (key: _: "${key}=flake:${key}") config.nix.registry; # set the path for channels compatibility
 
+    extraOptions = ''
+      !include ${config.age.secrets.git-token.path}
+    '';
+
     settings = {
       auto-optimise-store = false; # optimized with nh instead, faster build
       allow-import-from-derivation = true; # for devenv
@@ -57,9 +61,6 @@ in
       # Avoid disk full issues
       max-free = 3000 * 1024 * 1024; # 3GB
       min-free = 1024 * 1024 * 1024; # 1GB
-
-      # TODO: doesn't work
-      access-tokens = "!include /home/qweered/hyprnixos/secrets/git-token";
 
       experimental-features = [
         "nix-command"
