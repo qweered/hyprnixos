@@ -6,6 +6,7 @@ in
   imports = with inputs; [
     treefmt-nix.flakeModule
     git-hooks.flakeModule
+    agenix-rekey.flakeModule
   ];
 
   flake.nixosConfigurations.hyprnix = inputs.nixpkgs-patcher.lib.nixosSystem {
@@ -31,6 +32,7 @@ in
     {
       devShells.default = pkgs.mkShell {
         name = "hyprnixos";
+        nativeBuildInputs = [ config.agenix-rekey.package ];
         shellHook = ''
           ${config.pre-commit.shellHook}
         '';

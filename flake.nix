@@ -122,6 +122,19 @@
       inputs.vicinae.follows = "vicinae";
       inputs.systems.follows = "systems";
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
+      inputs.home-manager.follows = "home-manager";
+    };
+    agenix-rekey = {
+      url = "github:oddlama/agenix-rekey";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+      inputs.pre-commit-hooks.follows = "git-hooks";
+    };
 
     # stylix = {
     #   url = "github:nix-community/stylix";

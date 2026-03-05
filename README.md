@@ -2,7 +2,7 @@
 
 * Replace credentials in `modules/home/programs/git.nix`
 * Add your system configuration to `modules/hosts` (see my in `modules/hosts/hyprnix`)
-* Add access-token in `secrets/git-token`
+* Add secrets via `agenix edit secrets/<name>.age` and rekey with `agenix rekey -a`
 
 ## Attributions
 
