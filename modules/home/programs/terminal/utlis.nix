@@ -5,8 +5,6 @@
   home.packages = with pkgs; [
     btop # process viewer, over htop, mission-center
     gdu # du alternative, over dua dust dutree pdu godu ncdu duc diskus
-    eza # ls alternative, over exa, lsd
-    bat # cat alternative
     lazyjournal # over dmesg, journalctl
     duf # df alternative, over dysk (2 best) pydf di dfc dfrs
     rip2 # rm, trash-cli alternative

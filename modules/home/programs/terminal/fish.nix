@@ -12,8 +12,6 @@ in
     grc
     fishPlugins.grc
   ];
-  # CONFIG: https://www.reddit.com/r/NixOS/comments/1d174ds/how_can_i_get_colorful_man_pages/
-
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
@@ -33,9 +31,6 @@ in
         nom-build = "nom-build ${common-nix-args}";
 
         svi = "sudo nvim";
-        ls = "eza --icons";
-        ll = "eza -l --icons";
-        la = "eza -la --icons";
 
         ".." = "cd ..";
         "..." = "cd ../..";
