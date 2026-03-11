@@ -1,4 +1,9 @@
-{ pkgs, vars, ... }:
+{
+  pkgs,
+  vars,
+  osConfig,
+  ...
+}:
 let
   inherit (vars) flakeDirectory;
 in
@@ -13,6 +18,7 @@ in
     enable = true;
     interactiveShellInit = ''
       set fish_greeting
+      set -gx CONTEXT7_API_KEY (cat ${osConfig.age.secrets.context7-api-key.path} 2>/dev/null)
       fastfetch
     '';
     shellAliases =

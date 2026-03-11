@@ -1,4 +1,4 @@
-{ vars, osConfig, ... }:
+{ vars, ... }:
 
 {
   programs.home-manager.enable = true;
@@ -19,7 +19,6 @@
       GDK_BACKEND = "wayland,x11,*";
       CLUTTER_BACKEND = "wayland";
       SDL_VIDEODRIVER = "wayland"; # QUIRK: Some games require it to be x11
-      CONTEXT7_API_KEY = "$(cat ${osConfig.age.secrets.context7-api-key.path})";
     };
   };
 
