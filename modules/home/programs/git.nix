@@ -5,8 +5,17 @@
     gh.enable = true;
     mergiraf.enable = true;
     lazygit.enable = true;
-    delta.enable = true; # CONFIG for grep and other stuff
-    delta.enableJujutsuIntegration = true;
+    difftastic = {
+      enable = true;
+      git = {
+        enable = true;
+        diffToolMode = true;
+      };
+      jujutsu.enable = true;
+      options = {
+        display = "side-by-side-show-both";
+      };
+    };
 
     jujutsu = {
       enable = true;
@@ -70,10 +79,8 @@
         color.ui = "auto"; # always breaks some aliases
         column.ui = "auto";
         diff.algorithm = "histogram";
-        diff.colorMoved = "plain";
         diff.mnemonicPrefix = true;
         diff.renames = "copies";
-        diff.tool = "nvimdiff";
         fetch.all = "false"; # fetch manually instead
         init.defaultBranch = "main";
         log.date = "relative";
@@ -81,7 +88,7 @@
         log.follow = true;
         merge.autoStash = true;
         # conflictStyle is automatically set by mergiraf
-        merge.tool = "nvimdiff";
+        merge.tool = "nvimdiff"; # keep nvimdiff for merges (difftastic is diff-only)
         merge.ff = "only"; # try to not crate merge commits
 
         advice = {
@@ -227,7 +234,7 @@
 
           s = "status --short --branch";
           st = "status";
-          dc = "diff HEAD"; # current staged diff
+          dc = "diff HEAD"; # staged diff
           dp = "diff HEAD~1 HEAD"; # previous commit diff
           dcv = "difftool HEAD --tool=nvimdiff --no-prompt";
           dpv = "difftool HEAD~1 HEAD --tool=nvimdiff --no-prompt";
