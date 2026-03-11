@@ -11,8 +11,8 @@ in
   # TODO: why overlays don't work in flake-parts?
   nixpkgs.overlays = [
     inputs.nix-cachyos-kernel.overlays.pinned
-    (_final: prev: {
-      nix-output-monitor = prev.nix-output-monitor.overrideAttrs (_old: {
+    (_: prev: {
+      nix-output-monitor = prev.nix-output-monitor.overrideAttrs (_: {
         src = prev.fetchFromGitHub {
           owner = "maralorn";
           repo = "nix-output-monitor";
@@ -22,7 +22,13 @@ in
       });
       nurl = prev.nurl.override { nix = config.nix.package; };
       nix-init = prev.nix-init.override { nix = config.nix.package; };
-      inherit (llm-agents) opencode claude-code coderabbit-cli;
+      inherit (llm-agents)
+        opencode
+        claude-code
+        coderabbit-cli
+        kilocode-cli
+        ;
+      codex = llm-agents.code; # community fork
       amp-cli = llm-agents.amp;
     })
   ];
