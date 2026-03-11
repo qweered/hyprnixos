@@ -1,11 +1,9 @@
 { pkgs, ... }:
 
 {
-  # Imperative configuration through quickshell
+  # CONFIG: switch to declarative theming
   home.packages = with pkgs; [
-    # over lxappearance
-    nwg-look
-
+    nwg-look # over lxappearance
     adw-gtk3
     papirus-icon-theme
   ];
