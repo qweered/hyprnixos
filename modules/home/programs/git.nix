@@ -81,6 +81,8 @@
         diff.algorithm = "histogram";
         diff.mnemonicPrefix = true;
         diff.renames = "copies";
+        difftool.prompt = false;
+        pager.difftool = true;
         fetch.all = "false"; # fetch manually instead
         init.defaultBranch = "main";
         log.date = "relative";
