@@ -9,7 +9,7 @@ let
   flakeInputs = lib.filterAttrs (_: v: lib.isType "flake" v) inputs;
 in
 {
-  imports = [ inputs.lix-module.nixosModules.default ];
+  imports = [ inputs.determinate.nixosModules.default ];
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -58,18 +58,14 @@ in
       stalled-download-timeout = 10;
       fallback = true;
 
-      # Avoid disk full issues
-      max-free = 3000 * 1024 * 1024; # 3GB
-      min-free = 1024 * 1024 * 1024; # 1GB
+      # Avoid disk full issues (unneeded with determinate nix)
+      # max-free = 3000 * 1024 * 1024; # 3GB
+      # min-free = 1024 * 1024 * 1024; # 1GB
 
-      experimental-features = [
-        "nix-command"
-        "flakes"
-        # "repl-flake" does not exist in Lix
-      ];
-
-      # TODO: fix warn in declarative-flatpak
-      extra-deprecated-features = [ "broken-string-escape" ];
+      # Enabled by default in determinate nix
+      # experimental-features = [ "nix-command" "flakes" ];
+      eval-cores = "0";
+      lazy-trees = true;
 
       trusted-users = [ "@wheel" ];
 

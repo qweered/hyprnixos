@@ -11,16 +11,10 @@
       url = "https://github.com/NixOS/nixpkgs/pull/492325.diff";
       flake = false;
     };
-
-    lix = {
-      url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
-      flake = false;
-    };
-    lix-module = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-      inputs.lix.follows = "lix";
+    determinate = {
+      url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+      inputs.nix.inputs.flake-parts.follows = "flake-parts";
+      inputs.nix.inputs.git-hooks-nix.follows = "git-hooks";
     };
 
     # global inputs, other will follow them
@@ -33,10 +27,10 @@
     flake-compat = {
       url = "github:NixOS/flake-compat";
     };
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-      inputs.systems.follows = "systems";
-    };
+    # flake-utils = {
+    #   url = "github:numtide/flake-utils";
+    #   inputs.systems.follows = "systems";
+    # };
     blueprint = {
       url = "github:numtide/blueprint";
       inputs.nixpkgs.follows = "nixpkgs";
