@@ -135,22 +135,6 @@
       inputs.treefmt-nix.follows = "treefmt-nix";
       inputs.pre-commit-hooks.follows = "git-hooks";
     };
-
-    # stylix = {
-    #   url = "github:nix-community/stylix";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
-    # lazyvim = {
-    #   url = "github:matadaniel/LazyVim-module";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
-    # TODO: move into my repo
-    easyeffects-presets = {
-      url = "github:jackhack96/easyeffects-presets";
-      flake = false;
-    };
   };
 
   outputs =

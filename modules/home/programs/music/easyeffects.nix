@@ -1,29 +1,45 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 
+let
+  presets = pkgs.fetchFromGitHub {
+    owner = "jackhack96";
+    repo = "easyeffects-presets";
+    rev = "d77a61eb01c36e2c794bddc25423445331e99915";
+    hash = "sha256-or5kH/vTwz7IO0Vz7W4zxK2ZcbL/P3sO9p5+EdcC2DA=";
+  };
+  presets2 = pkgs.fetchFromGitHub {
+    owner = "Digitalone1";
+    repo = "EasyEffects-Presets";
+    rev = "347dc4dd0ada677a15db2676cd9a5082e2f0033a";
+    hash = "sha256-DHuYj9IynIhjdEdISiBObauvVPbahcmzSmwhdr6puUU=";
+  };
+in
 {
-  # TODO: move to assets github
   services.easyeffects = {
     enable = true;
-    preset = "Perfect EQ";
+    preset = "LoudnessEqualizer";
   };
 
   home.file = {
-    ".config/easyeffects/irs" = {
+    ".local/share/easyeffects/irs" = {
       recursive = true;
-      source = "${inputs.easyeffects-presets}/irs";
+      source = "${presets}/irs";
     };
 
-    ".config/easyeffects/output" = {
+    ".local/share/easyeffects/output" = {
       recursive = true;
       source = pkgs.symlinkJoin {
         name = "easyeffects-output";
-        paths = [ "${inputs.easyeffects-presets}" ];
+        paths = [
+          "${presets}"
+          "${presets2}"
+        ];
       };
 
       # Remove extra files present in the presets repos
       onChange = ''
-        find $HOME/.config/easyeffects/output/irs -delete
-        find $HOME/.config/easyeffects/output -type l -not -name "*.json" -delete
+        find $HOME/.local/share/easyeffects/output/irs -delete
+        find $HOME/.local/share/easyeffects/output -type l -not -name "*.json" -delete
       '';
     };
   };
