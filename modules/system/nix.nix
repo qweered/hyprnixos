@@ -60,9 +60,9 @@ in
       # max-free = 3000 * 1024 * 1024; # 3GB
       # min-free = 1024 * 1024 * 1024; # 1GB
 
-      # Enabled by default in determinate nix
-      # experimental-features = [ "nix-command" "flakes" ];
       experimental-features = [
+        "nix-command" # for non-determinate nix
+        "flakes" # for non-determinate nix
         "ca-derivations"
         "local-overlay-store"
       ];
