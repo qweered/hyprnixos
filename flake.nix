@@ -84,6 +84,7 @@
       inputs.flake-compat.follows = "flake-compat";
       inputs.flake-parts.follows = "flake-parts";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-nixcord.follows = "nixpkgs";
     };
     spicetify = {
       url = "github:Gerg-L/spicetify-nix";
