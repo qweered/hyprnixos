@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   inputs,
   config,
   ...
@@ -25,11 +24,6 @@ in
     # contentAddressedByDefault = true;
     # configurePlatformsByDefault = true;
     # doCheckByDefault = true;
-  };
-
-  programs.nix-ld = {
-    enable = true;
-    libraries = with pkgs; [ oxlint ]; # TODO: may be unneeded now
   };
 
   nix = {
