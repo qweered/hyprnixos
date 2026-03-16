@@ -52,6 +52,10 @@ in
       builders-use-substitutes = true;
       flake-registry = "/etc/nix/registry.json";
       log-lines = 25;
+      # TODO: enable on determinate nix update
+      # lint-url-literals = "fatal";
+      # lint-short-path-literals = "fatal";
+      # lint-absolute-paths-literals = "fatal";
 
       # Switch substitutes on timeouts
       connect-timeout = 10;
@@ -64,6 +68,10 @@ in
 
       # Enabled by default in determinate nix
       # experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "ca-derivations"
+        "local-overlay-store"
+      ];
       eval-cores = "0";
       lazy-trees = true;
 
