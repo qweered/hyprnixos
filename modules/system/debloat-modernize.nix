@@ -1,13 +1,7 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}:
+{ lib, config, ... }:
 
 {
   # Perlless https://github.com/NixOS/nixpkgs/blob/0260f927b7c1578b5c7cdefd7db7b660565cd362/nixos/modules/profiles/perlless.nix
-
   system.disableInstallerTools = true; # remove generate, install, enter, option, version, build-vms, firewall
   system.tools.nixos-rebuild.enable = true; # but keep rebuild
   programs.nano.enable = false;
@@ -18,57 +12,7 @@
   systemd.sockets.sshd-unix-local.enable = lib.mkForce false;
   systemd.sockets.sshd-vsock.enable = lib.mkForce false;
 
-  i18n.extraLocales = [ "ru_RU.UTF-8/UTF-8" ];
-
-  # Less bloated fix for "open with" in dolphin, see https://github.com/NixOS/nixpkgs/issues/409986
-  environment.etc."xdg/menus/applications.menu".source = ./dolphin.menu;
-
-  environment = {
-    defaultPackages = lib.mkForce [ ];
-    systemPackages = with pkgs; [
-      # TODO: replace ancient utils systemwide in nixpkgs
-      uutils-coreutils-noprefix
-      uutils-findutils
-      uutils-diffutils
-      uutils-util-linux
-      uutils-login
-      uutils-sed
-      uutils-tar
-      uutils-hostname
-      uutils-procps
-      (lib.lowPrio inetutils) # for ftp
-      (lib.lowPrio (
-        busybox.override {
-          # Prevent busybox from overriding system binaries (systemd, util-linux, shadow, etc.)
-          extraConfig = lib.concatMapStrings (opt: "CONFIG_${opt} n\n") [
-            "HALT"
-            "POWEROFF"
-            "REBOOT"
-            "INIT"
-            "LOGIN"
-            "SU"
-            "SULOGIN"
-            "GETTY"
-            "PASSWD"
-            "VLOCK"
-            "MOUNT"
-            "UMOUNT"
-            "DMESG"
-            "KILL"
-            "KILLALL"
-            "SYSLOGD"
-            "KLOGD"
-            "FSCK"
-            "MKSWAP"
-            "SWAPON"
-            "SWAPOFF"
-            "PIVOT_ROOT"
-            "SWITCH_ROOT"
-          ];
-        }
-      )) # various utils
-    ];
-  };
+  environment.defaultPackages = lib.mkForce [ ];
 
   documentation = {
     doc.enable = false;
