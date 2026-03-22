@@ -11,6 +11,10 @@
       url = "https://github.com/NixOS/nixpkgs/pull/492325.diff";
       flake = false;
     };
+    nixpkgs-patch-vite-plus-init = {
+      url = "https://github.com/NixOS/nixpkgs/pull/500492.diff";
+      flake = false;
+    };
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
       inputs.nix.inputs.flake-parts.follows = "flake-parts";
