@@ -14,7 +14,6 @@
     fd # find alternative
     hyperfine # speed benchmarks
     ffmpeg # video/audio converter
-    tree # directory tree
     yt-dlp # download videos
     wireplumber # audio control
     wl-clipboard # copy-paste in shell, over wl-clipboard-rs
