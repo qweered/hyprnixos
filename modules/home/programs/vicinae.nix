@@ -28,7 +28,8 @@
       # over manix, nix-search-tv
       nix
       wifi-commander
-      power-profile
+      # Does not work with tlp
+      # power-profile
     ];
   };
 }
