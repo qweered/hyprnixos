@@ -31,19 +31,15 @@
     flake-compat = {
       url = "github:NixOS/flake-compat";
     };
-    # flake-utils = {
-    #   url = "github:numtide/flake-utils";
-    #   inputs.systems.follows = "systems";
-    # };
     blueprint = {
       url = "github:numtide/blueprint";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
       inputs.systems.follows = "systems";
     };
     gitignore = {
       # needed for pre-commit
       url = "github:hercules-ci/gitignore.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
     };
 
     # other inputs
@@ -51,15 +47,15 @@
       url = "github:xddxdd/nix-cachyos-kernel/release";
       inputs.flake-compat.follows = "flake-compat";
       inputs.flake-parts.follows = "flake-parts";
-      # inputs.nixpkgs.follows = "nixpkgs"; # do not override nixpkgs, cache misses
+      # inputs.nixpkgs.follows = "nixpkgs"; # do not override, painful cache misses
     };
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # important
     };
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # rarely misses cache
       inputs.treefmt-nix.follows = "treefmt-nix";
       inputs.blueprint.follows = "blueprint";
       inputs.systems.follows = "systems";
@@ -67,32 +63,32 @@
     };
     nfh = {
       url = "github:name-snrl/nfh";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
     };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
     };
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.flake-compat.follows = "flake-compat";
       inputs.gitignore.follows = "gitignore";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
     };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
     };
     nixcord = {
       url = "github:kaylorben/nixcord";
       inputs.flake-compat.follows = "flake-compat";
       inputs.flake-parts.follows = "flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
       inputs.nixpkgs-nixcord.follows = "nixpkgs";
     };
     spicetify = {
       url = "github:Gerg-L/spicetify-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
       inputs.systems.follows = "systems";
     };
     cpu-microcodes = {
@@ -106,24 +102,24 @@
     declarative-flatpak.url = "github:in-a-dil-emma/declarative-flatpak/latest";
     vicinae = {
       url = "github:vicinaehq/vicinae";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit cause only needed for vicinae-extensions
       inputs.systems.follows = "systems";
     };
     vicinae-extensions = {
       url = "github:vicinaehq/extensions";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
       inputs.vicinae.follows = "vicinae";
       inputs.systems.follows = "systems";
     };
     agenix = {
       url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
       inputs.systems.follows = "systems";
       inputs.home-manager.follows = "home-manager";
     };
     agenix-rekey = {
       url = "github:oddlama/agenix-rekey";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
       inputs.flake-parts.follows = "flake-parts";
       inputs.treefmt-nix.follows = "treefmt-nix";
       inputs.pre-commit-hooks.follows = "git-hooks";
