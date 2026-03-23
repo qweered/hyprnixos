@@ -1,4 +1,5 @@
 {
+  # vpn client
   programs.throne = {
     enable = true;
     tunMode = {

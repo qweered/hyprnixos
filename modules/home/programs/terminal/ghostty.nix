@@ -17,5 +17,4 @@
     [General]
     TerminalApplication=ghostty
   '';
-
 }

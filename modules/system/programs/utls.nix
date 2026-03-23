@@ -12,10 +12,11 @@
     uutils-tar
     uutils-hostname
     uutils-procps
-    (lib.lowPrio inetutils) # for ftp
+    # for ftp
+    (lib.lowPrio inetutils)
+    # various utils
     (lib.lowPrio (
       busybox.override {
-        # various utils
         # Prevent busybox from overriding system binaries (systemd, util-linux, shadow, etc.)
         extraConfig = lib.concatMapStrings (opt: "CONFIG_${opt} n\n") [
           "HALT"

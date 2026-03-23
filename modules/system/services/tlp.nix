@@ -1,5 +1,5 @@
 {
-  # Power management daemon with battery optimization (over power-profiles-daemon, auto-cpufreq)
+  # power management daemon with battery optimization (over power-profiles-daemon, auto-cpufreq)
   services = {
     tlp = {
       enable = true;
