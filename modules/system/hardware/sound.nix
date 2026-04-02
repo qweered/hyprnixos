@@ -13,7 +13,8 @@
       "12-bluetooth-ldac-hq" = {
         "monitor.bluez.rules" = [
           {
-            matches = [ { "device.name" = "~bluez_card.*"; } ];
+            # Set LDAC HQ for all BT devices except AN01 (lags with hq)
+            matches = [ { "device.name" = "~bluez_card.(?!D5_BB_C0_C8_A8_B7).*"; } ];
             actions.update-props = {
               "bluez5.a2dp.ldac.quality" = "hq";
             };
@@ -27,7 +28,6 @@
         "context.properties" = {
           "default.clock.rate" = 48000;
           "default.clock.allowed-rates" = [
-            44100
             48000
             96000
           ];
