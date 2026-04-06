@@ -10,7 +10,6 @@
       outputStyle = "Explanatory";
       enabledPlugins = {
         "frontend-design@claude-plugins-official" = true;
-        "github@claude-plugins-official" = true;
         "feature-dev@claude-plugins-official" = true;
         "code-simplifier@claude-plugins-official" = true;
         "typescript-lsp@claude-plugins-official" = true;
