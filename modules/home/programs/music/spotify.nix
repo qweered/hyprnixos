@@ -20,15 +20,14 @@ in
       wikify
       songStats
       betterGenres
-      lastfm
       beautifulLyrics
-      #      keyboardShortcut
-      #      popupLyrics
-      #      seekSong
-      #      skipStats
-      #      playlistIntersection
-      #      listPlaylistsWithSong
-      # oneko # cat on the screen
+      # lastfm - broken upstream
+      # keyboardShortcut
+      # popupLyrics
+      # seekSong
+      # skipStats
+      # playlistIntersection
+      # listPlaylistsWithSong
     ];
   };
 }
