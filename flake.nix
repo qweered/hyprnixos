@@ -15,6 +15,10 @@
       url = "https://github.com/NixOS/nixpkgs/pull/500492.diff";
       flake = false;
     };
+    nixpkgs-patch-code-cursor-linux-hash = {
+      url = "https://github.com/NixOS/nixpkgs/commit/0cebcf63f406f46b42b42f5e7e5eedf29cac24ad.diff";
+      flake = false;
+    };
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
       inputs.nix.inputs.flake-parts.follows = "flake-parts";
@@ -109,6 +113,7 @@
       url = "github:vicinaehq/extensions";
       inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
       inputs.vicinae.follows = "vicinae";
+      inputs.flake-compat.follows = "flake-compat";
       inputs.systems.follows = "systems";
     };
     agenix = {
