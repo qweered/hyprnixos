@@ -3,8 +3,12 @@
 {
   programs = {
     gh.enable = true;
-    mergiraf.enable = true;
     lazygit.enable = true;
+    mergiraf = {
+      enable = true;
+      enableGitIntegration = true;
+      enableJujutsuIntegration = true;
+    };
     difftastic = {
       enable = true;
       git = {
@@ -89,7 +93,6 @@
         log.decorate = "auto";
         log.follow = true;
         merge.autoStash = true;
-        # conflictStyle is automatically set by mergiraf
         merge.tool = "nvimdiff"; # keep nvimdiff for merges (difftastic is diff-only)
         merge.ff = "only"; # try to not crate merge commits
 
