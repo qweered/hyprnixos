@@ -41,24 +41,25 @@ in
     '';
 
     settings = {
-      auto-optimise-store = false; # optimized with nh instead, faster build
+      auto-optimise-store = false; # optimized with nh or determinate nix instead, faster build
+      accept-flake-config = true;
       allow-import-from-derivation = true; # for devenv
+      trace-import-from-derivation = true;
       builders-use-substitutes = true;
       flake-registry = "/etc/nix/registry.json";
       log-lines = 25;
-      # TODO: enable on determinate nix update
+
+      # Ambiguous relative path literals (e.g. foo/bar → prefer ./foo/bar). On Nix 2.34+ consider
+      # lint-short-path-literals / lint-url-literals / lint-absolute-path-literals = "warn" instead.
+      warn-short-path-literals = true;
+      # lint-absolute-path-literals = "fatal";
       # lint-url-literals = "fatal";
       # lint-short-path-literals = "fatal";
-      # lint-absolute-paths-literals = "fatal";
 
       # Switch substitutes on timeouts
       connect-timeout = 10;
       stalled-download-timeout = 10;
       fallback = true;
-
-      # Avoid disk full issues (unneeded with determinate nix)
-      # max-free = 3000 * 1024 * 1024; # 3GB
-      # min-free = 1024 * 1024 * 1024; # 1GB
 
       experimental-features = [
         "nix-command" # for non-determinate nix
@@ -66,8 +67,6 @@ in
         "ca-derivations"
         "local-overlay-store"
       ];
-      eval-cores = "0";
-      lazy-trees = true;
 
       trusted-users = [ "@wheel" ];
 
