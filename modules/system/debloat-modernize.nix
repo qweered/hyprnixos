@@ -4,15 +4,11 @@
   # Perlless https://github.com/NixOS/nixpkgs/blob/0260f927b7c1578b5c7cdefd7db7b660565cd362/nixos/modules/profiles/perlless.nix
   system.disableInstallerTools = true; # remove generate, install, enter, option, version, build-vms, firewall
   system.tools.nixos-rebuild.enable = true; # but keep rebuild
-  programs.nano.enable = false;
-  services.speechd.enable = false; # NOTE: untested, may break things
 
-  # https://blog.nsrun.io/2026/01/15/systemd-vsock-openssh-server
-  systemd.generators.systemd-ssh-generator = "/dev/null";
-  systemd.sockets.sshd-unix-local.enable = lib.mkForce false;
-  systemd.sockets.sshd-vsock.enable = lib.mkForce false;
-
+  # Remove unnecessary packages
   environment.defaultPackages = lib.mkForce [ ];
+  programs.nano.enable = false;
+  services.speechd.enable = false;
 
   documentation = {
     doc.enable = false;
