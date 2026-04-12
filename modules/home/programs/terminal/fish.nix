@@ -37,7 +37,7 @@ in
         "...." = "cd ../../..";
         "....." = "cd ../../../..";
 
-        claude = "claude --dangerously-skip-permissions";
+        claude = "claude --enable-auto-mode";
         ff = "fastfetch";
         df = "duf";
         du = "gdu";

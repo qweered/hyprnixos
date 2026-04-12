@@ -8,7 +8,11 @@
     settings = {
       skipDangerousModePermissionPrompt = true;
       outputStyle = "Explanatory";
+      env = {
+        CLAUDE_CODE_NO_FLICKER = "1";
+      };
       enabledPlugins = {
+        "expo@expo-plugins" = true;
         "frontend-design@claude-plugins-official" = true;
         "feature-dev@claude-plugins-official" = true;
         "code-simplifier@claude-plugins-official" = true;
