@@ -37,7 +37,6 @@ in
         "...." = "cd ../../..";
         "....." = "cd ../../../..";
 
-        claude = "claude --enable-auto-mode";
         ff = "fastfetch";
         df = "duf";
         du = "gdu";

@@ -6,6 +6,7 @@
       search-code = ./skills/search-code.md;
     };
     settings = {
+      effortLevel = "xhigh";
       skipDangerousModePermissionPrompt = true;
       outputStyle = "Explanatory";
       env = {
