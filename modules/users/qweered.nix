@@ -31,7 +31,7 @@ in
     useGlobalPkgs = true;
     useUserPackages = true;
     backupFileExtension = "backup";
-    users."${vars.username}".imports = inputs.self.moduleTree.home { programs.hacking = false; };
+    users."${vars.username}".imports = (inputs.import-tree.matchNot ".*/hacking/.*" ../home).imports;
   };
 
   users = {

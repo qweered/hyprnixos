@@ -15,13 +15,7 @@ in
       inherit inputs;
       enableTroubleshootingShell = false;
     };
-    modules = inputs.self.moduleTree {
-      users.qweered = true;
-      hosts.hyprnix = true;
-      unused = false;
-      home = false; # loaded by user
-      flake-parts = false; # loaded by flake.nix
-    };
+    modules = (inputs.import-tree.matchNot ".*/(home|flake-parts)/.*" ./..).imports;
   };
 
   # expose options for nixd

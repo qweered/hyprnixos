@@ -15,10 +15,6 @@
       url = "https://github.com/NixOS/nixpkgs/pull/500492.diff";
       flake = false;
     };
-    nixpkgs-patch-code-cursor-linux-hash = {
-      url = "https://github.com/NixOS/nixpkgs/commit/0cebcf63f406f46b42b42f5e7e5eedf29cac24ad.diff";
-      flake = false;
-    };
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
       inputs.nix.inputs.flake-parts.follows = "flake-parts";
@@ -64,11 +60,9 @@
       inputs.blueprint.follows = "blueprint";
       inputs.systems.follows = "systems";
       inputs.flake-parts.follows = "flake-parts";
+      inputs.bun2nix.inputs.import-tree.follows = "import-tree";
     };
-    nfh = {
-      url = "github:name-snrl/nfh";
-      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
-    };
+    import-tree.url = "github:vic/import-tree";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
@@ -132,15 +126,9 @@
   };
 
   outputs =
-    inputs@{
-      nfh,
-      nixpkgs,
-      flake-parts,
-      ...
-    }:
-    flake-parts.lib.mkFlake { inherit inputs; } rec {
-      flake.moduleTree = nfh ./modules;
-      imports = flake.moduleTree.flake-parts { };
+    inputs@{ nixpkgs, flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [ ./modules/flake-parts ];
       systems = nixpkgs.lib.systems.flakeExposed;
     };
 }
