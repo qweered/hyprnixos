@@ -5,12 +5,8 @@
     # nixpkgs-local-testing.url = "git+file:///home/qweered/Projects/nixpkgs";
     # nixpkgs-structurred.url = "github:SFrijters/nixpkgs/structuredattrs-prs-stacked-staging-2026-01-30";
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz"; # Smaller then github tarball, less api hits
+    nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"; # Smaller then github tarball, less api hits
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
-    nixpkgs-patch-sddm-astronaut-update = {
-      url = "https://github.com/NixOS/nixpkgs/pull/492325.diff";
-      flake = false;
-    };
     nixpkgs-patch-vite-plus-init = {
       url = "https://github.com/NixOS/nixpkgs/pull/500492.diff";
       flake = false;
@@ -23,7 +19,7 @@
 
     # global inputs, other will follow them
     lib.url = "github:nix-community/nixpkgs.lib";
-    systems.url = "github:nix-systems/default";
+    systems.url = "github:nix-systems/triplet";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "lib";
