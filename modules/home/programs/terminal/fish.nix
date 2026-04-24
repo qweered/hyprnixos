@@ -9,9 +9,11 @@ let
 in
 {
   home.packages = with pkgs; [
-    grc
-    fishPlugins.grc
+    fishPlugins.fish-you-should-use
+    fishPlugins.fishbang
+    fishPlugins.autopair
   ];
+
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
