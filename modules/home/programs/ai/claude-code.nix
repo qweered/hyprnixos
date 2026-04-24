@@ -8,7 +8,11 @@
     settings = {
       effortLevel = "xhigh";
       skipDangerousModePermissionPrompt = true;
+      skipAutoPermissionPrompt = true;
       outputStyle = "Explanatory";
+      permissions = {
+        defaultMode = "auto";
+      };
       env = {
         CLAUDE_CODE_NO_FLICKER = "1";
       };
