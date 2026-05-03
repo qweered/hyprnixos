@@ -8,7 +8,6 @@
     inherit (vars) username stateVersion homeDirectory;
     sessionVariables = {
       NIXPKGS_ALLOW_UNFREE = "1"; # for nix shell, nix run https://github.com/NixOS/nix/issues/9875
-      EDITOR = "${vars.editor}";
       BROWSER = "${vars.browser}";
       QT_QPA_PLATFORMTHEME = "qt6ct";
       NIXOS_OZONE_WL = "1"; # use wayland in electron packages

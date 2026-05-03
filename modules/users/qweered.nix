@@ -16,7 +16,6 @@ let
     flakeDirectory = "/home/${username}/hyprnixos";
     description = "The only and the greatest admin";
     browser = "vivaldi";
-    editor = "nvim";
   };
 in
 

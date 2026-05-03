@@ -53,7 +53,6 @@
         user.name = "Aliaksandr";
         user.email = "grubian2@gmail.com";
         github.user = "qweered";
-        core.editor = "nvim";
         feature.experimental = true;
         credential.helper = "libsecret";
 
@@ -86,6 +85,7 @@
         diff.mnemonicPrefix = true;
         diff.renames = "copies";
         difftool.prompt = false;
+        core.pager = "bat"; # use bat as pager
         pager.difftool = true;
         fetch.all = "false"; # fetch manually instead
         init.defaultBranch = "main";
