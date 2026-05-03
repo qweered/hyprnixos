@@ -7,10 +7,10 @@
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"; # Smaller then github tarball, less api hits
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
-    nixpkgs-patch-vite-plus-init = {
-      url = "https://github.com/NixOS/nixpkgs/pull/500492.diff";
-      flake = false;
-    };
+    #nixpkgs-patch-vite-plus-init = {
+    #  url = "https://github.com/NixOS/nixpkgs/pull/500492.diff";
+    #  flake = false;
+    #};
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
       inputs.nix.inputs.flake-parts.follows = "flake-parts";
@@ -49,6 +49,13 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs"; # important
     };
+    nvf = {
+      url = "github:notashelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.flake-compat.follows = "flake-compat";
+    };
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs"; # rarely misses cache
@@ -56,7 +63,6 @@
       inputs.blueprint.follows = "blueprint";
       inputs.systems.follows = "systems";
       inputs.flake-parts.follows = "flake-parts";
-      inputs.bun2nix.inputs.import-tree.follows = "import-tree";
     };
     import-tree.url = "github:vic/import-tree";
     treefmt-nix = {
