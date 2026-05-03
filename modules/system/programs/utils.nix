@@ -4,14 +4,15 @@
   environment.systemPackages = with pkgs; [
     # TODO: replace ancient utils systemwide in nixpkgs
     uutils-coreutils-noprefix
-    uutils-findutils
-    uutils-diffutils
-    uutils-util-linux
-    uutils-login
-    uutils-sed
-    uutils-tar
-    uutils-hostname
-    uutils-procps
+    # TODO: enable once stable enough
+    #uutils-diffutils
+    #uutils-findutils
+    #uutils-util-linux
+    #uutils-login
+    #uutils-sed
+    #uutils-tar
+    #uutils-hostname
+    #uutils-procps
     # for ftp
     (lib.lowPrio inetutils)
     # various utils
