@@ -49,12 +49,14 @@ in
       flake-registry = "/etc/nix/registry.json";
       log-lines = 25;
 
-      # Ambiguous relative path literals (e.g. foo/bar → prefer ./foo/bar). On Nix 2.34+ consider
-      # lint-short-path-literals / lint-url-literals / lint-absolute-path-literals = "warn" instead.
-      warn-short-path-literals = true;
-      # lint-absolute-path-literals = "fatal";
-      # lint-url-literals = "fatal";
-      # lint-short-path-literals = "fatal";
+      lint-absolute-path-literals = "warn";
+      lint-url-literals = "warn";
+      lint-short-path-literals = "warn";
+
+      # Avoid system full issues
+      # FIXME: run determininate garbage collector instead, does not work by default
+      max-free = 5000 * 1024 * 1024; # 5GB
+      min-free = 1024 * 1024 * 1024; # 1GB
 
       # Switch substitutes on timeouts
       connect-timeout = 10;
