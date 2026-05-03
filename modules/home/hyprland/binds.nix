@@ -16,6 +16,18 @@ let
       --output-filename ~/Pictures/Screenshots/Screenshot_$(date +"%Y%m%d_%H%M%S").png \
       --init-tool brush --copy-command wl-copy
   '';
+  toggleShader = pkgs.writeShellScript "toggle-shader" ''
+    STATE="''${XDG_RUNTIME_DIR:-/tmp}/hypr-shader-on"
+    if [[ -f "$STATE" ]]; then
+      hyprctl keyword decoration:screen_shader '[[EMPTY]]'
+      rm "$STATE"
+      hyprctl notify -1 1200 0 "shader: off"
+    else
+      hyprctl keyword decoration:screen_shader "${./shadow-lift.frag}"
+      touch "$STATE"
+      hyprctl notify -1 1200 0 "shader: on"
+    fi
+  '';
 in
 {
   wayland.windowManager.hyprland.settings = {
@@ -70,6 +82,7 @@ in
         "SUPER, SPACE, exec, ${launcher}"
         "SUPER, Print, exec, ${screenshot}"
         "SUPER, W, exec, ${toggle "activate-linux -d"}"
+        "SUPER, F12, exec, ${toggleShader}"
 
         "ALT, Tab, focuscurrentorlast"
         "SUPER_ALT, Tab, bringactivetotop"

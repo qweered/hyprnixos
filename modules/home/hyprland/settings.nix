@@ -30,8 +30,10 @@
       };
 
       render = {
-        direct_scanout = 1;
-        # damages my screen on high load
+        # 0 off, 1 always, 2 only when a fullscreen video surface is on top.
+        # 2 keeps the screen_shader applied to most fullscreen apps but
+        # bypasses for actual video, matching mpv/browser hardware planes.
+        direct_scanout = 2;
         new_render_scheduling = true; # triple buffering
       };
 
