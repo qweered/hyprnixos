@@ -49,7 +49,7 @@ in
       flake-registry = "/etc/nix/registry.json";
       log-lines = 25;
 
-      lint-absolute-path-literals = "warn";
+      # lint-absolute-path-literals = "warn";
       lint-url-literals = "warn";
       lint-short-path-literals = "warn";
 
