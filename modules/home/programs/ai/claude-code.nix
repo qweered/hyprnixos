@@ -26,8 +26,8 @@
         "security-guidance@claude-plugins-official" = true;
       };
       attribution = {
-        commit = "";
-        pr = "";
+        commit = "Assisted-by: claude-code with Opus 4.7 xhigh";
+        pr = "Assisted-by: claude-code with Opus 4.7 xhigh";
       };
     };
   };
