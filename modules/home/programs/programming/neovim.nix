@@ -105,7 +105,6 @@
         };
       };
 
-      treesitter.context.enable = true;
       treesitter.textobjects.enable = true;
 
       mini.ai.enable = true;
@@ -263,7 +262,7 @@
               }
             ];
           };
-          indent.enabled = true;
+          indent.enabled = false;
           input.enabled = true;
           lazygit.enabled = true;
           picker.enabled = true;
@@ -272,7 +271,7 @@
             timeout = 3000;
           };
           quickfile.enabled = true;
-          scope.enabled = true;
+          scope.enabled = false;
           scratch.enabled = true;
           statuscolumn.enabled = true;
           terminal.enabled = true;
