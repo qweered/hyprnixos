@@ -14,6 +14,11 @@
         resize_on_border = true;
       };
 
+      ecosystem = {
+        no_donation_nag = true;
+        no_update_news = true;
+      };
+
       # group = {
       #  groupbar = { };
       # };
@@ -24,7 +29,7 @@
         key_press_enables_dpms = true;
         animate_manual_resizes = true;
         animate_mouse_windowdragging = true;
-        render_unfocused_fps = 10;
+        render_unfocused_fps = 5;
         disable_hyprland_logo = true; # no default wallpaper
         disable_splash_rendering = true; # no funny text from vaxry
       };
