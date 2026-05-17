@@ -1,7 +1,21 @@
+{ pkgs, ... }:
+let
+  fastfetch = pkgs.fastfetch.override {
+    enlightenmentSupport = false;
+    flashfetchSupport = false;
+    gnomeSupport = false;
+    openclSupport = false;
+    rpmSupport = false;
+    sqliteSupport = false;
+    x11Support = false;
+    xfceSupport = false;
+  };
+in
 {
   # CONFIG
   programs.fastfetch = {
     enable = true;
+    package = fastfetch;
     settings = {
       modules = [
         "title"
