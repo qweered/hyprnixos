@@ -8,8 +8,18 @@
       features = {
         fast_mode = true;
         memories = true;
+        mentions_v2 = true;
         goals = true;
       };
+      tui.status_line = [
+        "model-with-reasoning"
+        "project-name"
+        "git-branch"
+        "context-used"
+        "context-remaining"
+        "total-input-tokens"
+        "total-output-tokens"
+      ];
     };
   };
 }
