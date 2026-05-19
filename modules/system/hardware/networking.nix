@@ -26,6 +26,7 @@ in
     firewall.enable = false; # CONFIG
     networkmanager = {
       enable = true;
+      dns = "systemd-resolved";
       wifi.powersave = true;
       plugins = with pkgs; [ networkmanager-openvpn ];
       # for captive portals but don't work it seems
