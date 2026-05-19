@@ -27,7 +27,7 @@ in
     networkmanager = {
       enable = true;
       dns = "systemd-resolved";
-      wifi.powersave = true;
+      wifi.powersave = false;
       plugins = with pkgs; [ networkmanager-openvpn ];
       # for captive portals but don't work it seems
       # contribute to nixpkgs https://wiki.archlinux.org/title/NetworkManager#Checking_connectivity
@@ -59,9 +59,26 @@ in
   services.resolved = {
     enable = true;
     settings = {
-      Resolve.DNSOverTLS = "opportunistic";
-      Resolve.DNSSEC = "allow-downgrade";
-      Resolve.FallbackDNS = nameservers;
+      Resolve = {
+        Cache = true;
+        DNS = nameservers;
+        DNSOverTLS = "opportunistic";
+        DNSSEC = "allow-downgrade";
+        Domains = [ "~." ];
+        FallbackDNS = nameservers;
+      };
     };
+  };
+
+  boot.kernelModules = [ "tcp_bbr" ];
+  boot.extraModprobeConfig = ''
+    options rtw88_core disable_lps_deep=Y
+  '';
+  boot.kernel.sysctl = {
+    "net.core.default_qdisc" = "fq";
+    "net.ipv4.tcp_congestion_control" = "bbr";
+    "net.ipv4.tcp_fastopen" = 3;
+    "net.ipv4.tcp_mtu_probing" = 1;
+    "net.ipv4.tcp_slow_start_after_idle" = 0;
   };
 }

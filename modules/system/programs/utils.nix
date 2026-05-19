@@ -15,6 +15,7 @@
     #uutils-procps
     # for ftp
     (lib.lowPrio inetutils)
+    iw
     # various utils
     (lib.lowPrio (
       busybox.override {
