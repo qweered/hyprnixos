@@ -26,8 +26,7 @@ in
     firewall.enable = false; # CONFIG
     networkmanager = {
       enable = true;
-      dns = "systemd-resolved";
-      wifi.powersave = false;
+      wifi.powersave = true;
       plugins = with pkgs; [ networkmanager-openvpn ];
       # for captive portals but don't work it seems
       # contribute to nixpkgs https://wiki.archlinux.org/title/NetworkManager#Checking_connectivity
@@ -71,9 +70,6 @@ in
   };
 
   boot.kernelModules = [ "tcp_bbr" ];
-  boot.extraModprobeConfig = ''
-    options rtw88_core disable_lps_deep=Y
-  '';
   boot.kernel.sysctl = {
     "net.core.default_qdisc" = "fq";
     "net.ipv4.tcp_congestion_control" = "bbr";
