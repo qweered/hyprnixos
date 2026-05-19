@@ -2,14 +2,13 @@
   lib,
   inputs,
   config,
+  pkgs,
   ...
 }:
 let
   flakeInputs = lib.filterAttrs (_: v: lib.isType "flake" v) inputs;
 in
 {
-  imports = [ inputs.determinate.nixosModules.default ];
-
   nixpkgs.config = {
     allowUnfree = true;
     allowAliases = false;
@@ -27,6 +26,7 @@ in
   };
 
   nix = {
+    package = inputs.determinate.packages.${pkgs.stdenv.hostPlatform.system}.default;
     channel.enable = false;
 
     # improve desktop responsiveness when updating the system
@@ -62,6 +62,9 @@ in
       connect-timeout = 10;
       stalled-download-timeout = 10;
       fallback = true;
+
+      lazy-trees = true;
+      eval-cores = 0;
 
       experimental-features = [
         "nix-command" # for non-determinate nix

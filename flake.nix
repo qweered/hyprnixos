@@ -12,9 +12,9 @@
     #  flake = false;
     #};
     determinate = {
-      url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-      inputs.nix.inputs.flake-parts.follows = "flake-parts";
-      inputs.nix.inputs.git-hooks-nix.follows = "git-hooks";
+      url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.git-hooks-nix.follows = "git-hooks";
     };
 
     # global inputs, other will follow them
