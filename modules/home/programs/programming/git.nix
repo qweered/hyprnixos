@@ -219,6 +219,7 @@
 
           wl = "worktree list";
           wr = "worktree remove";
+          wp = "worktree prune";
 
           # delete local merged branches, excluding protected/current branch
           cleanup-merged = "!f() { cur=$(git branch --show-current); git branch --format='%(refname:short)' --merged | while read -r b; do case \"$b\" in ''|main|master|develop|stable|\"$cur\") continue ;; esac; git branch -D \"$b\"; done; }; f";
