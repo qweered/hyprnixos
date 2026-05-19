@@ -24,8 +24,12 @@ in
       nixpkgs-review = prev.nixpkgs-review.override { nix = config.nix.package; };
       nix-update = prev.nix-update.override { nix = config.nix.package; };
       nix-direnv = prev.nix-direnv.override { nix = config.nix.package; };
-      inherit (llm-agents) opencode claude-code kilocode-cli;
-      codex = llm-agents.code; # community fork
+      inherit (llm-agents)
+        opencode
+        claude-code
+        kilocode-cli
+        codex
+        ;
       amp-cli = llm-agents.amp;
     })
   ];
