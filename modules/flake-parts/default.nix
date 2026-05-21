@@ -4,7 +4,6 @@ let
 in
 {
   imports = with inputs; [
-    treefmt-nix.flakeModule
     git-hooks.flakeModule
     agenix-rekey.flakeModule
   ];
@@ -27,7 +26,6 @@ in
       devShells.default = pkgs.mkShell {
         name = "hyprnixos";
         nativeBuildInputs = [ config.agenix-rekey.package ];
-        env.PREK_QUIET = "1";
         shellHook = ''
           ${config.pre-commit.shellHook}
         '';
@@ -36,22 +34,30 @@ in
       pre-commit.settings = {
         excludes = [ "flake.lock" ];
         package = pkgs.prek;
-        hooks.treefmt.enable = true;
-      };
-
-      treefmt = {
-        projectRootFile = "TODO.md";
-        programs = {
+        # TODO: keep-sorted, nixf-diagnose
+        hooks = {
+          deadnix = {
+            enable = true;
+            priority = 0;
+            settings.edit = true;
+          };
           nixfmt = {
             enable = true;
-            strict = true;
-            width = 140;
+            entry = "${pkgs.lib.getExe pkgs.nixfmt} --width=140 --strict";
+            priority = 2;
           };
-          statix.enable = true;
-          deadnix.enable = true;
-          shellcheck.enable = true;
-          # keep-sorted.enable = true; CONFIG
-          # nixf-diagnose.enable = true; CONFIG
+          shellcheck = {
+            enable = true;
+            files = "(\\.sh|\\.bash|\\.envrc(\\..*)?|(^|/)\\.envrc)$";
+            priority = 0;
+            types = [ "file" ];
+          };
+          statix = {
+            enable = true;
+            pass_filenames = true;
+            priority = 1;
+            settings.config = ".";
+          };
         };
       };
     };

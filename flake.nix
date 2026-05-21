@@ -13,8 +13,10 @@
     #};
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.git-hooks-nix.follows = "git-hooks";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        git-hooks-nix.follows = "git-hooks";
+      };
     };
 
     # global inputs, other will follow them
@@ -28,22 +30,32 @@
       url = "github:NixOS/flake-compat";
     };
     blueprint = {
+      # only for llm-agents
       url = "github:numtide/blueprint";
-      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
-      inputs.systems.follows = "systems";
+      inputs = {
+        nixpkgs.follows = "nixpkgs"; # does not need cache hit
+        systems.follows = "systems";
+      };
     };
     gitignore = {
-      # needed for pre-commit
+      # only for git-hooks
       url = "github:hercules-ci/gitignore.nix";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
+    };
+    treefmt-nix = {
+      # only for llm-agents
+      url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
     };
 
     # other inputs
     nix-cachyos-kernel = {
       url = "github:xddxdd/nix-cachyos-kernel/release";
-      inputs.flake-compat.follows = "flake-compat";
-      inputs.flake-parts.follows = "flake-parts";
-      # inputs.nixpkgs.follows = "nixpkgs"; # do not override, painful cache misses
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        flake-parts.follows = "flake-parts";
+        # nixpkgs.follows = "nixpkgs"; # do not override, painful cache misses
+      };
     };
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -51,29 +63,32 @@
     };
     nvf = {
       url = "github:notashelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.systems.follows = "systems";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.flake-compat.follows = "flake-compat";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+        flake-parts.follows = "flake-parts";
+        flake-compat.follows = "flake-compat";
+      };
     };
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
-      inputs.nixpkgs.follows = "nixpkgs"; # rarely misses cache
-      inputs.treefmt-nix.follows = "treefmt-nix";
-      inputs.blueprint.follows = "blueprint";
-      inputs.systems.follows = "systems";
-      inputs.flake-parts.follows = "flake-parts";
+      inputs = {
+        nixpkgs.follows = "nixpkgs"; # rarely misses cache
+        treefmt-nix.follows = "treefmt-nix";
+        blueprint.follows = "blueprint";
+        systems.follows = "systems";
+        flake-parts.follows = "flake-parts";
+      };
     };
     import-tree.url = "github:vic/import-tree";
-    treefmt-nix = {
-      url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
-    };
+
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
-      inputs.flake-compat.follows = "flake-compat";
-      inputs.gitignore.follows = "gitignore";
-      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        gitignore.follows = "gitignore";
+        nixpkgs.follows = "nixpkgs"; # does not need cache hit
+      };
     };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -81,15 +96,19 @@
     };
     nixcord = {
       url = "github:kaylorben/nixcord";
-      inputs.flake-compat.follows = "flake-compat";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
-      inputs.nixpkgs-nixcord.follows = "nixpkgs";
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs"; # does not need cache hit
+        nixpkgs-nixcord.follows = "nixpkgs";
+      };
     };
     spicetify = {
       url = "github:Gerg-L/spicetify-nix";
-      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
-      inputs.systems.follows = "systems";
+      inputs = {
+        nixpkgs.follows = "nixpkgs"; # does not need cache hit
+        systems.follows = "systems";
+      };
     };
     cpu-microcodes = {
       url = "github:platomav/CPUMicrocodes";
@@ -102,28 +121,36 @@
     declarative-flatpak.url = "github:in-a-dil-emma/declarative-flatpak/latest";
     vicinae = {
       url = "github:vicinaehq/vicinae";
-      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit cause only needed for vicinae-extensions
-      inputs.systems.follows = "systems";
+      inputs = {
+        nixpkgs.follows = "nixpkgs"; # does not need cache hit cause only needed for vicinae-extensions
+        systems.follows = "systems";
+      };
     };
     vicinae-extensions = {
       url = "github:vicinaehq/extensions";
-      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
-      inputs.vicinae.follows = "vicinae";
-      inputs.flake-compat.follows = "flake-compat";
-      inputs.systems.follows = "systems";
+      inputs = {
+        nixpkgs.follows = "nixpkgs"; # does not need cache hit
+        vicinae.follows = "vicinae";
+        flake-compat.follows = "flake-compat";
+        systems.follows = "systems";
+      };
     };
     agenix = {
       url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
-      inputs.systems.follows = "systems";
-      inputs.home-manager.follows = "home-manager";
+      inputs = {
+        nixpkgs.follows = "nixpkgs"; # does not need cache hit
+        systems.follows = "systems";
+        home-manager.follows = "home-manager";
+      };
     };
     agenix-rekey = {
       url = "github:oddlama/agenix-rekey";
-      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.treefmt-nix.follows = "treefmt-nix";
-      inputs.pre-commit-hooks.follows = "git-hooks";
+      inputs = {
+        nixpkgs.follows = "nixpkgs"; # does not need cache hit
+        flake-parts.follows = "flake-parts";
+        treefmt-nix.follows = "treefmt-nix";
+        pre-commit-hooks.follows = "git-hooks";
+      };
     };
   };
 
