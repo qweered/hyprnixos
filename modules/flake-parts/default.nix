@@ -21,7 +21,12 @@ in
   debug = true;
 
   perSystem =
-    { pkgs, config, ... }:
+    {
+      lib,
+      pkgs,
+      config,
+      ...
+    }:
     {
       devShells.default = pkgs.mkShell {
         name = "hyprnixos";
@@ -38,12 +43,15 @@ in
         hooks = {
           deadnix = {
             enable = true;
+            files = "\\.nix$";
             priority = 0;
             settings.edit = true;
           };
-          nixfmt = {
+          nixfmt-rs = {
             enable = true;
-            entry = "${pkgs.lib.getExe pkgs.nixfmt} --width=140 --strict";
+            entry = "${lib.getExe pkgs.nixfmt-rs} --width=140 --strict";
+            files = "\\.nix$";
+            package = pkgs.nixfmt-rs;
             priority = 2;
           };
           shellcheck = {
@@ -54,6 +62,7 @@ in
           };
           statix = {
             enable = true;
+            files = "\\.nix$";
             priority = 1;
             settings.config = ".";
           };
