@@ -43,7 +43,7 @@
       inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
     };
     treefmt-nix = {
-      # only for llm-agents
+      # only for llm-agents and agenix-rekey
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
     };

@@ -17,6 +17,9 @@
 
       opts = {
         expandtab = true;
+        tabstop = 2;
+        shiftwidth = 2;
+        softtabstop = 2;
         shada = "!,'100,<50,s10,h";
         foldcolumn = "1";
         foldlevel = 99;
@@ -108,6 +111,7 @@
       };
 
       treesitter.textobjects.enable = true;
+      visuals.rainbow-delimiters.enable = true;
 
       mini.ai.enable = true;
       ui.nvim-ufo.enable = true;
