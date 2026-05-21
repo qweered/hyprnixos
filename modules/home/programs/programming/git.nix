@@ -68,33 +68,41 @@
         };
 
         # Auto prune # TODO: slow for eg nixpkgs
-        fetch.prune = true;
-        fetch.pruneTags = true;
+        fetch = {
+          prune = true;
+          pruneTags = true;
+          writeCommitGraph = true;
+          parallel = 0; # use all available cores
+          all = "false"; # fetch manually instead
+        };
         remote.origin.prune = true;
 
         # Performance
         core.fsmonitor = true; # will benefit when support linux
         feature.manyFiles = true;
-        fetch.writeCommitGraph = true;
-        fetch.parallel = 0; # use all available cores
 
         checkout.defaultRemote = "origin";
         color.ui = "auto"; # always breaks some aliases
         column.ui = "auto";
-        diff.algorithm = "histogram";
-        diff.mnemonicPrefix = true;
-        diff.renames = "copies";
+        diff = {
+          algorithm = "histogram";
+          mnemonicPrefix = true;
+          renames = "copies";
+        };
         difftool.prompt = false;
         core.pager = "bat"; # use bat as pager
         pager.difftool = true;
-        fetch.all = "false"; # fetch manually instead
         init.defaultBranch = "main";
-        log.date = "relative";
-        log.decorate = "auto";
-        log.follow = true;
-        merge.autoStash = true;
-        merge.tool = "nvimdiff"; # keep nvimdiff for merges (difftastic is diff-only)
-        merge.ff = "only"; # try to not crate merge commits
+        log = {
+          date = "relative";
+          decorate = "auto";
+          follow = true;
+        };
+        merge = {
+          autoStash = true;
+          tool = "nvimdiff"; # keep nvimdiff for merges (difftastic is diff-only)
+          ff = "only"; # try to not crate merge commits
+        };
 
         advice = {
           skippedCherryPicks = "false";
@@ -128,9 +136,11 @@
         pull.rebase = true;
 
         # Rebase settings
-        rebase.autoStash = true;
-        rebase.autoSquash = true;
-        rebase.updateRefs = true;
+        rebase = {
+          autoStash = true;
+          autoSquash = true;
+          updateRefs = true;
+        };
 
         # Rerere settings
         rerere.enable = true;

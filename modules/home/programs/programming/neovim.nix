@@ -15,12 +15,14 @@
       enableLuaLoader = true;
       debugMode.enable = false;
 
-      opts.expandtab = true;
-      opts.shada = "!,'100,<50,s10,h";
-      opts.foldcolumn = "1";
-      opts.foldlevel = 99;
-      opts.foldlevelstart = 99;
-      opts.foldenable = true;
+      opts = {
+        expandtab = true;
+        shada = "!,'100,<50,s10,h";
+        foldcolumn = "1";
+        foldlevel = 99;
+        foldlevelstart = 99;
+        foldenable = true;
+      };
 
       autocomplete = {
         enableSharedCmpSources = true;
@@ -117,14 +119,19 @@
         none = "<leader>gx0";
       };
 
-      utility.smart-splits = {
-        enable = true;
-        keymaps = {
-          resize_left = "<C-Left>";
-          resize_down = "<C-Down>";
-          resize_up = "<C-Up>";
-          resize_right = "<C-Right>";
+      utility = {
+        smart-splits = {
+          enable = true;
+          keymaps = {
+            resize_left = "<C-Left>";
+            resize_down = "<C-Down>";
+            resize_up = "<C-Up>";
+            resize_right = "<C-Right>";
+          };
         };
+        surround.enable = true;
+        motion.flash-nvim.enable = true;
+        yanky-nvim.enable = true;
       };
 
       tabline.nvimBufferline = {
@@ -174,9 +181,6 @@
       };
 
       statusline.lualine.enable = true;
-      utility.surround.enable = true;
-      utility.motion.flash-nvim.enable = true;
-      utility.yanky-nvim.enable = true;
 
       ui.noice = {
         enable = true;

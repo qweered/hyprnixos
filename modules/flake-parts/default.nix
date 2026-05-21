@@ -54,7 +54,6 @@ in
           };
           statix = {
             enable = true;
-            pass_filenames = true;
             priority = 1;
             settings.config = ".";
           };

@@ -2,8 +2,14 @@
 
 {
   boot = {
-    loader.systemd-boot.enable = true;
-    loader.efi.canTouchEfiVariables = true;
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+
+      # Hide the OS choice in the bootloader menu
+      # It's still possible to open the bootloader list by pressing any key
+      timeout = 0;
+    };
     tmp.cleanOnBoot = true;
 
     # NOTE: Not feature-complete yet https://blog.decent.id/post/nixos-systemd-initrd/
@@ -35,9 +41,5 @@
       "clocksource=tsc" # always tsc even it may be not reliable
       "tsc=reliable"
     ];
-
-    # Hide the OS choice in the bootloader menu
-    # It's still possible to open the bootloader list by pressing any key
-    loader.timeout = 0;
   };
 }

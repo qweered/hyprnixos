@@ -2,14 +2,17 @@
 
 {
   imports = [ inputs.stylix.homeModules.stylix ];
-  stylix.enable = true;
-  stylix.image = ../../../wallpapers/Anime-Girl4.png;
-  stylix.overlays.enable = false;
 
-  stylix.cursor = {
-    name = "Bibata-Modern-Ice";
-    package = pkgs.bibata-cursors;
-    size = 24;
+  stylix = {
+    enable = true;
+    image = ../../../wallpapers/Anime-Girl4.png;
+    overlays.enable = false;
+
+    cursor = {
+      name = "Bibata-Modern-Ice";
+      package = pkgs.bibata-cursors;
+      size = 24;
+    };
   };
 
   /*
