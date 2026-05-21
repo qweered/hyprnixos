@@ -1,3 +1,8 @@
+{ config, ... }:
+let
+  claudeCfg = config.programs.claude-code.settings;
+  attributionTrail = "Assisted-by: claude-code with ${claudeCfg.model}-${claudeCfg.effortLevel}";
+in
 {
   programs.claude-code = {
     enable = true;
@@ -6,6 +11,7 @@
       search-code = ./skills/search-code.md;
     };
     settings = {
+      model = "claude-opus-4-7[1m]";
       effortLevel = "xhigh";
       skipDangerousModePermissionPrompt = true;
       skipAutoPermissionPrompt = true;
@@ -26,8 +32,8 @@
         "security-guidance@claude-plugins-official" = true;
       };
       attribution = {
-        commit = "Assisted-by: claude-code with Opus 4.7 xhigh";
-        pr = "Assisted-by: claude-code with Opus 4.7 xhigh";
+        commit = attributionTrail;
+        pr = attributionTrail;
       };
     };
   };
