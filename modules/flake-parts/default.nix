@@ -27,6 +27,7 @@ in
       devShells.default = pkgs.mkShell {
         name = "hyprnixos";
         nativeBuildInputs = [ config.agenix-rekey.package ];
+        env.PREK_QUIET = "1";
         shellHook = ''
           ${config.pre-commit.shellHook}
         '';
@@ -34,6 +35,7 @@ in
 
       pre-commit.settings = {
         excludes = [ "flake.lock" ];
+        package = pkgs.prek;
         hooks.treefmt.enable = true;
       };
 
