@@ -45,7 +45,7 @@
 
       input = {
         kb_layout = "canary,rus_canary";
-        kb_options = "grp:alt_shift_toggle";
+        kb_options = "grp:alt_shift_toggle,lv3:ralt_switch";
         repeat_rate = 30;
         repeat_delay = 300;
         follow_mouse = 1;

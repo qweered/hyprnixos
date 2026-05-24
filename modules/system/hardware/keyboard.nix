@@ -68,7 +68,7 @@ let
           key <AC05> {[ Cyrillic_be, Cyrillic_BE ]};         // b -> б
           key <AC06> {[ Cyrillic_ef, Cyrillic_EF ]};         // f -> ф
           key <AC07> {[ Cyrillic_en, Cyrillic_EN ]};         // n -> н
-          key <AC08> {[ Cyrillic_ie, Cyrillic_IE, Cyrillic_yo, Cyrillic_YO ]}; // e -> е, ё
+          key <AC08> {[ Cyrillic_ie, Cyrillic_IE, Cyrillic_io, Cyrillic_IO ]}; // e -> е, ё
           key <AC09> {[ Cyrillic_i, Cyrillic_I ]};           // i -> и
           key <AC10> {[ Cyrillic_a, Cyrillic_A ]};           // a -> а
           key <AC11> {[ Cyrillic_shcha, Cyrillic_SHCHA ]};   // ' -> щ
