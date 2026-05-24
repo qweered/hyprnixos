@@ -7,14 +7,6 @@
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"; # Smaller then github tarball, less api hits
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
-    nixpkgs-patch-10-vivaldi-7_9_3970_67 = {
-      url = "path:/home/qweered/hyprnixos/patches/vivaldi-7.9.3970.67.diff";
-      flake = false;
-    };
-    nixpkgs-patch-20-vivaldi-8_0_4033_26 = {
-      url = "https://github.com/NixOS/nixpkgs/pull/522590.diff";
-      flake = false;
-    };
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
       inputs = {
