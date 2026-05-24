@@ -132,7 +132,8 @@
       };
     };
     agenix = {
-      url = "github:ryantm/agenix";
+      # Includes fix for userborn: https://github.com/ryantm/agenix/pull/353
+      url = "github:marienz/agenix/941af799a916cf8d1141941e6d91a4ec7bcf51ab";
       inputs = {
         nixpkgs.follows = "nixpkgs"; # does not need cache hit
         systems.follows = "systems";

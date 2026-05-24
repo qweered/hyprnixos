@@ -14,16 +14,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1770165109,
-        "narHash": "sha256-9VnK6Oqai65puVJ4WYtCTvlJeXxMzAp/69HhQuTdl/I=",
-        "owner": "ryantm",
+        "lastModified": 1766204235,
+        "narHash": "sha256-B019huudj7P8VEYTjmEWieFZnuNrDWVrcKEY9Q1HpNU=",
+        "owner": "marienz",
         "repo": "agenix",
-        "rev": "b027ee29d959fda4b60b57566d64c98a202e0feb",
+        "rev": "941af799a916cf8d1141941e6d91a4ec7bcf51ab",
         "type": "github"
       },
       "original": {
-        "owner": "ryantm",
+        "owner": "marienz",
         "repo": "agenix",
+        "rev": "941af799a916cf8d1141941e6d91a4ec7bcf51ab",
         "type": "github"
       }
     },
