@@ -27,6 +27,8 @@ in
         nhCmd = "nh os switch --ask --diff=always ${common-nix-args}";
       in
       {
+        codex = "codex --dangerously-bypass-hook-trust";
+
         nh-switch = "${nhCmd}";
         nh-update = "${nhCmd} --update";
         nh-clean = "nh clean all --optimise --keep 3";

@@ -50,6 +50,7 @@ in
     settings = {
       model = "gpt-5.5";
       model_reasoning_effort = "high";
+      plan_mode_reasoning_effort = "xhigh";
 
       approvals_reviewer = "auto_review";
       sandbox_mode = "danger-full-access";
@@ -70,8 +71,6 @@ in
         "total-output-tokens"
       ];
       hooks = {
-        state."/home/qweered/.codex/config.toml:pre_tool_use:0:0".trusted_hash =
-          "sha256:a3138911f0204abdb1ec133e4b1a11897b8ec1d0fb44071c2fd7bf7104125c3f";
         PreToolUse = [
           {
             matcher = "^Bash$";
