@@ -34,13 +34,11 @@ in
   };
 
   users = {
-    mutableUsers = true; # Make false when hashed password is used
+    mutableUsers = false;
     extraUsers = {
       "${vars.username}" = {
         isNormalUser = true;
-        initialPassword = "password";
-        # FIXME: got broken with determinate nix
-        # hashedPasswordFile = config.age.secrets.password-qweered.path;
+        hashedPasswordFile = config.age.secrets.password-qweered.path;
         shell = pkgs.fish;
         inherit (vars) description;
         extraGroups = [
