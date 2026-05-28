@@ -21,6 +21,9 @@ in
       set -gx CONTEXT7_API_KEY (cat ${osConfig.age.secrets.context7-api-key.path} 2>/dev/null)
       fastfetch
     '';
+    functions.which-real = ''
+      readlink -f (command -v -- $argv)
+    '';
     shellAliases =
       let
         common-nix-args = "--keep-going --keep-failed --fallback --show-trace";
