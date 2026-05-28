@@ -11,10 +11,9 @@ in
       search-code = ./skills/search-code.md;
     };
     settings = {
-      model = "claude-opus-4-7[1m]";
-      effortLevel = "xhigh";
+      model = "claude-opus-4-8[1m]";
+      effortLevel = "high";
       skipDangerousModePermissionPrompt = true;
-      skipAutoPermissionPrompt = true;
       outputStyle = "Explanatory";
       permissions = {
         defaultMode = "auto";
