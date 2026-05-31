@@ -1,45 +1,36 @@
 { pkgs, lib, ... }:
 
 let
-  busyboxDisabledApplets = [
-    # inetutils owns these commands in the system profile.
-    "DNSDOMAINNAME"
-    "IFCONFIG"
-    "LOGGER"
-    "PING"
-    "PING6"
-    "TELNET"
-    "TFTP"
-    "TRACEROUTE"
-    "WHOIS"
+  # Applets are plain on/off toggles, all enabled (y). SH_IS_* is different: it
+  # is a kconfig `choice`, not an applet. bash owns sh in this profile, so we
+  # pick `none` and must also clear the other arms, else `make oldconfig`
+  # re-prompts for the choice and the build hangs.
+  busyboxConfig = {
+    IPCALC = "y";
+    MICROCOM = "y";
 
-    # Core system packages own these commands.
-    "DMESG" # util-linux
-    "FSCK" # util-linux
-    "GETTY" # util-linux
-    "HALT" # systemd
-    "INIT" # systemd
-    "KILL" # util-linux
-    "KILLALL" # procps
-    "LOGIN" # shadow
-    "MKSWAP" # util-linux
-    "MOUNT" # util-linux
-    "PASSWD" # shadow
-    "PIVOT_ROOT" # util-linux
-    "POWEROFF" # systemd
-    "REBOOT" # systemd
-    "SU" # shadow
-    "SULOGIN" # util-linux
-    "SWAPOFF" # util-linux
-    "SWAPON" # util-linux
-    "SWITCH_ROOT" # util-linux
-    "UMOUNT" # util-linux
-    "VLOCK" # shadow
+    I2CDETECT = "y";
+    I2CDUMP = "y";
+    I2CGET = "y";
+    I2CSET = "y";
+    I2CTRANSFER = "y";
 
-    # Not provided by busybox in this system profile.
-    "KLOGD"
-    "SYSLOGD"
-  ];
+    LSPCI = "y";
+    LSSCSI = "y";
+    LSUSB = "y";
+
+    ASCII = "y";
+    DOS2UNIX = "y";
+    HEXEDIT = "y";
+    LZOP = "y";
+    NMETER = "y";
+    TTYSIZE = "y";
+    UNIX2DOS = "y";
+
+    SH_IS_ASH = "n";
+    SH_IS_HUSH = "n";
+    SH_IS_NONE = "y";
+  };
 in
 {
   environment.systemPackages = with pkgs; [
@@ -57,11 +48,12 @@ in
     # for ftp
     (lib.lowPrio inetutils)
     iw
+    tree
     # various utils
     (lib.lowPrio (
       busybox.override {
-        # Prevent busybox from exporting applets already owned by full packages.
-        extraConfig = lib.concatMapStrings (opt: "CONFIG_${opt} n\n") busyboxDisabledApplets;
+        enableMinimal = true;
+        extraConfig = lib.concatStrings (lib.mapAttrsToList (opt: val: "CONFIG_${opt} ${val}\n") busyboxConfig);
       }
     ))
   ];
