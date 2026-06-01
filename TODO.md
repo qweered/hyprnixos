@@ -1,6 +1,7 @@
 # TODO
 
 * make lazydocker work with podman
+* fix plymouth flick
 * home-manager in flake-parts? https://github.com/khaneliman/khanelinix/blob/4f55285944563cd24e07753eb484a557fa2d5cd1/flake/home.nix#L35
 * matrix client
 * right now users can't influence anything in system, only in home-manager

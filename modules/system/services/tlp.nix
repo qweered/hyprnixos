@@ -8,7 +8,7 @@
         WIFI_PWR_ON_BAT = "on";
         PCIE_ASPM_ON_BAT = "powersupersave";
         RUNTIME_PM_ON_BAT = "auto";
-        RUNTIME_PM_DRIVER_DENYLIST = "mei_me nouveau radeon"; # exlcudes xhci_hcd from default list
+        RUNTIME_PM_DRIVER_DENYLIST = "mei_me nouveau radeon"; # excludes xhci_hcd from default list
       };
     };
     power-profiles-daemon.enable = false;
