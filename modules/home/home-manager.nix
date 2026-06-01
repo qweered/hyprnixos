@@ -7,7 +7,9 @@
     enableNixpkgsReleaseCheck = false; # flake keep it in sync, produces annoying warning right after release
     inherit (vars) username stateVersion homeDirectory;
     sessionVariables = {
-      NIXPKGS_ALLOW_UNFREE = "1"; # for nix shell, nix run https://github.com/NixOS/nix/issues/9875
+      # for nix shell, nix run, etc. https://github.com/NixOS/nix/issues/9875
+      NIXPKGS_ALLOW_UNFREE = "1";
+      NIXPKGS_ALLOW_INSECURE = "1";
       BROWSER = "${vars.browser}";
       QT_QPA_PLATFORMTHEME = "qt6ct";
       NIXOS_OZONE_WL = "1"; # use wayland in electron packages
@@ -17,7 +19,7 @@
       GDK_SCALE = "1";
       GDK_BACKEND = "wayland,x11,*";
       CLUTTER_BACKEND = "wayland";
-      SDL_VIDEODRIVER = "wayland"; # QUIRK: Some games require it to be x11
+      SDL_VIDEODRIVER = "wayland"; # QUIRK: Some games might require it to be x11
     };
   };
 
