@@ -553,6 +553,18 @@
         "type": "github"
       }
     },
+    "nixpkgs-patch-codexbar-cli": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-PghQcPF+aIlmd5qD893gFX4pkZXbyrqt8LPKc7cNsYY=",
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/525686.diff"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/525686.diff"
+      }
+    },
     "nixpkgs-patcher": {
       "locked": {
         "lastModified": 1779142267,
@@ -664,6 +676,7 @@
         "nix-index-database": "nix-index-database",
         "nixcord": "nixcord",
         "nixpkgs": "nixpkgs_3",
+        "nixpkgs-patch-codexbar-cli": "nixpkgs-patch-codexbar-cli",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nvf": "nvf",
         "spicetify": "spicetify",
