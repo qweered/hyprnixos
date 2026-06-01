@@ -12,9 +12,6 @@
     };
     tmp.cleanOnBoot = true;
 
-    # NOTE: Not feature-complete yet https://blog.decent.id/post/nixos-systemd-initrd/
-    initrd.systemd.enable = true;
-
     kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-rt-bore-lto; # or latest-lto-x86_64-v3;
 
     plymouth = {
