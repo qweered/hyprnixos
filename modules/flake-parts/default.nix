@@ -56,7 +56,7 @@ in
           };
           shellcheck = {
             enable = true;
-            files = "(\\.sh|\\.bash|\\.envrc(\\..*)?|(^|/)\\.envrc)$";
+            files = "\\.(sh|bash|fish)$|\\.envrc";
             priority = 0;
             types = [ "file" ];
           };
