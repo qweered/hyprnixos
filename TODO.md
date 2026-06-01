@@ -1,23 +1,17 @@
 # TODO
 
-* make lazydocker work with podman
 * fix plymouth flick
+* make lazydocker work with podman
+* refactor assets into github repository
 * home-manager in flake-parts? https://github.com/khaneliman/khanelinix/blob/4f55285944563cd24e07753eb484a557fa2d5cd1/flake/home.nix#L35
-* matrix client
-* right now users can't influence anything in system, only in home-manager
-* sort (imports, something else)
-* jj - git replacement
-* stylix
-* check if anything in system have home-manager stuff (for example podman)
-* disko
-* remove all TODO todos
-* Hyprcursor
-* this page https://github.com/nix-community/srvos/blob/c4a21c42efec0506ec352891fec84490dae2ded0/nixos/common/nix.nix
 * home-manager.sharedModules
 * see nixos-ez-flake and blueprint, dendritic, vic, den
-* multi-user, multi-gpu [ZaneyOS](https://gitlab.com/Zaney/zaneyos)
+* sort (imports, something else)
+* stylix
+* check if anything in system have home-manager stuff (for example podman)
+* remove all TODO todos
+* this page https://github.com/nix-community/srvos/blob/c4a21c42efec0506ec352891fec84490dae2ded0/nixos/common/nix.nix
 * denoising? [rnnoise](https://github.com/fufexan/dotfiles/blob/17939d902a780a6db459312baa40940ff2a9c149/home/programs/media/rnnoise.nix#L1C1-L41C2)
-* refactor assets into github repository
 * setup portals (what application opens what file)
 * check logs that there are no major errors
 * configure more kernel parameters
@@ -26,10 +20,10 @@
 * check all comments
 * check all config options of nixos and home-manager
 * check all nix-community repos
+* secure boot (limine)
 * impermanence
-* nix-mineral
 * encrypt filesystem
-* lanzaboote
+* nix-mineral
 
 ## No longer want
 
@@ -46,12 +40,14 @@
 
 * [kunkun](https://github.com/kunkunsh/kunkun)
 * [goneovim](https://github.com/akiyosi/goneovim)
+* matrix client
 * espanso
 * kando-menu
 * clight, hyprsunset
 * ddcutil
 * diffoscope
 * hellwal
+* hyprcursor
 * [firedragon](https://firedragon.garudalinux.org)
 * zathura imv - pdf/image viewer
 * wluma - automatic brightness control

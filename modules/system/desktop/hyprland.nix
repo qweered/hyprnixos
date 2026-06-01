@@ -1,7 +1,11 @@
+{ cfg, lib, ... }:
+
 {
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
+  config = lib.mkIf (cfg.desktop == "hyprland") {
+    programs.hyprland = {
+      enable = true;
+      withUWSM = true;
+    };
+    security.pam.services.hyprlock = { }; # Needed for hyprlock
   };
-  security.pam.services.hyprlock = { }; # Needed for hyprlock
 }

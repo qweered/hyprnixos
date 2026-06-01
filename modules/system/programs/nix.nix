@@ -2,7 +2,6 @@
   lib,
   inputs,
   config,
-  pkgs,
   ...
 }:
 let
@@ -26,7 +25,7 @@ in
   };
 
   nix = {
-    package = inputs.determinate.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    package = inputs.determinate.packages.${config.hyprnix.hostPlatform}.default;
     channel.enable = false;
 
     # improve desktop responsiveness when updating the system

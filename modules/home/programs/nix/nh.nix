@@ -1,9 +1,9 @@
-{ vars, ... }:
+{ user, ... }:
 
 {
   programs.nh = {
     enable = true;
-    flake = vars.flakeDirectory;
+    flake = user.flakeDirectory;
     clean = {
       enable = true;
       dates = "monthly";

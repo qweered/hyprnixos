@@ -1,16 +1,22 @@
-{ vars, ... }:
+{
+  user,
+  cfg,
+  ...
+}:
 
 {
   programs.home-manager.enable = true;
 
   home = {
     enableNixpkgsReleaseCheck = false; # flake keep it in sync, produces annoying warning right after release
-    inherit (vars) username stateVersion homeDirectory;
+    inherit (cfg) stateVersion;
+    inherit (user) homeDirectory;
+    username = user.name;
     sessionVariables = {
       # for nix shell, nix run, etc. https://github.com/NixOS/nix/issues/9875
       NIXPKGS_ALLOW_UNFREE = "1";
       NIXPKGS_ALLOW_INSECURE = "1";
-      BROWSER = "${vars.browser}";
+      BROWSER = user.browser;
       QT_QPA_PLATFORMTHEME = "qt6ct";
       NIXOS_OZONE_WL = "1"; # use wayland in electron packages
       MOZ_ENABLE_WAYLAND = "1"; # use wayland in firefox

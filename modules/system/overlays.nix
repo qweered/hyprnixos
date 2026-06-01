@@ -1,11 +1,10 @@
 {
   config,
   inputs,
-  pkgs,
   ...
 }:
 let
-  llm-agents = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
+  llm-agents = inputs.llm-agents.packages.${config.hyprnix.hostPlatform};
 in
 {
   # TODO: why overlays don't work in flake-parts?

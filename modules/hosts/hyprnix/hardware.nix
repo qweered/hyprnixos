@@ -1,7 +1,6 @@
 {
   inputs,
   pkgs,
-  hostPlatform,
   ...
 }:
 
@@ -41,8 +40,4 @@
       "kvm-amd"
     ];
   };
-
-  nixpkgs.hostPlatform = hostPlatform;
-  networking.hostName = "hyprnix";
-  system.stateVersion = "26.05";
 }

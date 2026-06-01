@@ -1,7 +1,4 @@
 { inputs, ... }:
-let
-  hostPlatform = "x86_64-linux";
-in
 {
   imports = with inputs; [
     git-hooks.flakeModule
@@ -9,7 +6,7 @@ in
   ];
 
   flake.nixosConfigurations.hyprnix = inputs.nixpkgs-patcher.lib.nixosSystem {
-    specialArgs = { inherit inputs hostPlatform; };
+    specialArgs = { inherit inputs; };
     nixpkgsPatcher = {
       inherit inputs;
       enableTroubleshootingShell = false;
@@ -17,8 +14,8 @@ in
     modules = (inputs.import-tree.matchNot ".*/(home|flake-parts)/.*" ./..).imports;
   };
 
-  # expose options for nixd
-  debug = true;
+  # TODO: expose options for nixd, needs zed config
+  debug = false;
 
   perSystem =
     {
@@ -49,9 +46,9 @@ in
           };
           nixfmt-rs = {
             enable = true;
+            package = pkgs.nixfmt-rs;
             entry = "${lib.getExe pkgs.nixfmt-rs} --width=140 --strict";
             files = "\\.nix$";
-            package = pkgs.nixfmt-rs;
             priority = 2;
           };
           shellcheck = {
@@ -62,9 +59,10 @@ in
           };
           statix = {
             enable = true;
+            package = pkgs.statix;
+            entry = lib.mkForce "${lib.getExe pkgs.statix} fix";
             files = "\\.nix$";
             priority = 1;
-            settings.config = ".";
           };
         };
       };

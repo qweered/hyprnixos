@@ -1,14 +1,17 @@
-{
-  programs.dms-shell = {
-    enable = true;
-    enableVPN = false;
-    enableClipboardPaste = false;
-  };
+{ lib, cfg, ... }:
 
-  # TODO: requires config for keyboard etc.
-  # services.displayManager.dms-greeter = {
-  #   enable = true;
-  #   configHome = "/home/qweered";
-  #   compositor.name = "hyprland";
-  # };
+{
+  config = lib.mkIf cfg.isWindowManager {
+    programs.dms-shell = {
+      enable = true;
+      enableVPN = false;
+      enableClipboardPaste = false;
+    };
+
+    # TODO: requires config for keyboard etc.
+    # services.displayManager.dms-greeter = {
+    #   enable = true;
+    #   configHome = "/home/qweered";
+    #   compositor.name = false;
+  };
 }

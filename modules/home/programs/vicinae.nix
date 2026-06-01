@@ -1,4 +1,9 @@
-{ inputs, pkgs, ... }:
+{
+  cfg,
+  inputs,
+  pkgs,
+  ...
+}:
 {
   imports = [ inputs.vicinae.homeManagerModules.default ];
   disabledModules = [ "programs/vicinae.nix" ]; # to be sure that we don't use it
@@ -23,7 +28,7 @@
       };
     };
 
-    extensions = with inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system}; [
+    extensions = with inputs.vicinae-extensions.packages.${cfg.hostPlatform}; [
       bluetooth
       # over manix, nix-search-tv
       nix

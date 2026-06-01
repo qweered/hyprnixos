@@ -1,7 +1,7 @@
 {
   config,
   inputs,
-  vars,
+  user,
   ...
 }:
 
@@ -244,7 +244,7 @@
                 icon = " ";
                 key = "c";
                 desc = "Config";
-                action = ":lua Snacks.dashboard.pick('files', { cwd = '${vars.flakeDirectory}' })";
+                action = ":lua Snacks.dashboard.pick('files', { cwd = '${user.flakeDirectory}' })";
               }
               {
                 icon = " ";
@@ -595,7 +595,7 @@
         {
           mode = "n";
           key = "<leader>fc";
-          action = ''<cmd>lua Snacks.picker.files({ cwd = "${vars.flakeDirectory}" })<CR>'';
+          action = ''<cmd>lua Snacks.picker.files({ cwd = "${user.flakeDirectory}" })<CR>'';
           desc = "Find Config File";
         }
 
