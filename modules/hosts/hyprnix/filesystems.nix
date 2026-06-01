@@ -1,17 +1,38 @@
-{
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-uuid/3d95bf25-91a5-4fa7-b459-1f0d621f8e9d";
-      fsType = "xfs";
-    };
+{ inputs, ... }:
 
-    "/boot" = {
-      device = "/dev/disk/by-uuid/C848-2DE0";
-      fsType = "vfat";
-      options = [
-        "fmask=0077"
-        "dmask=0077"
-      ];
+{
+  imports = [ inputs.disko.nixosModules.disko ];
+
+  disko.devices.disk.main = {
+    type = "disk";
+    device = "/dev/disk/by-id/nvme-KBG50ZNV256G_KIOXIA_62CPGFT7QXQ5";
+    content = {
+      type = "gpt";
+      partitions = {
+        ESP = {
+          label = "ESP";
+          size = "2G";
+          type = "EF00";
+          content = {
+            type = "filesystem";
+            format = "vfat";
+            mountpoint = "/boot";
+            mountOptions = [
+              "fmask=0077"
+              "dmask=0077"
+            ];
+          };
+        };
+        root = {
+          label = "root";
+          size = "100%";
+          content = {
+            type = "filesystem";
+            format = "xfs";
+            mountpoint = "/";
+          };
+        };
+      };
     };
   };
 }

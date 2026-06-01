@@ -61,6 +61,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs"; # important
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
+    };
     nvf = {
       url = "github:notashelf/nvf";
       inputs = {
