@@ -37,7 +37,7 @@
 
       # Show the themed menu briefly, then auto-boot the default.
       # Press any key during the timeout to open the full entry list.
-      timeout = 3;
+      timeout = 2;
     };
     tmp.cleanOnBoot = true;
 
@@ -54,13 +54,11 @@
     consoleLogLevel = 3;
     kernelParams = [
       "quiet"
-      "vt.global_cursor_default=0"
       "rd.systemd.show_status=auto"
       "rd.udev.log_level=3"
-      "udev.log_priority=3"
       "plymouth.use-simpledrm" # https://github.com/NixOS/nixpkgs/issues/32556#issuecomment-2315814669
 
-      "boot.shell_on_fail"
+      "rd.systemd.debug_shell"
       "microcode.amd_sha_check=off" # for ucodenix to work properly
 
       # may cause issues
