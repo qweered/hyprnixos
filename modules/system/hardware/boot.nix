@@ -1,14 +1,43 @@
-{ pkgs, ... }:
+{ cfg, pkgs, ... }:
 
 {
   boot = {
     loader = {
-      systemd-boot.enable = true;
+      limine = {
+        enable = true;
+        maxGenerations = 15;
+        # NB: efiInstallAsRemovable defaults to !canTouchEfiVariables (here:
+        # false), so the module installs to EFI/limine and owns the NVRAM
+        # entry. Do NOT force it to `true` alongside Secure Boot: that installs
+        # to the removable EFI/BOOT fallback while a stale NVRAM "Limine" entry
+        # keeps booting an un-enrolled EFI/limine binary -> "checksum mismatch
+        # for config file" panic.
+        # Limine >=11.2.0 panics ("checksum mismatch for config file") under
+        # active Secure Boot unless a BLAKE2B checksum of limine.conf is
+        # enrolled into the signed EFI binary. enrollConfig defaults to
+        # panicOnChecksumMismatch (false), so we must turn it on explicitly.
+        secureBoot = {
+          enable = cfg.isSecureBootConfigured;
+          autoGenerateKeys = true;
+          autoEnrollKeys.enable = true;
+        };
+
+        style = {
+          wallpapers = [ ../../../assets/limine-wallpaper.jpg ];
+          interface = {
+            branding = "NixOS";
+            brandingColor = "83c0ed"; # wallpaper's bright logo blue
+            helpColor = "668fac"; # wallpaper's subtitle blue
+            helpColorBright = "7bb2dc"; # wallpaper's light logo blue
+          };
+        };
+      };
+
       efi.canTouchEfiVariables = true;
 
-      # Hide the OS choice in the bootloader menu
-      # It's still possible to open the bootloader list by pressing any key
-      timeout = 0;
+      # Show the themed menu briefly, then auto-boot the default.
+      # Press any key during the timeout to open the full entry list.
+      timeout = 3;
     };
     tmp.cleanOnBoot = true;
 

@@ -19,6 +19,12 @@
       default = config.hyprnix.desktop == "hyprland";
       description = "Whether current desktop environment is a window-manager.";
     };
+    defaultScreenResolution = lib.mkOption {
+      type = lib.types.strMatching "[0-9]+x[0-9]+";
+      default = "1920x1080";
+      example = "2560x1440";
+      description = "Default screen resolution, formatted as WIDTHxHEIGHT, used for monitor and display configuration.";
+    };
     stateVersion = lib.mkOption {
       type = lib.types.str;
       example = "26.05";
@@ -76,6 +82,11 @@
           }
         )
       );
+    };
+    isSecureBootConfigured = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Set to true if manual configuration for secure boot has been performed";
     };
     hostName = lib.mkOption {
       type = lib.types.str;

@@ -20,7 +20,6 @@
 * check all comments
 * check all config options of nixos and home-manager
 * check all nix-community repos
-* secure boot (limine)
 * impermanence
 * encrypt filesystem
 * nix-mineral
