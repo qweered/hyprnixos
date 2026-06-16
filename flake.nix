@@ -11,11 +11,6 @@
       url = "https://github.com/NixOS/nixpkgs/pull/525686.diff";
       flake = false;
     };
-    nixpkgs-patch-limine-fwupd-efi = {
-      # Fixes fwupd-efi signing under enableStrictShellChecks (limine secureBoot + fwupd)
-      url = "https://github.com/NixOS/nixpkgs/pull/526918.diff";
-      flake = false;
-    };
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
       inputs = {
