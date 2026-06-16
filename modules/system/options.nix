@@ -88,6 +88,11 @@
       default = false;
       description = "Set to true if manual configuration for secure boot has been performed";
     };
+    kernel = lib.mkOption {
+      type = lib.types.raw;
+      default = pkgs.cachyosKernels.linuxPackages-linux-cachyos-latest-lto;
+      description = "The kernel packages set to use (passed to boot.kernelPackages)";
+    };
     hostName = lib.mkOption {
       type = lib.types.str;
       description = "Hostname of the host.";

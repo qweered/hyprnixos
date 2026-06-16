@@ -37,7 +37,7 @@
     };
     tmp.cleanOnBoot = true;
 
-    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore-lto-x86_64-v3; # or rt-bore
+    kernelPackages = cfg.kernel;
 
     plymouth = {
       enable = true;
