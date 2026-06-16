@@ -55,6 +55,7 @@ in
       approvals_reviewer = "auto_review";
       sandbox_mode = "danger-full-access";
       check_for_update_on_startup = false;
+      suppress_unstable_features_warning = true;
       features = {
         fast_mode = true;
         memories = true;
