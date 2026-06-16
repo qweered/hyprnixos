@@ -29,7 +29,7 @@
           email = "grubian2@gmail.com";
         };
         signing = {
-          sing-all = true;
+          sign-all = true;
         };
       };
     };
@@ -62,35 +62,36 @@
           markUnblamables = true;
           markIgnoredLines = true;
         };
+
         branch = {
-          autoSetupRebase = "always";
           sort = "-committerdate";
         };
 
-        # Auto prune # TODO: slow for eg nixpkgs
         fetch = {
           prune = true;
           pruneTags = true;
           writeCommitGraph = true;
           parallel = 0; # use all available cores
-          all = "false"; # fetch manually instead
         };
-        remote.origin.prune = true;
+
+        remote = {
+          pushDefault = "origin";
+        };
 
         # Performance
         core.fsmonitor = true; # will benefit when support linux
         feature.manyFiles = true;
 
         checkout.defaultRemote = "origin";
-        color.ui = "auto"; # always breaks some aliases
         column.ui = "auto";
+        commit.verbose = true;
         diff = {
           algorithm = "histogram";
           mnemonicPrefix = true;
           renames = "copies";
         };
         difftool.prompt = false;
-        core.pager = "bat"; # use bat as pager
+        core.pager = "bat";
         pager.difftool = true;
         init.defaultBranch = "main";
         log = {
@@ -101,11 +102,11 @@
         merge = {
           autoStash = true;
           tool = "nvimdiff"; # keep nvimdiff for merges (difftastic is diff-only)
-          ff = "only"; # try to not crate merge commits
+          ff = "only"; # try to not create merge commits
         };
 
         advice = {
-          skippedCherryPicks = "false";
+          skippedCherryPicks = false;
         };
 
         url = {
@@ -127,26 +128,23 @@
 
         push = {
           autoSetupRemote = true;
-          default = "simple";
           followTags = true;
           useForceIfIncludes = true;
         };
 
-        # Pull settings
         pull.rebase = true;
 
-        # Rebase settings
         rebase = {
           autoStash = true;
           autoSquash = true;
           updateRefs = true;
+          missingCommitsCheck = "warn";
         };
 
-        # Rerere settings
-        rerere.enable = true;
-        rerere.autoUpdate = true;
-
-        # Remote settings
+        rerere = {
+          enable = true;
+          autoUpdate = true;
+        };
 
         # Status settings
         status.showUntrackedFiles = "all";
@@ -189,26 +187,22 @@
           c = "commit";
           cm = "commit --message";
           ca = "commit --amend";
-          caan = "commit --all --amend --no-edit";
           can = "commit --amend --no-edit";
-          wip = "commit --amend --message 'WIP: work in progress'";
-          caf = "commit --all --fixup HEAD";
+          caan = "commit --all --amend --no-edit";
+          wip = "commit --all --message 'WIP'";
 
           f = "fetch";
           fum = "fetch upstream main";
           fuma = "fetch upstream master";
-          fom = "fetch origin main";
-          foma = "fetch origin master";
           sync-upstream = "!git fuma && git rb upstream/master && git pf";
-          sync-origin = "!git foma && git rb origin/master && git pf";
 
           p = "push";
-          po = "push origin";
+          pu = "push upstream";
           pf = "push --force-with-lease"; # safer than --force
+          puf = "push upstream --force-with-lease";
           pff = "push --force";
-          pu = "push --set-upstream origin HEAD"; # push to remote branch and set upstream
+          puff = "push upstream --force";
           pl = "pull";
-          plo = "pull origin";
           plu = "pull upstream";
           sw = "switch";
           swc = "switch --create";
@@ -250,7 +244,7 @@
 
           s = "status --short --branch";
           st = "status";
-          dc = "diff HEAD"; # staged diff
+          dc = "diff HEAD"; # uncommited changes
           dp = "diff HEAD~1 HEAD"; # previous commit diff
           dcv = "difftool HEAD --tool=nvimdiff --no-prompt";
           dpv = "difftool HEAD~1 HEAD --tool=nvimdiff --no-prompt";
@@ -259,9 +253,8 @@
           ds = "describe --long --tags --dirty --always";
           who = "shortlog --summary";
           last = "log --oneline --stat HEAD";
-          visual = "!gitk";
-          today = "log --since='1 day ago' --oneline --author=$(git config user.email)";
-          yesterday = "log --since='2 days ago' --until='1 day ago' --oneline --author=$(git config user.email)";
+          today = "!git log --since='1 day ago' --oneline --author=$(git config user.email)";
+          yesterday = "!git log --since='2 days ago' --until='1 day ago' --oneline --author=$(git config user.email)";
 
           # Workflow aliases
           assume = "update-index --assume-unchanged";
