@@ -49,6 +49,31 @@
         "yarn.lock         merge=ours"
         "Cargo.lock        merge=ours"
       ];
+
+      # Per-repository overrides via conditional includes (git's `includeIf`).
+      # NixOS/nixpkgs has tens of thousands of bot-created `backport-*` branches;
+      # the default wildcard refspec downloads them all on every fetch.
+      #
+      # The *entire* `upstream` remote (url + narrowed fetch) is declared here, so
+      # a fresh clone needs zero manual setup — just clone your fork and `upstream`
+      # already exists, pointed at NixOS/nixpkgs, fetching only the branches below:
+      #   git clone git@github.com:qweered/nixpkgs ~/Projects/nixpkgs
+      # Do NOT run `git remote add upstream …` afterwards: that writes a wildcard
+      # `fetch` into .git/config that would accumulate with these refspecs.
+      includes = [
+        {
+          condition = "gitdir:~/Projects/nixpkgs/";
+          contents.remote.upstream = {
+            url = "https://github.com/NixOS/nixpkgs.git";
+            fetch = map (branch: "+refs/heads/${branch}:refs/remotes/upstream/${branch}") [
+              "master"
+              "staging"
+              "staging-next"
+            ];
+          };
+        }
+      ];
+
       settings = {
         user.name = "Aliaksandr";
         user.email = "grubian2@gmail.com";
