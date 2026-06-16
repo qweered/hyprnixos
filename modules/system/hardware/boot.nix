@@ -12,10 +12,6 @@
         # to the removable EFI/BOOT fallback while a stale NVRAM "Limine" entry
         # keeps booting an un-enrolled EFI/limine binary -> "checksum mismatch
         # for config file" panic.
-        # Limine >=11.2.0 panics ("checksum mismatch for config file") under
-        # active Secure Boot unless a BLAKE2B checksum of limine.conf is
-        # enrolled into the signed EFI binary. enrollConfig defaults to
-        # panicOnChecksumMismatch (false), so we must turn it on explicitly.
         secureBoot = {
           enable = cfg.isSecureBootConfigured;
           autoGenerateKeys = true;
@@ -41,7 +37,7 @@
     };
     tmp.cleanOnBoot = true;
 
-    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-rt-bore-lto; # or latest-lto-x86_64-v3;
+    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore-lto-x86_64-v3; # or rt-bore
 
     plymouth = {
       enable = true;
@@ -61,7 +57,6 @@
       "rd.systemd.debug_shell"
       "microcode.amd_sha_check=off" # for ucodenix to work properly
 
-      # may cause issues
       "clocksource=tsc" # always tsc even it may be not reliable
       "tsc=reliable"
     ];
