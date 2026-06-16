@@ -20,6 +20,7 @@ in
       };
       env = {
         CLAUDE_CODE_NO_FLICKER = "1";
+        CLAUDE_CODE_AUTO_COMPACT_WINDOW = "550000";
       };
       enabledPlugins = {
         "expo@expo-plugins" = true;
