@@ -93,6 +93,14 @@
       default = pkgs.cachyosKernels.linuxPackages-linux-cachyos-latest-lto;
       description = "The kernel packages set to use (passed to boot.kernelPackages)";
     };
+    cpu = lib.mkOption {
+      type = lib.types.enum [ "amd" ]; # TODO: intel
+      description = "CPU architecture of the host.";
+    };
+    gpu = lib.mkOption {
+      type = lib.types.enum [ "amd" ]; # TODO: intel, nvidia
+      description = "GPU architecture of the host.";
+    };
     hostName = lib.mkOption {
       type = lib.types.str;
       description = "Hostname of the host.";
@@ -103,6 +111,9 @@
       description = "Platform of the host.";
     };
   };
+
+  # TODO: configure keyboard, timezone, locale
+  # TODO: for cpu and gpu migrate to facter
 
   config = {
     _module.args.cfg = config.hyprnix;

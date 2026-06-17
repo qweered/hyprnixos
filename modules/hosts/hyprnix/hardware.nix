@@ -1,21 +1,7 @@
-{
-  inputs,
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 
 {
-  imports = [ inputs.ucodenix.nixosModules.default ];
-
-  services.ucodenix = {
-    enable = true;
-    # To retrieve processor's model ID, run `cpuid -1 -l 1 -r | sed -n 's/.*eax=0x\([0-9a-f]*\).*/\U\1/p'`
-    cpuModelId = "00860F81";
-  };
-
   hardware = {
-    cpu.amd.updateMicrocode = true;
-    amdgpu.initrd.enable = true; # load driver before plymouth
     # NOTE: list from https://github.com/NixOS/nixpkgs/blob/d2426f5728d33ce8e81f6c22857895de744ac1e0/nixos/modules/hardware/all-firmware.nix
     enableRedistributableFirmware = false;
     firmware = with pkgs; [

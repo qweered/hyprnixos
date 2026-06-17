@@ -50,12 +50,10 @@
     consoleLogLevel = 3;
     kernelParams = [
       "quiet"
+      "rd.systemd.debug_shell"
       "rd.systemd.show_status=auto"
       "rd.udev.log_level=3"
       "plymouth.use-simpledrm" # https://github.com/NixOS/nixpkgs/issues/32556#issuecomment-2315814669
-
-      "rd.systemd.debug_shell"
-      "microcode.amd_sha_check=off" # for ucodenix to work properly
 
       "clocksource=tsc" # always tsc even it may be not reliable
       "tsc=reliable"
