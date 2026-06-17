@@ -1,30 +1,49 @@
 { inputs, lib, ... }:
+# TODO: needs great simplification, look at other frameworks
 let
-  # Read the host's static hardware facts straight from its options module.
-  # Only the literal cpu/gpu fields are touched, so the lazy `kernel = pkgs.…`
-  # field — and thus this throwaway `pkgs` — is never forced.
-  host = (import ../hosts/hyprnix/options.nix { pkgs = { }; }).hyprnix;
+  hostsDir = ../hosts;
 
-  # Map of "variant directory" -> chosen vendor. Files living directly under one
-  # of these directories are named after a vendor (e.g. system/hardware/cpu/amd.nix);
-  # every file whose vendor does not match the host is dropped at import time so
-  # only this host's hardware modules are ever evaluated.
-  variantDirs = {
-    inherit (host) cpu;
-    inherit (host) gpu;
-  };
+  # Every sub-directory of modules/hosts is a host: its name becomes the
+  # nixosConfiguration (and hostname), and modules/hosts/<name>/ holds that host's
+  # private modules. Everything else under modules/ is shared across all hosts.
+  hostNames = lib.attrNames (lib.filterAttrs (_: type: type == "directory") (builtins.readDir hostsDir));
 
-  # `import-tree` hands the predicate each file's path (relative to the root, with a
-  # leading slash, e.g. "/system/hardware/cpu/amd.nix"). Drop it when its parent dir
-  # is a known variant dir and the filename (sans .nix) is a different vendor.
-  isForeignVariant =
-    path:
+  mkHost =
+    name:
     let
-      parts = lib.splitString "/" path;
-      parent = lib.elemAt parts (lib.length parts - 2);
-      vendor = lib.removeSuffix ".nix" (lib.last parts);
+      # This host's static facts, read straight from its options module. Only the
+      # literal cpu/gpu fields are forced, never the lazy `kernel = pkgs.…` field,
+      # so the throwaway `pkgs` is safe.
+      host = (import (hostsDir + "/${name}/options.nix") { pkgs = { }; }).hyprnix;
+
+      # Variant dirs hold vendor-named files (e.g. system/hardware/cpu/amd.nix),
+      # one per cpu/gpu vendor; this host only wants the ones matching its choice.
+      vendors = { inherit (host) cpu gpu; };
+
+      # `import-tree` hands this each candidate file's path, relative to the root and
+      # leading-slashed (e.g. "/system/hardware/cpu/amd.nix"). Drop a file when it is:
+      #   - in the home/ or flake-parts/ trees (not host modules),
+      #   - inside another host's private directory, or
+      #   - a vendor variant for a vendor this host does not use.
+      exclude =
+        path:
+        let
+          dir = baseNameOf (dirOf path);
+          vendor = lib.removeSuffix ".nix" (baseNameOf path);
+        in
+        lib.hasInfix "/home/" path
+        || lib.hasInfix "/flake-parts/" path
+        || (lib.hasInfix "/hosts/" path && !lib.hasInfix "/hosts/${name}/" path)
+        || (vendors ? ${dir} && vendors.${dir} != vendor);
     in
-    variantDirs ? ${parent} && variantDirs.${parent} != vendor;
+    inputs.nixpkgs-patcher.lib.nixosSystem {
+      specialArgs = { inherit inputs; };
+      nixpkgsPatcher = {
+        inherit inputs;
+        enableTroubleshootingShell = false;
+      };
+      modules = (inputs.import-tree.filterNot exclude ./..).imports;
+    };
 in
 {
   imports = with inputs; [
@@ -32,14 +51,7 @@ in
     agenix-rekey.flakeModule
   ];
 
-  flake.nixosConfigurations.hyprnix = inputs.nixpkgs-patcher.lib.nixosSystem {
-    specialArgs = { inherit inputs; };
-    nixpkgsPatcher = {
-      inherit inputs;
-      enableTroubleshootingShell = false;
-    };
-    modules = ((inputs.import-tree.matchNot ".*/(home|flake-parts)/.*").filterNot isForeignVariant ./..).imports;
-  };
+  flake.nixosConfigurations = lib.genAttrs hostNames mkHost;
 
   # TODO: expose options for nixd, needs zed config
   debug = false;
