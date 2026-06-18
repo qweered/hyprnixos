@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  cfg,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   canary_eng = toString (
@@ -87,12 +92,14 @@ let
     ''
   );
 
+  baseLayouts = "us,ru";
+  layout = baseLayouts + lib.optionalString (cfg.users.qweered.enable or false) ",${cfg.users.qweered.keyboardLayouts}";
 in
 {
   console.useXkbConfig = true;
 
   services.xserver.xkb = {
-    layout = "canary,rus_canary";
+    inherit layout;
     extraLayouts = {
       canary = {
         description = "Best layout ever";

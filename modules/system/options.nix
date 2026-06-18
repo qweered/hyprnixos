@@ -68,6 +68,11 @@
                 type = lib.types.str;
                 description = "Preferred web browser; exported as $BROWSER in the user's session.";
               };
+              keyboardLayouts = lib.mkOption {
+                type = lib.types.str;
+                default = "us,ru";
+                description = "Comma-separated X keyboard layouts, passed to services.xserver.xkb.layout (system-wide).";
+              };
               homeDirectory = lib.mkOption {
                 type = lib.types.str;
                 default = "/home/${name}";
