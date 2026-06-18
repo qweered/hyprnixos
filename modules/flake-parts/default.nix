@@ -49,6 +49,7 @@ in
   imports = with inputs; [
     git-hooks.flakeModule
     agenix-rekey.flakeModule
+    ./install-shell.nix
   ];
 
   flake.nixosConfigurations = lib.genAttrs hostNames mkHost;
