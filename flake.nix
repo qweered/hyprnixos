@@ -11,6 +11,10 @@
       url = "https://github.com/NixOS/nixpkgs/pull/525686.diff";
       flake = false;
     };
+    nixpkgs-patch-builtins-filterattrs = {
+      url = "https://github.com/NixOS/nixpkgs/pull/498999.diff";
+      flake = false;
+    };
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
       inputs = {
