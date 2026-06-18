@@ -74,7 +74,8 @@ in
 
       trusted-users = [ "@wheel" ];
 
-      substituters = [
+      # lib.mkForce is to overwrite the NixOS defaults and propagation from flake inputs.
+      substituters = lib.mkForce [
         "https://cache.nixos.org?priority=1" # lower number means higher priority
         "https://nix-community.cachix.org" # cache for unfree packages
         # "https://ekala-corepkgs.cachix.org" # corepkgs - unused for now
@@ -83,7 +84,7 @@ in
         "https://nix-gaming.cachix.org" # some gaming packages
         "https://install.determinate.systems" # determinate nix
       ];
-      trusted-public-keys = [
+      trusted-public-keys = lib.mkForce [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "ekala-corepkgs.cachix.org-1:DcZV+vegWoEzacbSdXFXU4S7728C0eS9RfGpKeyHd6w="
