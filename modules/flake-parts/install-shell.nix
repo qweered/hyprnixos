@@ -1,4 +1,5 @@
-# `nix develop github:qweered/hyprnixos#install`
+# git clone https://github.com/qweered/hyprnixos.git
+# `nix develop .#install`
 
 { config, lib, ... }:
 {
@@ -18,11 +19,11 @@
           name,
           usage,
           defaultFlakeRef ? "github:qweered/hyprnixos",
+          runtimeInputs ? [ ],
           body,
         }:
         pkgs.writeShellApplication {
-          inherit name;
-          runtimeInputs = [ pkgs.nh ];
+          inherit name runtimeInputs;
           text = ''
             host="''${1:-}"
             if [ -z "$host" ]; then
@@ -36,20 +37,36 @@
 
       hyprnixos-format = mkInstallStep {
         name = "hyprnixos-format";
-        usage = "<host> <device>   # partition + format + install via disko-install (DESTRUCTIVE)";
+        usage = "<host>   # partition + format + install (DESTRUCTIVE); device comes from the host config";
+        runtimeInputs = [ pkgs.nix-output-monitor ];
+        # Two steps instead of disko-install on purpose: disko-install builds the
+        # whole closure into the live ISO's RAM-backed store *before* touching the
+        # disk and forces DISKO_SKIP_SWAP, so a large desktop closure runs the ISO
+        # out of memory. Plain `disko` formats *first* and runs `swapon` on the
+        # swap partition, so the subsequent build can spill to disk-backed swap.
         body = ''
-          device="''${2:-}"
-          if [ -z "$device" ]; then
-            echo "usage: hyprnixos-format <host> <device>   # device e.g. /dev/disk/by-id/nvme-..." >&2
-            exit 1
-          fi
-          # disko-install overrides the disko config's `device` with this path and
-          # then runs nixos-install, so it both formats the disk and installs the
-          # system. `main` is the disk name in modules/hosts/<host>/filesystems.nix.
-          sudo nix --extra-experimental-features "nix-command flakes" \
-            run github:nix-community/disko/latest#disko-install -- \
-            --flake "$flake#$host" \
-            --disk main "$device" \
+          # 1. Partition, format, and mount the target, activating swap. The disk
+          #    device is read from modules/hosts/$host/filesystems.nix (plain disko
+          #    has no CLI device override). --option goes on `nix`, not disko, which
+          #    does not forward it.
+          sudo nix \
+            --extra-experimental-features "nix-command flakes" \
+            --option extra-substituters "${substitutersArg}" \
+            --option extra-trusted-public-keys "${trustedKeysArg}" \
+            run github:nix-community/disko/latest -- \
+            --mode destroy,format,mount --yes-wipe-all-disks \
+            --flake "$flake#$host"
+
+          # 2. Build the system with a live nom progress graph. Runs under sudo so
+          #    the extra caches are trusted, and `env PATH=$PATH` carries nom past
+          #    sudo's secure_path. tmpfs now spills to the swap from step 1.
+          sudo env "PATH=$PATH" nom build --no-link \
+            "$flake#nixosConfigurations.$host.config.system.build.toplevel" \
+            --option extra-substituters "${substitutersArg}" \
+            --option extra-trusted-public-keys "${trustedKeysArg}"
+
+          # 3. Install the now-built system onto /mnt (disko's default mountpoint).
+          sudo nixos-install --flake "$flake#$host" --no-root-password --no-channel-copy \
             --option extra-substituters "${substitutersArg}" \
             --option extra-trusted-public-keys "${trustedKeysArg}"
         '';
@@ -59,8 +76,9 @@
         name = "hyprnixos-switch";
         usage = "<host>   # first 'nh os switch' on the booted system";
         defaultFlakeRef = ".";
+        runtimeInputs = [ pkgs.nh ];
         body = ''
-          sudo nh os switch "$flake" -H "$host" \
+          nh os switch "$flake" -H "$host" \
             --option extra-substituters "${substitutersArg}" \
             --option extra-trusted-public-keys "${trustedKeysArg}"
         '';
@@ -77,8 +95,8 @@
           cat <<'EOF'
           hyprnixos install shell — caches are baked into every command.
 
-            hyprnixos-format <host> <device>   format + install via disko-install (DESTRUCTIVE), then reboot
-            hyprnixos-switch <host>            first 'nh os switch' on the booted system
+            hyprnixos-format <host>   format + install (DESTRUCTIVE; device from host config), then reboot
+            hyprnixos-switch <host>   first 'nh os switch' on the booted system
 
           Override the flake source with FLAKE=<ref> (default: github:qweered/hyprnixos;
           hyprnixos-switch defaults to the current directory ".").

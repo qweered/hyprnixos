@@ -11,12 +11,6 @@ from the `cpu`/`gpu` options.
 
 ## Installing on a new host
 
-The binary caches are declared in `modules/system/programs/nix.nix`, but that
-config only becomes active *after* the first switch. So during installation the
-substituters and keys have to be passed by hand on every command. Rather than
-retyping them, enter the **install shell** — it provides three wrappers with the
-caches (read straight from the system's own nix config) baked in:
-
 ```bash
 nix develop github:qweered/hyprnixos#install
 ```
@@ -25,8 +19,8 @@ It prints its own help on entry. Each wrapper takes the host name (the directory
 under `modules/hosts/`):
 
 ```bash
-# 1. partition + format the device and install the system in one step (disko-install)
-hyprnixos-format new-host /dev/disk/by-id/nvme-...   # DESTRUCTIVE
+# 1. partition + format the disk and install the system (DESTRUCTIVE)
+hyprnixos-format new-host
 
 reboot
 
@@ -34,10 +28,18 @@ reboot
 hyprnixos-switch new-host
 ```
 
-`hyprnixos-format` runs [`disko-install`](https://github.com/nix-community/disko/blob/master/docs/disko-install.md),
-which partitions/formats the given device (overriding the `device` in the host's
-disko config) and then runs `nixos-install` — so there is no separate install
-step.
+`hyprnixos-format` does three things: [`disko`](https://github.com/nix-community/disko)
+partitions/formats the disk (the device comes from the host's
+`filesystems.nix`) and mounts it — including a swap partition it activates with
+`swapon` — then the system is built with a live
+[nix-output-monitor](https://github.com/maralorn/nix-output-monitor) progress
+graph, and finally `nixos-install` copies it onto the target.
+
+> The swap partition matters: it lets the build spill to disk. Without it,
+> `disko-install`-style one-shot installs build the whole closure into the live
+> ISO's RAM and run out of memory on large desktop closures. Make sure the
+> swap size in `filesystems.nix` plus the VM/host RAM comfortably exceeds the
+> closure size.
 
 Set `FLAKE=<ref>` to install from somewhere other than the published flake
 (e.g. `FLAKE=. hyprnixos-switch new-host` to use a local clone). From the second
