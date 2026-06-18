@@ -5,27 +5,37 @@
   inputs,
   ...
 }:
+let
+  enabledUsers = lib.filterAttrs (_: user: user.enable) cfg.users;
+in
 {
   imports = [ inputs.home-manager.nixosModules.home-manager ];
 
   users = {
     mutableUsers = false;
-    users = lib.mapAttrs (name: user: {
-      isNormalUser = true;
-      hashedPasswordFile = config.age.secrets."password-${name}".path;
-      inherit (user) shell description;
-      extraGroups = [
-        "networkmanager"
-        "wheel"
-        "libvirtd"
-        "audio"
-        "video"
-        "input"
-        "podman"
-        "adbusers"
-      ]
-      ++ user.groups;
-    }) cfg.users;
+    users = lib.mapAttrs (
+      name: user:
+      let
+        hashedPasswordFile = config.age.secrets."password-${name}".path or null;
+      in
+      {
+        isNormalUser = true;
+        initialPassword = if hashedPasswordFile == null then "password" else null;
+        inherit hashedPasswordFile;
+        inherit (user) shell description;
+        extraGroups = [
+          "networkmanager"
+          "wheel"
+          "libvirtd"
+          "audio"
+          "video"
+          "input"
+          "podman"
+          "adbusers"
+        ]
+        ++ user.groups;
+      }
+    ) enabledUsers;
   };
 
   home-manager = {
@@ -37,6 +47,6 @@
       # TODO: customize imports by user
       _module.args = { inherit user cfg; };
       inherit (inputs.import-tree.matchNot ".*/hacking/.*" ../home) imports;
-    }) cfg.users;
+    }) enabledUsers;
   };
 }

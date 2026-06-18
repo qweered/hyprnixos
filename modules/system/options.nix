@@ -36,15 +36,20 @@
         qweered = { };
       };
       description = ''
-        Users to create on this host, keyed by username. For each entry a normal
-        user account is created and a home-manager configuration is wired up that
-        imports the shared `modules/home` tree.
+        User profiles, keyed by username. Defining a user here only describes it
+        (shell, browser, home directory, ...) and leaves it disabled; profiles are
+        typically supplied by the shared `modules/users/<name>.nix` tree, so every
+        host sees every definition. A profile is created on a host only when that
+        host sets `users.<name>.enable = true`, at which point a normal user account
+        is created and a home-manager configuration importing the shared
+        `modules/home` tree is wired up.
       '';
       type = lib.types.attrsOf (
         lib.types.submodule (
           { name, ... }:
           {
             options = {
+              enable = lib.mkEnableOption "this user on the host; profiles default to disabled so they are only created where explicitly enabled";
               name = lib.mkOption {
                 type = lib.types.str;
                 default = name;
