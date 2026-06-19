@@ -21,6 +21,8 @@ under `modules/hosts/`):
 ```bash
 # 1. partition + format the disk and install the system (DESTRUCTIVE)
 hyprnixos-format new-host
+# override target devices by appending <disk>=<device> pairs (one per disko disk):
+# hyprnixos-format new-host main=/dev/nvme0n1 data=/dev/sda
 
 reboot
 
@@ -45,8 +47,9 @@ graph, `nixos-install` copies it onto the target, and the swapfile is removed.
 > (no swap in your declarative config). It defaults to 16G — bump the `count=` in
 > `install-shell.nix` if a build still runs out.
 
-Set `FLAKE=<ref>` to install from somewhere other than the published flake
-(e.g. `FLAKE=. hyprnixos-switch new-host` to use a local clone). From the second
+A bare host installs from the flake in the current directory (the clone you're
+in); pass a full `<flake#host>` to install from elsewhere instead (e.g.
+`hyprnixos-format github:qweered/hyprnixos#new-host`). From the second
 switch onward nothing extra is needed — `modules/system/programs/nix.nix` is now
 live, so the plain `nh os switch` (the `nh-switch` alias) already knows every
 cache.

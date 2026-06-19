@@ -66,7 +66,7 @@
       inputs.nixpkgs.follows = "nixpkgs"; # important
     };
     disko = {
-      url = "github:nix-community/disko";
+      url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
     };
     nvf = {

@@ -5,7 +5,7 @@
 
   disko.devices.disk.main = {
     type = "disk";
-    device = "/dev/disk/by-id/some-disk-id";
+    device = "/dev/vda";
     content = {
       type = "gpt";
       partitions = {
