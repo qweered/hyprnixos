@@ -118,10 +118,6 @@
       ];
       description = "GPU architecture of the host.";
     };
-    hostName = lib.mkOption {
-      type = lib.types.str;
-      description = "Hostname of the host.";
-    };
     hostPlatform = lib.mkOption {
       type = lib.types.enum lib.systems.flakeExposed;
       example = "x86_64-linux";
@@ -135,7 +131,6 @@
   config = {
     _module.args.cfg = config.hyprnix;
     nixpkgs.hostPlatform = config.hyprnix.hostPlatform;
-    networking.hostName = config.hyprnix.hostName;
     system.stateVersion = config.hyprnix.stateVersion;
   };
 }

@@ -1,4 +1,4 @@
-{ cfg, pkgs, ... }:
+{ osConfig, pkgs, ... }:
 
 let
   launcher = "vicinae toggle";
@@ -9,7 +9,7 @@ let
   volumeDown = "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-";
   run = app: "uwsm app -- ${app}";
   toggle = app: "pkill ${builtins.head (builtins.split " " app)} || uwsm app -- ${app}";
-  micInsteadOfSpeaker = if cfg.hostName == "hyprnix" then "@DEFAULT_AUDIO_SOURCE@" else "@DEFAULT_AUDIO_SINK@";
+  micInsteadOfSpeaker = if osConfig.networking.hostName == "hyprnix" then "@DEFAULT_AUDIO_SOURCE@" else "@DEFAULT_AUDIO_SINK@";
   screenshot = pkgs.writeShellScript "screenshot" ''
     grim -g "$(slurp -b 1B1F28CC -s C778DD0D)" - | \
     satty --filename - --fullscreen \

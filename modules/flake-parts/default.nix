@@ -42,7 +42,12 @@ let
         inherit inputs;
         enableTroubleshootingShell = false;
       };
-      modules = (inputs.import-tree.filterNot exclude ./..).imports;
+      # The directory name is the single source of truth for the hostname: it
+      # already keys this nixosConfiguration, so deriving networking.hostName from
+      # it makes a folder/hostname mismatch impossible by construction.
+      modules = (inputs.import-tree.filterNot exclude ./..).imports ++ [
+        { networking.hostName = name; }
+      ];
     };
 in
 {

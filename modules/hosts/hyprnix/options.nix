@@ -3,7 +3,6 @@
   hyprnix = {
     cpu = "amd";
     gpu = "amd";
-    hostName = "hyprnix";
     hostPlatform = "x86_64-linux";
     desktop = "hyprland";
     stateVersion = "26.05";
