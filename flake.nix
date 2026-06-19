@@ -33,6 +33,11 @@
     flake-compat = {
       url = "github:NixOS/flake-compat";
     };
+    flake-utils = {
+      # only for nix-output-monitor
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
     blueprint = {
       # only for llm-agents
       url = "github:numtide/blueprint";
@@ -101,6 +106,15 @@
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
+    };
+    nix-output-monitor = {
+      # use upstream flake: overlaying only `src` onto nixpkgs breaks the Haskell build
+      url = "github:maralorn/nix-output-monitor";
+      inputs = {
+        nixpkgs.follows = "nixpkgs"; # does not need cache hit
+        flake-utils.follows = "flake-utils";
+        git-hooks.follows = "git-hooks";
+      };
     };
     nixcord = {
       url = "github:kaylorben/nixcord";
