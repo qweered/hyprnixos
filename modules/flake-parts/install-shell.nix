@@ -89,6 +89,32 @@
             sudo mkswap "$swapfile"
             sudo swapon "$swapfile"
 
+            # nom draws its build dependency graph by reading each build's .drv
+            # from the host's /nix/store — a path it hardcodes (it has no --store
+            # flag). But phase 2 below realises the closure with `nixos-install
+            # --store /mnt`, so those .drv files physically live under
+            # /mnt/nix/store; nom can't find them and prints a harmless
+            # "DerivationReadError ... does not exist" for every build. Downloads
+            # carry their own info in the JSON stream, so they stay clean — which
+            # is why only builds are noisy.
+            #
+            # Pre-instantiate the system closure into the host store so nom's reads
+            # resolve. Evaluating `.drvPath` writes only the .drv *text* files (a
+            # few MB total), never their outputs, so it does NOT reintroduce the
+            # tmpfs OOM the two-phase split exists to avoid. A .drv hash is
+            # content-addressed by the evaluation and independent of the store
+            # root, so it matches exactly what nixos-install reports. nixos-install
+            # re-evaluates anyway, so peak RAM is unchanged — only one extra eval's
+            # time, paid now that swap is up. Best-effort: a failure here merely
+            # brings back the cosmetic noise, it never aborts the install.
+            flakeref="''${installable%%#*}"
+            host="''${installable#*#}"
+            echo ">>> Pre-instantiating system closure on host store (lets nom read .drv files)"
+            nix eval --raw \
+              "''${flakeref}#nixosConfigurations.\"''${host}\".config.system.build.toplevel.drvPath" \
+              >/dev/null 2>&1 \
+              || echo ">>> (instantiate skipped/failed — nom may show harmless DerivationReadError noise)"
+
             echo ">>> Phase 2/2: install system to /mnt (nixos-install)"
             # Unlike disko-install, nixos-install copies the closure directly into
             # /mnt/nix/store (the freshly-formatted disk) rather than building it
