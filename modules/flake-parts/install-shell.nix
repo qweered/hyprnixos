@@ -39,16 +39,11 @@
         name = "hyprnixos-format";
         usage = "<host>   # partition + format + install (DESTRUCTIVE); device comes from the host config";
         runtimeInputs = [ pkgs.nix-output-monitor ];
-        # Two steps instead of disko-install on purpose: disko-install builds the
-        # whole closure into the live ISO's RAM-backed store *before* touching the
-        # disk and forces DISKO_SKIP_SWAP, so a large desktop closure runs the ISO
-        # out of memory. Plain `disko` formats *first* and runs `swapon` on the
-        # swap partition, so the subsequent build can spill to disk-backed swap.
         body = ''
-          # 1. Partition, format, and mount the target, activating swap. The disk
-          #    device is read from modules/hosts/$host/filesystems.nix (plain disko
-          #    has no CLI device override). --option goes on `nix`, not disko, which
-          #    does not forward it.
+          # 1. Partition, format, and mount the target. The disk device is read
+          #    from modules/hosts/$host/filesystems.nix (plain disko has no CLI
+          #    device override). --option goes on `nix`, not disko, which does not
+          #    forward it.
           sudo nix \
             --extra-experimental-features "nix-command flakes" \
             --option extra-substituters "${substitutersArg}" \
@@ -57,18 +52,35 @@
             --mode destroy,format,mount --yes-wipe-all-disks \
             --flake "$flake#$host"
 
-          # 2. Build the system with a live nom progress graph. Runs under sudo so
-          #    the extra caches are trusted, and `env PATH=$PATH` carries nom past
-          #    sudo's secure_path. tmpfs now spills to the swap from step 1.
+          # 2. Activate a temporary swapfile on the target. The live ISO keeps the
+          #    Nix store in a RAM-backed tmpfs, and the manual warns the build "may
+          #    need quite a bit of RAM"; tmpfs pages can swap, so this lets a large
+          #    closure spill to disk instead of failing with "No space left on
+          #    device". It is removed in step 5, so it never reaches the installed
+          #    system. dd (not fallocate) because xfs swapfiles must be hole-free.
+          swapfile=/mnt/.install-swap
+          sudo dd if=/dev/zero of="$swapfile" bs=1M count=16384 status=progress
+          sudo chmod 600 "$swapfile"
+          sudo mkswap "$swapfile"
+          sudo swapon "$swapfile"
+
+          # 3. Build the system with a live nom progress graph. Under sudo so the
+          #    extra caches are trusted; env PATH=$PATH carries nom past sudo's
+          #    secure_path.
           sudo env "PATH=$PATH" nom build --no-link \
+            --extra-experimental-features "nix-command flakes" \
             "$flake#nixosConfigurations.$host.config.system.build.toplevel" \
             --option extra-substituters "${substitutersArg}" \
             --option extra-trusted-public-keys "${trustedKeysArg}"
 
-          # 3. Install the now-built system onto /mnt (disko's default mountpoint).
+          # 4. Install the now-built system onto /mnt (disko's default mountpoint).
           sudo nixos-install --flake "$flake#$host" --no-root-password --no-channel-copy \
             --option extra-substituters "${substitutersArg}" \
             --option extra-trusted-public-keys "${trustedKeysArg}"
+
+          # 5. Drop the temporary swapfile so it is not left on the installed system.
+          sudo swapoff "$swapfile"
+          sudo rm -f "$swapfile"
         '';
       };
 

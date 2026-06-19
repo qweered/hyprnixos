@@ -28,18 +28,22 @@ reboot
 hyprnixos-switch new-host
 ```
 
-`hyprnixos-format` does three things: [`disko`](https://github.com/nix-community/disko)
-partitions/formats the disk (the device comes from the host's
-`filesystems.nix`) and mounts it — including a swap partition it activates with
-`swapon` — then the system is built with a live
+`hyprnixos-format` follows the standard
+[NixOS install flow](https://nixos.org/manual/nixos/stable/#sec-installation):
+[`disko`](https://github.com/nix-community/disko) partitions/formats the disk
+(the device comes from the host's `filesystems.nix`) and mounts it, a temporary
+swapfile is activated on the target, the system is built with a live
 [nix-output-monitor](https://github.com/maralorn/nix-output-monitor) progress
-graph, and finally `nixos-install` copies it onto the target.
+graph, `nixos-install` copies it onto the target, and the swapfile is removed.
 
-> The swap partition matters: it lets the build spill to disk. Without it,
-> `disko-install`-style one-shot installs build the whole closure into the live
-> ISO's RAM and run out of memory on large desktop closures. Make sure the
-> swap size in `filesystems.nix` plus the VM/host RAM comfortably exceeds the
-> closure size.
+> The swapfile is why this works on low-RAM machines. A NixOS live ISO keeps
+> `/nix/store`'s writable layer in a RAM-backed tmpfs, and the manual notes the
+> build "may need quite a bit of RAM" — so a large desktop closure runs out of
+> memory ("No space left on device") without swap. The swapfile lets tmpfs spill
+> to the disk; it lives only at `/mnt/.install-swap` during the install and is
+> `swapoff`'d and deleted afterwards, so it never reaches the installed system
+> (no swap in your declarative config). It defaults to 16G — bump the `count=` in
+> `install-shell.nix` if a build still runs out.
 
 Set `FLAKE=<ref>` to install from somewhere other than the published flake
 (e.g. `FLAKE=. hyprnixos-switch new-host` to use a local clone). From the second
