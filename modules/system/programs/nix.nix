@@ -35,6 +35,7 @@ in
     registry = lib.mapAttrs (_: v: { flake = v; }) flakeInputs; # pin the registry
     nixPath = lib.mapAttrsToList (key: _: "${key}=flake:${key}") config.nix.registry; # set the path for channels compatibility
 
+    # TODO: still does not work i think
     extraOptions = ''
       !include ${config.age.secrets.git-token.path}
     '';
