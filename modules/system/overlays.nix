@@ -4,10 +4,9 @@
   ...
 }:
 let
-  llm-agents = inputs.llm-agents.packages.${config.hyprnix.hostPlatform};
+  llm-agents = inputs.llm-agents.packages.${config.hyprnixos.hostPlatform};
 in
 {
-  # TODO: why overlays don't work in flake-parts?
   nixpkgs.overlays = [
     inputs.nix-cachyos-kernel.overlays.pinned
     inputs.nix-output-monitor.overlays.default

@@ -1,3 +1,6 @@
+{ cfg, lib, ... }:
 {
-  # TODO
+  config = lib.mkIf (cfg.gpu == "nvidia") {
+    # TODO
+  };
 }

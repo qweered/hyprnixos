@@ -6,7 +6,7 @@
 }:
 
 {
-  options.hyprnix = {
+  options.hyprnixos = {
     desktop = lib.mkOption {
       type = lib.types.enum [
         "hyprland"
@@ -16,7 +16,7 @@
     };
     isWindowManager = lib.mkOption {
       type = lib.types.bool;
-      default = config.hyprnix.desktop == "hyprland";
+      default = config.hyprnixos.desktop == "hyprland";
       description = "Whether current desktop environment is a window-manager.";
     };
     defaultScreenResolution = lib.mkOption {
@@ -93,15 +93,10 @@
         )
       );
     };
-    isSecureBootConfigured = lib.mkOption {
+    secureBootConfigured = lib.mkOption {
       type = lib.types.bool;
       default = false;
       description = "Set to true if manual configuration for secure boot has been performed";
-    };
-    kernel = lib.mkOption {
-      type = lib.types.raw;
-      default = pkgs.cachyosKernels.linuxPackages-linux-cachyos-latest-lto;
-      description = "The kernel packages set to use (passed to boot.kernelPackages)";
     };
     cpu = lib.mkOption {
       type = lib.types.enum [
@@ -129,8 +124,8 @@
   # TODO: for cpu and gpu migrate to facter
 
   config = {
-    _module.args.cfg = config.hyprnix;
-    nixpkgs.hostPlatform = config.hyprnix.hostPlatform;
-    system.stateVersion = config.hyprnix.stateVersion;
+    _module.args.cfg = config.hyprnixos;
+    nixpkgs.hostPlatform = config.hyprnixos.hostPlatform;
+    system.stateVersion = config.hyprnixos.stateVersion;
   };
 }

@@ -3,6 +3,8 @@
 * fix plymouth flick
 * make lazydocker work with podman
 * refactor assets into github repository
+* why overlays don't work in flake-parts?
+* expose custom packages via flake.packages
 * home-manager in flake-parts? https://github.com/khaneliman/khanelinix/blob/4f55285944563cd24e07753eb484a557fa2d5cd1/flake/home.nix#L35
 * home-manager.sharedModules
 * see nixos-ez-flake and blueprint, dendritic, vic, den

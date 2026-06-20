@@ -1,8 +1,4 @@
-{ inputs, ... }:
-
 {
-  imports = [ inputs.disko.nixosModules.disko ];
-
   disko.devices.disk.main = {
     type = "disk";
     device = "/dev/disk/by-id/nvme-KBG50ZNV256G_KIOXIA_62CPGFT7QXQ5";

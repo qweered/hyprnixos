@@ -1,13 +1,11 @@
-{ pkgs, ... }:
 {
-  hyprnix = {
-    cpu = "amd"; # CHANGE ME
-    gpu = "amd"; # CHANGE ME
+  hyprnixos = {
+    cpu = "intel"; # CHANGE ME
+    gpu = "intel"; # CHANGE ME
     hostPlatform = "x86_64-linux";
-    desktop = "hyprland";
+    desktop = "hyprland"; # or kde
     stateVersion = "26.05";
-    isSecureBootConfigured = false;
-    kernel = pkgs.cachyosKernels.linuxPackages-cachyos-bore-lto-x86_64-v3; # or rt-bore
+    secureBootConfigured = false;
     users.kavazar.enable = true;
   };
 }

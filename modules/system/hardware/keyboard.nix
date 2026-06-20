@@ -1,13 +1,8 @@
-{
-  cfg,
-  lib,
-  pkgs,
-  ...
-}:
+{ cfg, pkgs, ... }:
 
 let
-  canary_eng = toString (
-    pkgs.writeText "canary_eng" ''
+  canary = toString (
+    pkgs.writeText "canary" ''
       xkb_symbols "canary" {
           include "us(basic)"
 
@@ -48,13 +43,13 @@ let
     ''
   );
 
-  canary_rus = toString (
-    pkgs.writeText "canary_rus" ''
+  rus_canary = toString (
+    pkgs.writeText "rus_canary" ''
       xkb_symbols "rus_canary" {
           include "ru(winkeys)"
 
           key <AD01> {[ Cyrillic_sha, Cyrillic_SHA ]};       // w -> ш
-          key <AD02> {[ Cyrillic_el, Cyrillic_EL ]};         // l -> л 
+          key <AD02> {[ Cyrillic_el, Cyrillic_EL ]};         // l -> л
           key <AD03> {[ Cyrillic_u, Cyrillic_U ]};           // y -> у
           key <AD04> {[ Cyrillic_pe, Cyrillic_PE ]};         // p -> п
           key <AD05> {[ Cyrillic_tse, Cyrillic_TSE ]};       // k -> ц
@@ -93,7 +88,7 @@ let
   );
 
   baseLayouts = "us,ru";
-  layout = baseLayouts + lib.optionalString (cfg.users.qweered.enable or false) ",${cfg.users.qweered.keyboardLayouts}";
+  layout = if (cfg.users.qweered.enable or false) then "${cfg.users.qweered.keyboardLayouts},${baseLayouts}" else baseLayouts;
 in
 {
   console.useXkbConfig = true;
@@ -104,12 +99,12 @@ in
       canary = {
         description = "Best layout ever";
         languages = [ "eng" ];
-        symbolsFile = canary_eng;
+        symbolsFile = canary;
       };
       rus_canary = {
         description = "Russian mnemonic of canary layout";
         languages = [ "rus" ];
-        symbolsFile = canary_rus;
+        symbolsFile = rus_canary;
       };
     };
   };

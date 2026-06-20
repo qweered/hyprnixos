@@ -25,7 +25,7 @@ in
   };
 
   nix = {
-    package = inputs.determinate.packages.${config.hyprnix.hostPlatform}.default;
+    package = inputs.determinate.packages.${config.hyprnixos.hostPlatform}.default;
     channel.enable = false;
 
     # improve desktop responsiveness when updating the system
