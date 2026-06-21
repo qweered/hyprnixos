@@ -45,6 +45,7 @@ in
         du = "gdu";
         top = "btop";
         htop = "btop";
+        tree = "eza --tree";
         rm = "rip";
         svi = "sudo nvim";
         codex = "codex --dangerously-bypass-hook-trust";

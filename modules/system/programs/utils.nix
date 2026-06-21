@@ -48,7 +48,6 @@ in
     # for ftp
     (lib.lowPrio inetutils)
     iw
-    tree
     # various utils
     (lib.lowPrio (
       busybox.override {
