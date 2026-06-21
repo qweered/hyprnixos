@@ -10,9 +10,7 @@
       # TODO: col = {}
       "col.inactive_border" =
         "rgba(90,90,110,0.3) rgba(100,100,120,0.3) rgba(110,110,130,0.3) rgba(120,120,140,0.3) rgba(130,130,150,0.3) rgba(140,140,160,0.3) rgba(150,150,170,0.3) 45deg";
-      # LGBT lightning
-      "col.active_border" =
-        "rgba(179,0,0,0.8) rgba(179,89,0,0.8) rgba(179,179,0,0.8) rgba(0,179,0,0.8) rgba(0,0,179,0.8) rgba(53,0,92,0.8) rgba(101,0,179,0.8) 45deg";
+      "col.active_border" = "rgba(150,150,200,0.8)";
       # "col.nogroup_border" = 1;
       # "col.nogroup_border_active" = 1;
       # snap =  {
@@ -57,7 +55,7 @@
         "windowsOut,1,3,smoothOut,slide" # Windows slide out with smoothOut curve
         "windowsMove,1,5,wind,slide" # Window movement with wind curve
         "border,1,1,liner" # Border animation using linear curve
-        "borderangle,1,180,liner,loop" # Rotating border animations
+        "borderangle,0" # Disabled: rotating gradient borders are CPU-heavy
         "fade,1,3,smoothOut" # Fade animation with smoothOut curve
         "workspaces,1,5,overshot" # Workspace animation with overshooting curve
         "workspacesIn,1,5,winIn,slide" # Slide in

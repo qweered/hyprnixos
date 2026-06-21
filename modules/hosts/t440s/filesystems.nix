@@ -1,7 +1,7 @@
 {
   disko.devices.disk.main = {
     type = "disk";
-    device = "/dev/disk/by-id/nvme-KBG50ZNV256G_KIOXIA_62CPGFT7QXQ5";
+    device = "/dev/disk/by-id/ata-CT120BX500SSD1_2043E4123822";
     content = {
       type = "gpt";
       partitions = {

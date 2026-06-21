@@ -3,10 +3,10 @@
 {
   programs.gpg = {
     enable = true;
-    mutableKeys = false;
-    mutableTrust = false;
+    mutableKeys = true;
+    mutableTrust = true;
     settings = {
-      default-key = "CACB28BA93CE71A2";
+      default-key = "6807099C36539409";
     };
   };
 
