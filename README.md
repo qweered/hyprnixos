@@ -7,7 +7,8 @@ Every sub-directory of `modules/hosts/` is a host: its name becomes the
 `nixosConfiguration` (and hostname), and its private modules live alongside it.
 Everything else under `modules/` is shared across all hosts. CPU/GPU variant
 files (e.g. `modules/system/hardware/cpu/amd.nix`) are auto-selected per host
-from the `cpu`/`gpu` options.
+from the `cpu`/`gpu` options, and each host picks its desktop with the
+`desktop` option (`hyprland` or `kde`).
 
 ## Installing on a new host
 
@@ -59,10 +60,12 @@ cache.
 - **`-H <host>` is required**, which the wrappers pass for you. `nh` otherwise
   infers the config name from the running hostname (`nixos` in the ISO, or unset
   for `new-host`), which won't match the host directory.
-- **`new-host` needs real values before it'll install.** `hostName = null`,
-  `cpu`/`gpu`, and `device = "/dev/disk/by-id/some-disk-id"` in
-  `modules/hosts/new-host/{options,filesystems}.nix` are `CHANGE ME`
-  placeholders — disko will refuse the bogus disk id.
+- **`new-host` needs real values before it'll install.** The hostname is derived
+  from the directory name, so there's nothing to set for it — but `cpu`/`gpu` in
+  `modules/hosts/new-host/options.nix` are `CHANGE ME` placeholders, and `device`
+  in `modules/hosts/new-host/filesystems.nix` defaults to `/dev/vda` (a VM disk).
+  Point `device` at the host's real disk (or override it at install time with the
+  `main=<device>` argument shown above) before formatting anything for real.
 - **agenix secrets** are keyed to the host's SSH key. On a brand-new host whose
   host key isn't enrolled yet, secrets won't decrypt on first boot — but thanks
   to the `or null` guard in `modules/system/config.nix`, users cleanly fall back
@@ -82,7 +85,7 @@ caches with `--option extra-substituters "<urls>"` and
 - Replace credentials in `modules/home/programs/programming/git.nix`
 - For new hosts, add a directory under `modules/hosts/<name>/`
 - For new users, add a profile under `modules/users/<name>.nix` and enable it on
-  a host with `hyprnix.users.<name>.enable = true`
+  a host with `hyprnixos.users.<name>.enable = true`
 - Add secrets with `agenix edit secrets/<name>.age` and rekey with
   `agenix rekey -a`
 
@@ -91,7 +94,7 @@ caches with `--option extra-substituters "<urls>"` and
 Key creation and enrollment are handled automatically by the Limine bootloader:
 on the first `nixos-rebuild` where no keys exist yet, it runs `sbctl create-keys`,
 `sbctl enroll-keys`, and signs the bootloader. This only triggers when the host
-sets `isSecureBootConfigured = true` and `/var/lib/sbctl` does not already exist.
+sets `secureBootConfigured = true` and `/var/lib/sbctl` does not already exist.
 
 Only the firmware-side steps remain manual, because they require physical
 presence and cannot be scripted:
@@ -100,7 +103,7 @@ presence and cannot be scripted:
 2. In the firmware, enable Secure Boot **Setup Mode** (or erase the existing
    keys). `sbctl enroll-keys` only succeeds while the Platform Key is cleared.
    Take care on ThinkPad and Framework 13.
-3. Set `isSecureBootConfigured = true` in the host options.
+3. Set `secureBootConfigured = true` in the host options.
 4. Run `nixos-rebuild boot --flake .` — the module now creates, enrolls, and
    signs with no further input.
 5. Reboot into the firmware once more and confirm Secure Boot is enabled.
