@@ -13,7 +13,7 @@
       enable = true;
       git = {
         enable = true;
-        diffToolMode = true;
+        mode = "both"; # external and difftool
       };
       jujutsu.enable = true;
       options = {

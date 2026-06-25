@@ -6,9 +6,9 @@
 }:
 {
   imports = [ inputs.vicinae.homeManagerModules.default ];
-  disabledModules = [ "programs/vicinae.nix" ]; # to be sure that we don't use it
+  disabledModules = [ "programs/vicinae.nix" ]; # use flake module instead
 
-  services.vicinae = {
+  programs.vicinae = {
     enable = true;
     package = pkgs.vicinae;
     systemd.enable = true;
