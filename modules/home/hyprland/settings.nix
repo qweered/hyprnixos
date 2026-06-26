@@ -46,7 +46,7 @@
 
       input = {
         kb_layout = user.keyboardLayouts;
-        kb_options = "grp:alt_shift_toggle,lv3:ralt_switch";
+        kb_options = "grp:alt_space_toggle,lv3:ralt_switch";
         repeat_rate = 30;
         repeat_delay = 300;
         follow_mouse = 1;
