@@ -297,8 +297,10 @@
           lsp.servers = [ "nixd" ];
           format.type = [ "nixfmt" ];
         };
-
-        typescript.enable = true;
+        typescript = {
+          enable = true;
+          format.enable = false;
+        };
         markdown = {
           enable = true;
           extraDiagnostics.types = [ "rumdl" ];
