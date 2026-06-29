@@ -1,11 +1,5 @@
 { pkgs, lib, ... }:
 let
-  # use cloudflare, quad9 (slower) and adguard with DNS over TLS
-  nameservers = [
-    "1.1.1.2#security.cloudflare-dns.com"
-    "9.9.9.9#dns.quad9.net"
-    "94.140.14.14#dns.adguard-dns.com"
-  ];
   nmcli = lib.getExe' pkgs.networkmanager "nmcli";
 in
 {
@@ -22,16 +16,22 @@ in
     # CONFIG: may replace networkmanager
     # but currently creates wait-online- (yes with -) service that cannot be disabled
     # useNetworkd = true;
-    inherit nameservers;
+
+    # use cloudflare, quad9 (slower) and adguard with DNS over TLS
+    nameservers = [
+      "1.1.1.2#security.cloudflare-dns.com"
+      "9.9.9.9#dns.quad9.net"
+      "94.140.14.14#dns.adguard-dns.com"
+    ];
     firewall.enable = false; # CONFIG
     networkmanager = {
       enable = true;
       wifi.powersave = true;
-      plugins = with pkgs; [ networkmanager-openvpn ];
       # for captive portals but don't work it seems
       # contribute to nixpkgs https://wiki.archlinux.org/title/NetworkManager#Checking_connectivity
       # settings.connectivity.uri = "http://nmcheck.gnome.org/check_network_status.txt";
 
+      plugins = with pkgs; [ networkmanager-openvpn ];
       # Split tunneling: VPN connections should never become the default route.
       # VPN-specific subnets (e.g. 10.129.0.0/16) are still routed through the tunnel,
       # but general internet traffic stays on the normal connection.
@@ -52,19 +52,18 @@ in
     };
   };
 
-  # Mutable /etc/hosts for CTF/pentesting, impure changes will be overrited during rebuild
+  # Mutable /etc/hosts for CTF/pentesting, impure changes will be discarded during rebuild
   environment.etc."hosts".mode = "0644";
 
   services.resolved = {
     enable = true;
     settings = {
       Resolve = {
+        # DNS comes from networking.nameservers
         Cache = true;
-        DNS = nameservers;
         DNSOverTLS = "opportunistic";
         DNSSEC = "allow-downgrade";
         Domains = [ "~." ];
-        FallbackDNS = nameservers;
       };
     };
   };
