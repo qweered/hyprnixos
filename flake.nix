@@ -15,6 +15,10 @@
       url = "https://github.com/NixOS/nixpkgs/pull/498999.diff";
       flake = false;
     };
+    nixpkgs-patch-singularityapp = {
+      url = "https://github.com/NixOS/nixpkgs/pull/535346.diff";
+      flake = false;
+    };
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
       inputs = {
