@@ -75,9 +75,9 @@
       ];
 
       settings = {
-        user.name = "Aliaksandr";
-        user.email = "grubian2@gmail.com";
-        github.user = "qweered";
+        user.name = "Zahar";
+        user.email = "zaharkalosha@gmail.com";
+        github.user = "Kavazar-i";
         feature.experimental = true;
         credential.helper = "libsecret";
 
