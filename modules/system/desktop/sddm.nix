@@ -1,12 +1,19 @@
 { pkgs, ... }:
 
 let
+  # Custom YouTube video as SDDM login background
+  # "Cat eating a chips through the windows 7 wallpaper"
+  sddm-bg-video = ./../../../assets/sddm-bg.mp4;
+  sddm-bg-placeholder = ./../../../assets/sddm-bg-placeholder.jpg;
+
   sddm-astronaut = pkgs.sddm-astronaut.override {
-    # CONFIG:
-    #    themeConfig = {
-    #    };
     # See: https://github.com/Keyitdev/sddm-astronaut-theme
     embeddedTheme = "hyprland_kath";
+    themeConfig = {
+      Background = "${sddm-bg-video}";
+      BackgroundPlaceholder = "${sddm-bg-placeholder}";
+      CropBackground = "true";
+    };
   };
 in
 

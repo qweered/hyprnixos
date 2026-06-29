@@ -45,6 +45,7 @@ in
       workspace_swipe_forever = false; # swipe multiple workspaces at once
       gesture = [
         "3, horizontal, workspace"
+        "3, down, dispatcher, exec, dms ipc call hypr toggleOvedownrview" # workspace overview
         "4, left, dispatcher, movetoworkspace, -1" # or monitor when i have more than one
         "4, right, dispatcher, movetoworkspace, +1"
         "4, pinch, fullscreen"
@@ -88,7 +89,7 @@ in
         "SUPER_ALT, Tab, bringactivetotop"
         "SUPER, M, togglespecialworkspace, magic"
         "SUPER, P, movetoworkspace, special:magic"
-        "CTRL_ALT, Delete, exit"
+        "CTRL_ALT, Q, exit"
         "SUPER, Q, killactive"
         "SUPER, T, togglefloating"
         "SUPER, F, fullscreen"

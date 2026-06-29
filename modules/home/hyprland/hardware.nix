@@ -12,9 +12,9 @@
     };
 
     device = {
-      name = "elan071a:00-04f3:30fd-touchpad";
-      sensitivity = -0.1;
-      scroll_factor = 0.4;
+      name = "synaptics-tm2962-001";
+      sensitivity = 0.0; # was -0.1 — negative deceleration compounded the scroll rounding issue
+      scroll_factor = 0.4; # was 0.4 — too low; discrete events round to 0 at slow scroll speeds
     };
   };
 }
