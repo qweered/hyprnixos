@@ -1,12 +1,42 @@
 { pkgs, lib, ... }:
 let
   nmcli = lib.getExe' pkgs.networkmanager "nmcli";
+
+  captivePortalLogin = pkgs.writeShellApplication {
+    name = "captive-portal-login";
+    runtimeInputs = with pkgs; [
+      systemd # resolvectl
+      iproute2 # ip
+      xdg-utils # xdg-open
+    ];
+    text = ''
+      iface=$(ip route show default | awk '{print $5; exit}')
+      gw=$(ip route show default | awk '{print $3; exit}')
+      if [ -z "$iface" ] || [ -z "$gw" ]; then
+        echo "No default route found - are you associated with the network yet?" >&2
+        exit 1
+      fi
+
+      echo "Routing DNS for $iface via gateway $gw (plaintext) for portal login..."
+      # Restore enforced DoT no matter how we exit.
+      trap 'echo "Restoring enforced DoT-only DNS..."; resolvectl revert "$iface"' EXIT
+      resolvectl dns "$iface" "$gw"
+      resolvectl domain "$iface" "~."
+
+      # neverssl.com is plain HTTP and never redirects to HTTPS, so the portal
+      # can transparently intercept it and show its login page.
+      xdg-open http://neverssl.com >/dev/null 2>&1 \
+        || echo "Open http://neverssl.com in your browser to reach the portal."
+      read -r -p "Press Enter once the captive-portal login is complete... " _
+    '';
+  };
 in
 {
   # TODO: testing
   # The notion of "online" is a broken concept
   # https://github.com/systemd/systemd/blob/e1b45a756f71deac8c1aa9a008bd0dab47f64777/NEWS#L13
   # systemd.services.NetworkManager-wait-online.enable = false;
+  # boot.initrd.systemd.network.wait-online.enable = false;
   # systemd.network.wait-online.enable = false;
 
   # I don't use mobile modems
@@ -16,6 +46,10 @@ in
     # CONFIG: may replace networkmanager
     # but currently creates wait-online- (yes with -) service that cannot be disabled
     # useNetworkd = true;
+
+    # We configure dns manually
+    useDHCP = false;
+    dhcpcd.enable = false;
 
     # use cloudflare, quad9 (slower) and adguard with DNS over TLS
     nameservers = [
@@ -48,12 +82,39 @@ in
           '';
           type = "basic";
         }
+        {
+          # Enforce DoT-only DNS: drop DHCP-provided resolvers (e.g. the router
+          # at 192.168.0.1) so only `networking.nameservers` are used.
+          # `ipv4.ignore-auto-dns` is NOT an overridable NetworkManager.conf
+          # [connection] default, so it must be set on each profile. Scoped to
+          # Wi-Fi/Ethernet so VPN- and Tailscale-pushed DNS still work.
+          # The ignore-auto-dns guard makes this idempotent and avoids a
+          # modify -> reapply -> dispatcher loop.
+          source = pkgs.writeShellScript "ignore-dhcp-dns" ''
+            case "$2" in
+              up | dhcp4-change | dhcp6-change)
+                case "$(${nmcli} -g connection.type connection show "$CONNECTION_UUID")" in
+                  802-11-wireless | 802-3-ethernet)
+                    if [ "$(${nmcli} -g ipv4.ignore-auto-dns connection show "$CONNECTION_UUID")" != "yes" ]; then
+                      ${nmcli} connection modify "$CONNECTION_UUID" ipv4.ignore-auto-dns yes ipv6.ignore-auto-dns yes
+                      ${nmcli} device reapply "$DEVICE_IFACE"
+                    fi
+                    ;;
+                esac
+                ;;
+            esac
+          '';
+          type = "basic";
+        }
       ];
     };
   };
 
   # Mutable /etc/hosts for CTF/pentesting, impure changes will be discarded during rebuild
   environment.etc."hosts".mode = "0644";
+
+  # `captive-portal-login`: temporarily hand DNS back to the gateway to log in.
+  environment.systemPackages = [ captivePortalLogin ];
 
   services.resolved = {
     enable = true;
