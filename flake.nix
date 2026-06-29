@@ -2,7 +2,7 @@
   description = "HyprNixOS";
 
   inputs = {
-    # nixpkgs-local-testing.url = "git+file:///home/qweered/Projects/nixpkgs";
+    # nixpkgs-local-testing.url = "git+file:///home/kavazar/Projects/nixpkgs";
     # nixpkgs-unstable-with-unfree.url = "github:numtide/nixpkgs-unfree/nixpkgs-unstable" - can't get this to work
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"; # Smaller then github tarball, less api hits

@@ -88,7 +88,7 @@ let
   );
 
   baseLayouts = "us,ru";
-  layout = if (cfg.users.qweered.enable or false) then "${cfg.users.qweered.keyboardLayouts},${baseLayouts}" else baseLayouts;
+  layout = if (cfg.users.kavazar.enable or false) then "${cfg.users.kavazar.keyboardLayouts},${baseLayouts}" else baseLayouts;
 in
 {
   console.useXkbConfig = true;

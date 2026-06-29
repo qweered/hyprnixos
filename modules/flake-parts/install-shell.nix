@@ -1,9 +1,9 @@
-# git clone https://github.com/qweered/hyprnixos
+# git clone https://github.com/Kavazar-i/hyprnixos
 # cd hyprnixos
 # nix --extra-experimental-features "nix-command flakes" develop .#install
 # hyprnixos-install <host>|<flake#host>
 # or
-# nix --extra-experimental-features "nix-command flakes" run github:qweered/hyprnixos#install -- <host>
+# nix --extra-experimental-features "nix-command flakes" run github:Kavazar-i/hyprnixos#install -- <host>
 
 { config, lib, ... }:
 {
@@ -142,7 +142,7 @@
       # nix run <flake>#install -- <host>
       apps.install = {
         type = "app";
-        program = lib.getExe (mkInstaller "github:qweered/hyprnixos");
+        program = lib.getExe (mkInstaller "github:Kavazar-i/hyprnixos");
       };
 
       # nix develop .#install
@@ -157,7 +157,7 @@
           hyprnixos-install <host>|<flake#host>
 
           A bare <host> resolves against the flake in the current directory; pass
-          <flake#host> to install from anywhere, e.g. github:qweered/hyprnixos#new-host.
+           <flake#host> to install from anywhere, e.g. github:Kavazar-i/hyprnixos#new-host.
 
           The target disk comes from the host's filesystems.nix (disko config) —
           edit disko.devices.disk.<name>.device to retarget. The install runs in

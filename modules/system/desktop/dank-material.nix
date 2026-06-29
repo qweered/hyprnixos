@@ -11,7 +11,7 @@
     # TODO: requires config for keyboard etc.
     # services.displayManager.dms-greeter = {
     #   enable = true;
-    #   configHome = "/home/qweered";
+    #   configHome = "/home/kavazar";
     #   compositor.name = false;
   };
 }

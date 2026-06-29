@@ -12,7 +12,7 @@ from the `cpu`/`gpu` options.
 ## Installing on a new host
 
 ```bash
-nix develop github:qweered/hyprnixos#install
+nix develop github:Kavazar-i/hyprnixos#install
 ```
 
 It prints its own help on entry. Each wrapper takes the host name (the directory
@@ -49,7 +49,7 @@ graph, `nixos-install` copies it onto the target, and the swapfile is removed.
 
 A bare host installs from the flake in the current directory (the clone you're
 in); pass a full `<flake#host>` to install from elsewhere instead (e.g.
-`hyprnixos-format github:qweered/hyprnixos#new-host`). From the second
+`hyprnixos-format github:Kavazar-i/hyprnixos#new-host`). From the second
 switch onward nothing extra is needed — `modules/system/programs/nix.nix` is now
 live, so the plain `nh os switch` (the `nh-switch` alias) already knows every
 cache.

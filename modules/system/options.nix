@@ -33,7 +33,7 @@
     users = lib.mkOption {
       default = { };
       example = {
-        qweered = { };
+        kavazar = { };
       };
       description = ''
         User profiles, keyed by username. Defining a user here only describes it

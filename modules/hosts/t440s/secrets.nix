@@ -1,7 +1,7 @@
 {
   # TODO: add your secrets here
   # age.rekey = {
-  #   hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPVjxBjMD5IgA4wapXqAO5zB90yO+Bz1vm2ZJUkcmugk";
+  #   hostPubkey = "CHANGE_ME: run `cat /etc/ssh/ssh_host_ed25519_key.pub` on the host";
   #   storageMode = "local";
   #   localStorageDir = ../../../secrets/rekeyed/new-host;
   # };

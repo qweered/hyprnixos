@@ -25,8 +25,8 @@
       enable = true;
       settings = {
         user = {
-          name = "Aliaksandr";
-          email = "grubian2@gmail.com";
+          name = "Kavazar-i";
+          email = "zaharkalosha@gmail.com";
         };
         signing = {
           sign-all = true;
@@ -57,7 +57,7 @@
       # The *entire* `upstream` remote (url + narrowed fetch) is declared here, so
       # a fresh clone needs zero manual setup — just clone your fork and `upstream`
       # already exists, pointed at NixOS/nixpkgs, fetching only the branches below:
-      #   git clone git@github.com:qweered/nixpkgs ~/Projects/nixpkgs
+      #   git clone git@github.com:Kavazar-i/nixpkgs ~/Projects/nixpkgs
       # Do NOT run `git remote add upstream …` afterwards: that writes a wildcard
       # `fetch` into .git/config that would accumulate with these refspecs.
       includes = [
