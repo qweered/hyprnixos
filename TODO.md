@@ -23,7 +23,7 @@
 * check all config options of nixos and home-manager
 * check all nix-community repos
 * impermanence
-* encrypt filesystem
+* encrypt filesystem (luks?)
 * nix-mineral
 
 ## No longer want

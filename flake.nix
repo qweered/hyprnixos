@@ -50,11 +50,6 @@
         systems.follows = "systems";
       };
     };
-    gitignore = {
-      # only for git-hooks
-      url = "github:hercules-ci/gitignore.nix";
-      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
-    };
     treefmt-nix = {
       # only for llm-agents and agenix-rekey
       url = "github:numtide/treefmt-nix";
@@ -103,7 +98,6 @@
       url = "github:cachix/git-hooks.nix";
       inputs = {
         flake-compat.follows = "flake-compat";
-        gitignore.follows = "gitignore";
         nixpkgs.follows = "nixpkgs"; # does not need cache hit
       };
     };

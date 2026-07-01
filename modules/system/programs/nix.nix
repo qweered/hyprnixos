@@ -13,6 +13,9 @@ in
     allowAliases = false;
     warnUndeclaredOptions = true;
     checkMeta = true;
+    permittedInsecurePackages = [
+      "pnpm-10.29.2"
+    ];
     # TODO: find a way to make this check less noisy, e.g. showing only one level deep packages
     # showDerivationWarnings = [ "maintainerless" ];
     # strictDepsByDefault = true;
