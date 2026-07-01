@@ -14,6 +14,8 @@ in
     fishPlugins.autopair
   ];
 
+  home.sessionVariables.RIP_GRAVEYARD = "/tmp/graveyard"; # TODO: unneeded with imprermamence
+
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
@@ -47,6 +49,7 @@ in
         htop = "btop";
         tree = "eza --tree";
         rm = "rip";
+        terraform = "tofu";
         svi = "sudo nvim";
         codex = "codex --dangerously-bypass-hook-trust";
         nix-env = "echo 'Do not use nix-env ever, use nix shell or nix run instead'";
