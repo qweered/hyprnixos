@@ -1,6 +1,6 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 let
-  nmcli = lib.getExe' pkgs.networkmanager "nmcli";
+  #  nmcli = lib.getExe' pkgs.networkmanager "nmcli";
 
   captivePortalLogin = pkgs.writeShellApplication {
     name = "captive-portal-login";
@@ -70,50 +70,50 @@ in
       # VPN-specific subnets (e.g. 10.129.0.0/16) are still routed through the tunnel,
       # but general internet traffic stays on the normal connection.
       # NOTE: Not sure if this works or is correct
-      dispatcherScripts = [
-        {
-          source = pkgs.writeShellScript "vpn-never-default" ''
-            case "$2" in
-              vpn-pre-up)
-                # Ensure all VPN connections use split tunneling
-                ${nmcli} connection modify uuid "$CONNECTION_UUID" ipv4.never-default yes ipv6.never-default yes
-                ;;
-            esac
-          '';
-          type = "basic";
-        }
-        {
-          # Enforce DoT-only DNS: drop DHCP-provided resolvers (e.g. the router
-          # at 192.168.0.1) so only `networking.nameservers` are used.
-          # `ipv4.ignore-auto-dns` is NOT an overridable NetworkManager.conf
-          # [connection] default, so it must be set on each profile. Scoped to
-          # Wi-Fi/Ethernet so VPN- and Tailscale-pushed DNS still work.
-          # The ignore-auto-dns guard makes this idempotent and avoids a
-          # modify -> reapply -> dispatcher loop.
-          source = pkgs.writeShellScript "ignore-dhcp-dns" ''
-            case "$2" in
-              up | dhcp4-change | dhcp6-change)
-                case "$(${nmcli} -g connection.type connection show "$CONNECTION_UUID")" in
-                  802-11-wireless | 802-3-ethernet)
-                    if [ "$(${nmcli} -g ipv4.ignore-auto-dns connection show "$CONNECTION_UUID")" != "yes" ]; then
-                      ${nmcli} connection modify "$CONNECTION_UUID" ipv4.ignore-auto-dns yes ipv6.ignore-auto-dns yes
-                      ${nmcli} device reapply "$DEVICE_IFACE"
-                    fi
-                    ;;
-                esac
-                ;;
-            esac
-          '';
-          type = "basic";
-        }
-      ];
+      # dispatcherScripts = [
+      #{
+      # source = pkgs.writeShellScript "vpn-never-default" ''
+      #   case "$2" in
+      #     vpn-pre-up)
+      #       # Ensure all VPN connections use split tunneling
+      #       ${nmcli} connection modify uuid "$CONNECTION_UUID" ipv4.never-default yes ipv6.never-default yes
+      #       ;;
+      #   esac
+      # '';
+      # type = "basic";
+      #}
+      # {
+      # Enforce DoT-only DNS: drop DHCP-provided resolvers (e.g. the router
+      # at 192.168.0.1) so only `networking.nameservers` are used.
+      # `ipv4.ignore-auto-dns` is NOT an overridable NetworkManager.conf
+      # [connection] default, so it must be set on each profile. Scoped to
+      # Wi-Fi/Ethernet so VPN- and Tailscale-pushed DNS still work.
+      # The ignore-auto-dns guard makes this idempotent and avoids a
+      # modify -> reapply -> dispatcher loop.
+      #  source = pkgs.writeShellScript "ignore-dhcp-dns" ''
+      # case "$2" in
+      # up | dhcp4-change | dhcp6-change)
+      #     case "$(${nmcli} -g connection.type connection show "$CONNECTION_UUID")" in
+      #        802-11-wireless | 802-3-ethernet)
+      #         if [ "$(${nmcli} -g ipv4.ignore-auto-dns connection show "$CONNECTION_UUID")" != "yes" ]; then
+      #           ${nmcli} connection modify "$CONNECTION_UUID" ipv4.ignore-auto-dns yes ipv6.ignore-auto-dns yes
+      #           ${nmcli} device reapply "$DEVICE_IFACE"
+      #         fi
+      #         ;;
+      #     esac
+      #     ;;
+      # esac
+      #'';
+      #  type = "basic";
+      #}
+      #];
     };
   };
 
   # Mutable /etc/hosts for CTF/pentesting, impure changes will be discarded during rebuild
   environment.etc."hosts".mode = "0644";
 
-  # `captive-portal-login`: temporarily hand DNS back to the gateway to log in.
+  # `captiv#e-portal-login`: temporarily hand DNS back to the gateway to log in.
   environment.systemPackages = [ captivePortalLogin ];
 
   services.resolved = {
