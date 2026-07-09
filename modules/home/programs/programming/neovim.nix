@@ -306,6 +306,7 @@
           extraDiagnostics.types = [ "rumdl" ];
           format.enable = false;
         };
+        terraform.enable = true;
       };
 
       keymaps = [
