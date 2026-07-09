@@ -29,10 +29,10 @@
     };
 
     extensions = with inputs.vicinae-extensions.packages.${cfg.hostPlatform}; [
-      bluetooth
       # over manix, nix-search-tv
       nix
       wifi-commander
+      # bluetooth
       # Does not work with tlp
       # power-profile
     ];
