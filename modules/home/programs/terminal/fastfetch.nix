@@ -12,7 +12,8 @@ let
   };
 in
 {
-  # CONFIG
+  programs.fish.interactiveShellInit = "fastfetch";
+
   programs.fastfetch = {
     enable = true;
     package = fastfetch;
