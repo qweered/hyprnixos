@@ -21,20 +21,19 @@ in
     interactiveShellInit = ''
       set fish_greeting
       set -gx CONTEXT7_API_KEY (cat ${osConfig.age.secrets.context7-api-key.path} 2>/dev/null)
-      fastfetch
     '';
     functions.which-real = ''
       readlink -f (command -v -- $argv)
     '';
     shellAliases =
       let
-        common-nix-args = "--keep-going --keep-failed --fallback --show-trace";
-        nhCmd = "nh os switch --ask --diff=always ${common-nix-args}";
+        common-nix-args = "--keep-going --keep-failed --fallback --show-activation-logs --show-trace";
+        nhCmd = "nh os switch --ask ${common-nix-args}";
       in
       {
         nh-switch = "${nhCmd}";
         nh-update = "${nhCmd} --update";
-        nh-clean = "nh clean all --optimise --keep 3";
+        nh-clean = "nh clean all --optimise --keep 3 --keep-one --no-direnv --cross-filesystems";
         nom-build = "nom-build ${common-nix-args}";
 
         ".." = "cd ..";

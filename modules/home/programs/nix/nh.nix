@@ -7,7 +7,7 @@
     clean = {
       enable = true;
       dates = "monthly";
-      extraArgs = "--optimise --keep 3";
+      extraArgs = "--optimise --keep 3 --keep-one --no-direnv --cross-filesystems";
     };
   };
 }
