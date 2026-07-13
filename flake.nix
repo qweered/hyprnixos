@@ -42,14 +42,6 @@
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
     };
-    blueprint = {
-      # only for llm-agents
-      url = "github:numtide/blueprint";
-      inputs = {
-        nixpkgs.follows = "nixpkgs"; # does not need cache hit
-        systems.follows = "systems";
-      };
-    };
     treefmt-nix = {
       # only for llm-agents and agenix-rekey
       url = "github:numtide/treefmt-nix";
@@ -85,7 +77,6 @@
       inputs = {
         nixpkgs.follows = "nixpkgs"; # rarely misses cache
         treefmt-nix.follows = "treefmt-nix";
-        blueprint.follows = "blueprint";
         systems.follows = "systems";
         flake-parts.follows = "flake-parts";
       };
@@ -137,6 +128,7 @@
       inputs.cpu-microcodes.follows = "cpu-microcodes";
     };
     declarative-flatpak.url = "github:in-a-dil-emma/declarative-flatpak/latest";
+    # TODO: pull from nixpkgs instead, pulls big closure
     vicinae = {
       url = "github:vicinaehq/vicinae";
       inputs = {
