@@ -19,9 +19,13 @@ in
 
       # rom shipped under the literal binary name `nom`. Anything that resolves
       # `nom` from PATH (or a build monitor argument) then renders with rom.
-      nom-rom-shim = prev.runCommand "nom-rom-shim" { } ''
-        mkdir -p $out/bin
-        ln -s ${prev.lib.getExe final.rom} $out/bin/nom
+      #
+      # `--format tree` is forced: rom auto-downgrades to plain per-message
+      # streaming when stdout isn't a TTY (which is how nh captures the monitor),
+      # flooding the terminal with nix's `--verbose` "evaluating file" traces.
+      # Forcing the tree renderer keeps that output buffered and deduplicated.
+      nom-rom-shim = prev.writeShellScriptBin "nom" ''
+        exec ${prev.lib.getExe final.rom} --format tree "$@"
       '';
 
       # nh (4.x) has no flag to pick a build monitor: it hard-codes `nom --json`
