@@ -39,6 +39,7 @@ in
     ./modules/flake-parts/install-shell.nix
     ./modules/flake-parts/git-hooks.nix
     ./modules/flake-parts/sops.nix
+    ./modules/flake-parts/pkgs-by-name.nix
   ];
 
   flake.nixosConfigurations = lib.genAttrs hostNames mkHost;

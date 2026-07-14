@@ -25,14 +25,12 @@ in
     '';
     shellAliases =
       let
-        common-nix-args = "--show-activation-logs --show-trace";
-        nhCmd = "nh os switch --ask ${common-nix-args}";
+        nhCmd = "nh os switch --ask --show-activation-logs --show-trace";
       in
       {
         nh-switch = "${nhCmd}";
         nh-update = "${nhCmd} --update";
         nh-clean = "nh clean all --optimise --keep 3 --keep-one --no-direnv --cross-filesystems";
-        nom-build = "nom-build ${common-nix-args}";
 
         ".." = "cd ..";
         "..." = "cd ../..";
