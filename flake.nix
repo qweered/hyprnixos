@@ -43,7 +43,7 @@
       inputs.systems.follows = "systems";
     };
     treefmt-nix = {
-      # only for llm-agents and agenix-rekey
+      # only for llm-agents
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
     };
@@ -145,23 +145,9 @@
         systems.follows = "systems";
       };
     };
-    agenix = {
-      # Includes fix for userborn: https://github.com/ryantm/agenix/pull/353
-      url = "github:marienz/agenix/941af799a916cf8d1141941e6d91a4ec7bcf51ab";
-      inputs = {
-        nixpkgs.follows = "nixpkgs"; # does not need cache hit
-        systems.follows = "systems";
-        home-manager.follows = "home-manager";
-      };
-    };
-    agenix-rekey = {
-      url = "github:oddlama/agenix-rekey";
-      inputs = {
-        nixpkgs.follows = "nixpkgs"; # does not need cache hit
-        flake-parts.follows = "flake-parts";
-        treefmt-nix.follows = "treefmt-nix";
-        pre-commit-hooks.follows = "git-hooks";
-      };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

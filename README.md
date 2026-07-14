@@ -66,11 +66,22 @@ cache.
   in `modules/hosts/new-host/filesystems.nix` defaults to `/dev/vda` (a VM disk).
   Point `device` at the host's real disk (or override it at install time with the
   `main=<device>` argument shown above) before formatting anything for real.
-- **agenix secrets** are keyed to the host's SSH key. On a brand-new host whose
-  host key isn't enrolled yet, secrets won't decrypt on first boot — but thanks
-  to the `or null` guard in `modules/system/config.nix`, users cleanly fall back
-  to `initialPassword = "password"` instead of failing the build. Re-run
-  `agenix rekey` + switch once the host key exists.
+- **sops secrets** are keyed to the host's SSH key (converted to an age key).
+  On a brand-new host whose `hyprnixos.hostAgeKey` isn't set yet, secrets won't
+  decrypt at activation, so enroll it before the first real switch: get the key
+  with `ssh-keyscan <host> | ssh-to-age` (or locally
+  `ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub`), set it in the host's
+  `options.nix`, and run `nix run .#sops-sync`.
+
+  Hosts are not trusted by default. Each sops file has its own recipient list:
+  `secrets/common.yaml` (all hosts), `secrets/users/<name>.yaml` (only hosts
+  that enable that user, plus the user's own `ageKey` if set),
+  `secrets/hosts/<name>.yaml` (only that host). A host can never decrypt a
+  secret outside its scopes, and the nix declarations mirror the same
+  boundaries (`modules/system/security/sops.nix`, the `modules/users/<name>.nix`
+  profiles, `modules/hosts/<name>/`). `.sops.yaml` is generated from the host
+  and user options by `nix run .#sops-sync` — never edit it by hand; a
+  pre-commit hook rejects drift.
 
 ### Doing it by hand
 
@@ -86,8 +97,10 @@ caches with `--option extra-substituters "<urls>"` and
 - For new hosts, add a directory under `modules/hosts/<name>/`
 - For new users, add a profile under `modules/users/<name>.nix` and enable it on
   a host with `hyprnixos.users.<name>.enable = true`
-- Add secrets with `agenix edit secrets/<name>.age` and rekey with
-  `agenix rekey -a`
+- Add or edit secrets with `sops secrets/<scope>.yaml` (decrypts with the GPG
+  admin key from `.sops.yaml`), then declare them at the matching scope:
+  common ones in `modules/system/security/sops.nix`, user ones in
+  `modules/users/<name>.nix`, host ones in `modules/hosts/<name>/`
 
 ## Secure Boot (first boot on a new host)
 

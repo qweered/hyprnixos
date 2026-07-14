@@ -35,10 +35,10 @@ in
 {
   imports = with inputs; [
     git-hooks.flakeModule
-    agenix-rekey.flakeModule
     # TODO: import nicely instead
     ./modules/flake-parts/install-shell.nix
     ./modules/flake-parts/git-hooks.nix
+    ./modules/flake-parts/sops.nix
   ];
 
   flake.nixosConfigurations = lib.genAttrs hostNames mkHost;

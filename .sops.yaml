@@ -1,0 +1,22 @@
+# Generated from the nix config (modules/flake-parts/sops.nix) — do not edit.
+# Change host/user options instead and run: nix run .#sops-sync
+creation_rules:
+- age:
+  - age1up3jh35rdmwn4efl25f48ssg3tauhcg05p2qfsezecx6mmxaqyzsxezmea
+  path_regex: secrets/common\.yaml$
+  pgp:
+  - 4D3C1993340D0ACEF6AF1903CACB28BA93CE71A2
+- age: []
+  path_regex: secrets/users/kavazar\.yaml$
+  pgp:
+  - 4D3C1993340D0ACEF6AF1903CACB28BA93CE71A2
+- age:
+  - age1up3jh35rdmwn4efl25f48ssg3tauhcg05p2qfsezecx6mmxaqyzsxezmea
+  path_regex: secrets/users/qweered\.yaml$
+  pgp:
+  - 4D3C1993340D0ACEF6AF1903CACB28BA93CE71A2
+- age:
+  - age1up3jh35rdmwn4efl25f48ssg3tauhcg05p2qfsezecx6mmxaqyzsxezmea
+  path_regex: secrets/hosts/hyprnix\.yaml$
+  pgp:
+  - 4D3C1993340D0ACEF6AF1903CACB28BA93CE71A2

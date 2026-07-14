@@ -16,7 +16,7 @@ in
     users = lib.mapAttrs (
       name: user:
       let
-        hashedPasswordFile = config.age.secrets."password-${name}".path or null;
+        hashedPasswordFile = config.sops.secrets."password-${name}".path or null;
       in
       {
         isNormalUser = true;

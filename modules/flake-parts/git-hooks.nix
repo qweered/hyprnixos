@@ -9,7 +9,6 @@
     {
       devShells.default = pkgs.mkShell {
         name = "hyprnixos";
-        nativeBuildInputs = [ config.agenix-rekey.package ];
         shellHook = ''
           ${config.pre-commit.shellHook}
         '';

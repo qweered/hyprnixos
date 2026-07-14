@@ -30,6 +30,19 @@
       example = "26.05";
       description = "State version of the system.";
     };
+    hostAgeKey = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = "age1up3jh35rdmwn4efl25f48ssg3tauhcg05p2qfsezecx6mmxaqyzsxezmea";
+      description = ''
+        This host's SSH host key converted with ssh-to-age
+        (`ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub`). It is the single
+        source of truth for which sops files the host can decrypt: `.sops.yaml`
+        is generated from it (and from `users.<name>.enable`) by
+        `nix run .#sops-sync`. While null the host is on no recipient list and
+        cannot decrypt any secrets.
+      '';
+    };
     users = lib.mkOption {
       default = { };
       example = {
@@ -68,6 +81,17 @@
                 type = lib.types.listOf lib.types.str;
                 default = [ ];
                 description = "Additional groups to add the user to, on top of system defaults.";
+              };
+              ageKey = lib.mkOption {
+                type = lib.types.nullOr lib.types.str;
+                default = null;
+                example = "age1yubikey1q...";
+                description = ''
+                  Personal age public key (generate with `age-keygen`). When set,
+                  `nix run .#sops-sync` adds it to the recipients of this user's
+                  own secrets file (`secrets/users/<name>.yaml`), letting the
+                  user read and edit it without the admin key.
+                '';
               };
               browser = lib.mkOption {
                 type = lib.types.str;
