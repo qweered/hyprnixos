@@ -28,11 +28,10 @@
     };
 
     # global inputs, other will follow them
-    lib.url = "github:nix-community/nixpkgs.lib";
     systems.url = "github:nix-systems/triplet";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "lib";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     flake-compat = {
       url = "github:NixOS/flake-compat";

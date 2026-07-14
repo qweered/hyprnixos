@@ -16,56 +16,63 @@ from the `cpu`/`gpu` options, and each host picks its desktop with the
 nix develop github:qweered/hyprnixos#install
 ```
 
-It prints its own help on entry. Each wrapper takes the host name (the directory
+It prints its own help on entry. The command takes the host name (the directory
 under `modules/hosts/`):
 
 ```bash
-# 1. partition + format the disk and install the system (DESTRUCTIVE)
-hyprnixos-format new-host
-# override target devices by appending <disk>=<device> pairs (one per disko disk):
-# hyprnixos-format new-host main=/dev/nvme0n1 data=/dev/sda
+# partition + format the disk and install the whole system (DESTRUCTIVE)
+hyprnixos-install new-host
 
 reboot
 
-# 2. first `nh os switch` on the booted system
-hyprnixos-switch new-host
+# from the booted system, every later rebuild is just plain nh:
+nh os switch          # aliased to nh-switch
 ```
 
-`hyprnixos-format` follows the standard
-[NixOS install flow](https://nixos.org/manual/nixos/stable/#sec-installation):
-[`disko`](https://github.com/nix-community/disko) partitions/formats the disk
-(the device comes from the host's `filesystems.nix`) and mounts it, a temporary
-swapfile is activated on the target, the system is built with a live
-[nix-output-monitor](https://github.com/maralorn/nix-output-monitor) progress
-graph, `nixos-install` copies it onto the target, and the swapfile is removed.
+The target disk is **not** a command-line argument — it comes from the host's
+`filesystems.nix`. To retarget, edit `disko.devices.disk.<name>.device` there
+before running the install (`hyprnixos-install` rejects extra arguments so a
+stale `sda`/`nvme0n1` guess can't silently wipe the wrong disk).
 
-> The swapfile is why this works on low-RAM machines. A NixOS live ISO keeps
-> `/nix/store`'s writable layer in a RAM-backed tmpfs, and the manual notes the
-> build "may need quite a bit of RAM" — so a large desktop closure runs out of
-> memory ("No space left on device") without swap. The swapfile lets tmpfs spill
-> to the disk; it lives only at `/mnt/.install-swap` during the install and is
-> `swapoff`'d and deleted afterwards, so it never reaches the installed system
-> (no swap in your declarative config). It defaults to 16G — bump the `count=` in
-> `install-shell.nix` if a build still runs out.
+`hyprnixos-install` follows the standard
+[NixOS install flow](https://nixos.org/manual/nixos/stable/#sec-installation) in
+two phases so the system closure never has to fit in the live ISO's RAM:
+
+1. **format + mount** — [`disko`](https://github.com/nix-community/disko)
+   partitions/formats the disk (device from `filesystems.nix`) and mounts it at
+   `/mnt`. Only the small disko config is evaluated here, so the tmpfs store stays
+   nearly empty.
+2. **install** — `nixos-install` builds the closure *straight onto* `/mnt` (the
+   real disk) with a live
+   [nix-output-monitor](https://github.com/maralorn/nix-output-monitor) progress
+   graph, then the temporary swapfile is torn down (including on failure).
+
+> Low-RAM machines are handled by that two-phase split, not by swap alone. A
+> NixOS live ISO keeps `/nix/store`'s writable layer in a RAM-backed tmpfs, so
+> building a large desktop closure *there* runs out of memory ("No space left on
+> device"). Streaming the closure to `/mnt` in phase 2 sidesteps that entirely.
+> The swapfile is extra insurance for the flake evaluation and any from-source
+> builds, which still touch RAM; it lives only at `/mnt/.install-swap` during the
+> install and is `swapoff`'d and deleted afterwards, so it never reaches the
+> installed system (no swap in your declarative config). It defaults to 8G — bump
+> the `count=` in `install-shell.nix` if a build still runs out.
 
 A bare host installs from the flake in the current directory (the clone you're
 in); pass a full `<flake#host>` to install from elsewhere instead (e.g.
-`hyprnixos-format github:qweered/hyprnixos#new-host`). From the second
-switch onward nothing extra is needed — `modules/system/programs/nix.nix` is now
-live, so the plain `nh os switch` (the `nh-switch` alias) already knows every
-cache.
+`hyprnixos-install github:qweered/hyprnixos#new-host`). Once you've rebooted,
+nothing extra is needed — `modules/system/programs/nix.nix` is now live, so the
+plain `nh os switch` (the `nh-switch` alias) already knows every cache, and the
+hostname was set from the host directory name at install time, so `nh` resolves
+the right configuration without a `-H` flag.
 
 ### Notes specific to this setup
 
-- **`-H <host>` is required**, which the wrappers pass for you. `nh` otherwise
-  infers the config name from the running hostname (`nixos` in the ISO, or unset
-  for `new-host`), which won't match the host directory.
 - **`new-host` needs real values before it'll install.** The hostname is derived
   from the directory name, so there's nothing to set for it — but `cpu`/`gpu` in
   `modules/hosts/new-host/options.nix` are `CHANGE ME` placeholders, and `device`
   in `modules/hosts/new-host/filesystems.nix` defaults to `/dev/vda` (a VM disk).
-  Point `device` at the host's real disk (or override it at install time with the
-  `main=<device>` argument shown above) before formatting anything for real.
+  Point `device` at the host's real disk before formatting anything for real —
+  it is the *only* place the install reads the target from.
 - **sops secrets** are keyed to the host's SSH key (converted to an age key).
   On a brand-new host whose `hyprnixos.hostAgeKey` isn't set yet, secrets won't
   decrypt at activation, so enroll it before the first real switch: get the key

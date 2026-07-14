@@ -45,7 +45,7 @@
       trace-import-from-derivation = true;
       lint-url-literals = "warn";
       lint-short-path-literals = "warn";
-      lint-absolute-path-literals = "warn";
+      lint-absolute-path-literals = "ignore"; # still too noisy
 
       # Avoid system full issues
       min-free = 1024 * 1024 * 1024; # Start at 1GB left

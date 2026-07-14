@@ -1,3 +1,10 @@
+# One-shot, DESTRUCTIVE bare-metal installer: partition + format + install a host
+# in a single command. The target disk is read from the host's filesystems.nix
+# (disko config), NOT from the command line — edit disko.devices.disk.<name>.device
+# to retarget. Runs in two phases (disko format+mount, then nixos-install --store
+# /mnt) so the system closure streams to the real disk instead of the live ISO's
+# RAM-backed tmpfs store; see the phase comments below for the low-RAM rationale.
+#
 # git clone https://github.com/qweered/hyprnixos
 # cd hyprnixos
 # nix --extra-experimental-features "nix-command flakes" develop .#install
