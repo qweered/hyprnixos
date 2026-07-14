@@ -17,9 +17,16 @@
   perSystem =
     { pkgs, inputs', ... }:
     let
-      nixSettings = (lib.head (lib.attrValues config.flake.nixosConfigurations)).config.nix.settings;
-      substituters = toString nixSettings.substituters;
-      trustedKeys = toString nixSettings.trusted-public-keys;
+      # Install with the same nix the target host runs (Determinate Nix) instead
+      # of whatever the live ISO happens to ship, so the installer honours the
+      # host's experimental features (lazy-trees, cgroups, ca-derivations).
+      determinateNix = inputs'.determinate.packages.default;
+
+      # The target host's fully-rendered nix.conf — substituters, trusted keys and
+      # experimental features all derived from our nix.settings, not a hand-picked
+      # subset. Caches/keys are defined once for every host, so any host is a
+      # faithful reference; take the first.
+      nixConf = (lib.head (lib.attrValues config.flake.nixosConfigurations)).config.environment.etc."nix/nix.conf".source;
 
       # Pinned via our own flake.lock instead of `nix run github:...#disko-install`,
       # which alone pulls ~1.3G of nixpkgs on the live ISO (disko#947).
@@ -29,7 +36,10 @@
         defaultFlake:
         pkgs.writeShellApplication {
           name = "hyprnixos-install";
-          runtimeInputs = [ pkgs.nix-output-monitor ];
+          runtimeInputs = [
+            determinateNix
+            pkgs.nix-output-monitor
+          ];
           text = ''
             target="''${1:-}"
             if [ -z "$target" ]; then
@@ -50,12 +60,15 @@
               *)   installable="${defaultFlake}#$target" ;;
             esac
 
-            # Forward our binary caches + required features to every child `nix`
-            # (disko and nixos-install both shell out to nix). root is always a
-            # trusted user, so extra-substituters/keys take effect.
-            export NIX_CONFIG="extra-experimental-features = nix-command flakes
-            trusted-substituters = ${substituters}
-            trusted-public-keys = ${trustedKeys}"
+            # Point every child `nix` (disko and nixos-install both shell out to
+            # nix — now our Determinate Nix from runtimeInputs) at the target
+            # host's own generated nix.conf, layered on top of the live ISO's
+            # /etc/nix/nix.conf. This carries every substituter, trusted key and
+            # experimental feature the installed system uses, instead of a
+            # hand-forwarded subset. The config's trailing `!include /run/secrets/…`
+            # is an optional include, silently skipped here since that sops secret
+            # isn't mounted on the ISO. root is trusted, so `substituters` applies.
+            export NIX_USER_CONF_FILES=${nixConf}
 
             # Headroom for flake eval / any from-source builds on the live ISO's
             # tmpfs store. No longer load-bearing for the system closure itself —
@@ -68,7 +81,7 @@
             echo ">>> Phase 1/2: partition + format + mount target disk (disko)"
             # Only evaluates the disko config (small RAM footprint) and writes a
             # tiny format script — no system closure touches the tmpfs store here.
-            sudo --preserve-env=NIX_CONFIG ${disko} \
+            sudo --preserve-env=NIX_USER_CONF_FILES ${disko} \
               --mode destroy,format,mount \
               --yes-wipe-all-disks \
               --flake "$installable"
@@ -135,7 +148,7 @@
             # without it the JSON stream omits those events. The closure still streams to
             # disk (no tmpfs OOM); pipefail propagates an install failure through nom so
             # the EXIT trap still tears down swap.
-            sudo --preserve-env=NIX_CONFIG nixos-install \
+            sudo --preserve-env=NIX_USER_CONF_FILES nixos-install \
               --flake "$installable" \
               --log-format internal-json -v \
               --no-channel-copy \
