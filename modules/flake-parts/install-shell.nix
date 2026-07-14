@@ -47,8 +47,8 @@
             # (disko and nixos-install both shell out to nix). root is always a
             # trusted user, so extra-substituters/keys take effect.
             export NIX_CONFIG="extra-experimental-features = nix-command flakes
-            extra-substituters = ${substituters}
-            extra-trusted-public-keys = ${trustedKeys}"
+            trusted-substituters = ${substituters}
+            trusted-public-keys = ${trustedKeys}"
 
             # Headroom for flake eval / any from-source builds on the live ISO's
             # tmpfs store. No longer load-bearing for the system closure itself —

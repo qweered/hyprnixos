@@ -1,6 +1,5 @@
 {
   user,
-  osConfig,
   pkgs,
   ...
 }:
@@ -20,14 +19,13 @@ in
     enable = true;
     interactiveShellInit = ''
       set fish_greeting
-      set -gx CONTEXT7_API_KEY (cat ${osConfig.age.secrets.context7-api-key.path} 2>/dev/null)
     '';
     functions.which-real = ''
       readlink -f (command -v -- $argv)
     '';
     shellAliases =
       let
-        common-nix-args = "--keep-going --keep-failed --fallback --show-activation-logs --show-trace";
+        common-nix-args = "--show-activation-logs --show-trace";
         nhCmd = "nh os switch --ask ${common-nix-args}";
       in
       {

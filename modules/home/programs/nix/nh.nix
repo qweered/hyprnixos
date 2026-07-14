@@ -10,4 +10,6 @@
       extraArgs = "--optimise --keep 3 --keep-one --no-direnv --cross-filesystems";
     };
   };
+
+  # TODO(dendritic): auto-optimise-store = false; in this file
 }

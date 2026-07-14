@@ -4,9 +4,6 @@
   config,
   ...
 }:
-let
-  flakeInputs = lib.filterAttrs (_: v: lib.isType "flake" v) inputs;
-in
 {
   nixpkgs.config = {
     allowUnfree = true;
@@ -27,55 +24,64 @@ in
   nix = {
     package = inputs.determinate.packages.${config.hyprnixos.hostPlatform}.default;
     channel.enable = false;
+    # flake.source = self.outPath;
+
+    # distributedBuilds = true; TODO when multiple machines
 
     # improve desktop responsiveness when updating the system
     # daemonCPUSchedPolicy = "batch"; TODO: configure only for low end devices
 
-    # TODO: i don't need all the flakes in registry and path, nixpkgs is set by default nixpkgs.flake.setFlakeRegistry
-    registry = lib.mapAttrs (_: v: { flake = v; }) flakeInputs; # pin the registry
-    nixPath = lib.mapAttrsToList (key: _: "${key}=flake:${key}") config.nix.registry; # set the path for channels compatibility
-
-    # TODO: still does not work i think
     extraOptions = ''
-      !include ${config.age.secrets.git-token.path}
+      !include ${config.sops.secrets.nix-access-tokens.path}
     '';
 
     settings = {
-      auto-optimise-store = false; # optimized with nh or determinate nix instead, faster build
-      accept-flake-config = true;
-      allow-import-from-derivation = true; # for devenv
-      trace-import-from-derivation = true;
-      builders-use-substitutes = true;
+      pure-eval = true;
+      keep-going = true;
+      keep-failed = true;
       flake-registry = "/etc/nix/registry.json";
-      log-lines = 25;
-
-      # lint-absolute-path-literals = "warn";
+      use-xdg-base-directories = true;
+      allow-import-from-derivation = true; # for devenv and command-not-found, see if we can flip that to false
+      trace-import-from-derivation = true;
       lint-url-literals = "warn";
       lint-short-path-literals = "warn";
+      lint-absolute-path-literals = "warn";
 
       # Avoid system full issues
-      # FIXME: run determininate garbage collector instead, does not work by default
-      max-free = 5000 * 1024 * 1024; # 5GB
-      min-free = 1024 * 1024 * 1024; # 1GB
+      min-free = 1024 * 1024 * 1024; # Start at 1GB left
+      max-free = 10 * 1024 * 1024 * 1024; # Stop at 10GB left
 
-      # Switch substitutes on timeouts
+      # Faster download and fallback
+      http-connections = 0;
+      max-substitution-jobs = 32;
+      always-allow-substitutes = true;
+      builders-use-substitutes = true;
       connect-timeout = 10;
-      stalled-download-timeout = 10;
+      stalled-download-timeout = 15;
+      download-attempts = 3;
       fallback = true;
 
       lazy-trees = true;
+      lazy-locks = true; # TODO: check that install command works correctly
       eval-cores = 0;
+
+      use-cgroups = true;
+      auto-allocate-uids = true;
 
       experimental-features = [
         "nix-command" # for non-determinate nix
         "flakes" # for non-determinate nix
         "ca-derivations"
         "local-overlay-store"
+        "cgroups"
+        "auto-allocate-uids"
+        "pipe-operators"
+        # "recursive-nix"
       ];
 
       trusted-users = [ "@wheel" ];
 
-      # lib.mkForce is to overwrite the NixOS defaults and propagation from flake inputs.
+      # lib.mkForce is to overwrite the NixOS defaults and propagation from flake inputs
       substituters = lib.mkForce [
         "https://cache.nixos.org?priority=1" # lower number means higher priority
         "https://nix-community.cachix.org" # cache for unfree packages
@@ -85,6 +91,7 @@ in
         "https://nix-gaming.cachix.org" # some gaming packages
         "https://install.determinate.systems" # determinate nix
       ];
+      trusted-substituters = config.nix.settings.substituters; # So non-root users can use all substituters;
       trusted-public-keys = lib.mkForce [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
