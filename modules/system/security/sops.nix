@@ -28,9 +28,10 @@
         mode = "0440";
         group = config.users.groups.keys.name;
       };
-      # every user's shell exports this (modules/home/programs/ai/mcp.nix),
-      # so it stays root-owned but readable by all
-      context7-api-key.mode = "0444";
+      context7-api-key = {
+        mode = "0440";
+        group = config.users.groups.keys.name;
+      };
     };
   };
 }

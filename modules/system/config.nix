@@ -32,6 +32,7 @@ in
           "input"
           "podman"
           "adbusers"
+          "keys" # read group-gated sops secrets (nix-access-tokens, context7-api-key)
         ]
         ++ user.groups;
       }
