@@ -36,7 +36,6 @@
     '';
 
     settings = {
-      pure-eval = true;
       keep-going = true;
       keep-failed = true;
       flake-registry = "/etc/nix/registry.json";
