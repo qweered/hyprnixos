@@ -350,10 +350,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1783712817,
+        "lastModified": 1784056118,
         "owner": "maralorn",
         "repo": "nix-output-monitor",
-        "rev": "1608644fecf91ec62e873938f590c4935b59f99d",
+        "rev": "d55fdc38244881e7a203830f008f9cb1e463ddc5",
         "type": "github"
       },
       "original": {
@@ -524,11 +524,11 @@
         "narHash": "sha256-G9I5EeMhwLckqD5QLgowA6hNBaOjG9CeYIzfSz4gZ6k=",
         "rev": "18b9261cb3294b6d2a06d03f96872827b8fe2698",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1034379.18b9261cb329/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1034379.18b9261cb329/nixexprs.tar.zst"
       },
       "original": {
         "type": "tarball",
-        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
+        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"
       }
     },
     "nixpkgs_4": {
