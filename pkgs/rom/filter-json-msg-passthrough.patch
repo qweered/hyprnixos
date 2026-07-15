@@ -1,0 +1,22 @@
+diff --git i/crates/rom-core/src/monitor.rs w/crates/rom-core/src/monitor.rs
+index 1d437b5..7c167c0 100644
+--- i/crates/rom-core/src/monitor.rs
++++ w/crates/rom-core/src/monitor.rs
+@@ -145,8 +145,15 @@ impl<W: Write> Monitor<W> {
+     if let Some(json_str) = line.strip_prefix("@nix ") {
+       match serde_json::from_str::<cognos::Actions>(json_str) {
+         Ok(action) => {
+-          // Handle message passthrough by writing through display's writer
+-          if let cognos::Actions::Message { msg, .. } = &action {
++          // Handle message passthrough by writing through display's writer.
++          // Nix's JSON logger forwards messages regardless of verbosity, so
++          // filtering is the monitor's job: pass through info and above, but
++          // keep trace-level chatter ("evaluating file ...", emitted at
++          // talkative when the producer runs with --verbose, as nh does) out
++          // of the raw output. handle_message still stores it in state.
++          if let cognos::Actions::Message { level, msg, .. } = &action
++            && *level <= cognos::Verbosity::Info
++          {
+             writeln!(self.display.writer(), "{msg}").map_err(RomError::Io)?;
+           }
+ 

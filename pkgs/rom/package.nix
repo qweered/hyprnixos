@@ -26,6 +26,14 @@ rustPlatform.buildRustPackage (_finalAttrs: {
     }).overrideAttrs
       { unsafeDiscardReferences.out = true; };
 
+  # In pipe mode (`nix ... --log-format internal-json |& rom --json`, which is
+  # how nh drives its monitor) rom echoed every `msg` action verbatim, with no
+  # level filter. Nix's JSON logger emits messages according to the producer's
+  # verbosity — and nh hard-codes `--verbose`, which raises nix to "talkative"
+  # and unleashes an `evaluating file '...'` line per nixpkgs file. Filter the
+  # passthrough to info-and-above. Drop when upstreamed (manic-systems/rom).
+  patches = [ ./filter-json-msg-passthrough.patch ];
+
   cargoHash = "sha256-kB8qDrmhaaR3DSgGGaLfYDE4PP1fsq0w7FuIHncttMI=";
 
   # Track the latest main commit (no stable release beyond v0.2.0 yet). The bulk
