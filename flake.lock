@@ -456,6 +456,18 @@
         "url": "https://github.com/NixOS/nixpkgs/pull/535346.diff"
       }
     },
+    "nixpkgs-patch-spicetify-cli": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-vbPqhXG5tznNpVTnxbIoMmCbIRNuXco8MBqTnJv4P1E=",
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/540416.diff"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/540416.diff"
+      }
+    },
     "nixpkgs-patcher": {
       "locked": {
         "lastModified": 1781789965,
@@ -559,6 +571,7 @@
         "nixpkgs-patch-builtins-filterattrs": "nixpkgs-patch-builtins-filterattrs",
         "nixpkgs-patch-codexbar-cli": "nixpkgs-patch-codexbar-cli",
         "nixpkgs-patch-singularityapp": "nixpkgs-patch-singularityapp",
+        "nixpkgs-patch-spicetify-cli": "nixpkgs-patch-spicetify-cli",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nvf": "nvf",
         "sops-nix": "sops-nix",

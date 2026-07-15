@@ -7,8 +7,8 @@ in
 
   programs.spicetify = {
     enable = true;
-    theme = spicetifyPkgs.themes.catppuccin;
-    colorScheme = "mocha";
+    theme = spicetifyPkgs.themes.defaultDynamic;
+    colorScheme = "Dark-Base";
     #    enabledCustomApps = with spicetifyPkgs.apps; [
     #      marketplace
     #    ];
