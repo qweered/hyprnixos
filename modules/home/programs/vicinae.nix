@@ -1,13 +1,5 @@
+{ pkgs, ... }:
 {
-  cfg,
-  inputs,
-  pkgs,
-  ...
-}:
-{
-  imports = [ inputs.vicinae.homeManagerModules.default ];
-  disabledModules = [ "programs/vicinae.nix" ]; # use flake module instead
-
   programs.vicinae = {
     enable = true;
     package = pkgs.vicinae;
@@ -28,12 +20,12 @@
       };
     };
 
-    extensions = with inputs.vicinae-extensions.packages.${cfg.hostPlatform}; [
+    extensions = with pkgs.vicinae-extensions; [
       # over manix, nix-search-tv
       nix
       wifi-commander
-      # bluetooth
-      # Does not work with tlp
+      bluetooth
+      # Needs power-profiles-daemon, which tlp.nix disables in favor of tlp
       # power-profile
     ];
   };

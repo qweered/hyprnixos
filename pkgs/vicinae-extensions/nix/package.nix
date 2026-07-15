@@ -1,0 +1,1 @@
+{ mkExtension }: mkExtension "nix" { }

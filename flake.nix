@@ -127,22 +127,12 @@
       inputs.cpu-microcodes.follows = "cpu-microcodes";
     };
     declarative-flatpak.url = "github:in-a-dil-emma/declarative-flatpak/latest";
-    # TODO: pull from nixpkgs instead, pulls big closure
-    vicinae = {
-      url = "github:vicinaehq/vicinae";
-      inputs = {
-        nixpkgs.follows = "nixpkgs"; # does not need cache hit cause only needed for vicinae-extensions
-        systems.follows = "systems";
-      };
-    };
     vicinae-extensions = {
+      # source only: vicinae itself comes from nixpkgs, extensions are built
+      # in pkgs/vicinae-extensions (upstream's flake would pull the whole
+      # vicinae closure just for its mkVicinaeExtension helper)
       url = "github:vicinaehq/extensions";
-      inputs = {
-        nixpkgs.follows = "nixpkgs"; # does not need cache hit
-        vicinae.follows = "vicinae";
-        flake-compat.follows = "flake-compat";
-        systems.follows = "systems";
-      };
+      flake = false;
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
