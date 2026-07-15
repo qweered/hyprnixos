@@ -40,6 +40,7 @@ in
     ./modules/flake-parts/git-hooks.nix
     ./modules/flake-parts/sops.nix
     ./modules/flake-parts/pkgs-by-name.nix
+    ./modules/flake-parts/update-pkgs.nix
   ];
 
   flake.nixosConfigurations = lib.genAttrs hostNames mkHost;
