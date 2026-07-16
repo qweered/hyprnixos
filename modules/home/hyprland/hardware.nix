@@ -2,11 +2,11 @@
 
 {
   wayland.windowManager.hyprland.settings = {
-    monitorv2 = {
+    monitor = {
       output = "eDP-1";
       mode = "${cfg.defaultScreenResolution}@60";
       position = "auto";
-      bitdepth = "10";
+      bitdepth = 10;
       cm = "auto"; # can be hdr for supported monitors, see https://wiki.hypr.land/Configuring/Monitors/#color-management-presets
       mirror = "HDMI-A-1";
     };
