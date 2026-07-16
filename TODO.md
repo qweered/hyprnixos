@@ -3,8 +3,6 @@
 * fix plymouth flick
 * make lazydocker work with podman
 * refactor assets into github repository
-* why overlays don't work in flake-parts?
-* expose custom packages via flake.packages
 * home-manager in flake-parts? https://github.com/khaneliman/khanelinix/blob/4f55285944563cd24e07753eb484a557fa2d5cd1/flake/home.nix#L35
 * home-manager.sharedModules
 * see nixos-ez-flake and blueprint, dendritic, vic, den
@@ -13,7 +11,7 @@
 * check if anything in system have home-manager stuff (for example podman)
 * remove all TODO todos
 * this page https://github.com/nix-community/srvos/blob/c4a21c42efec0506ec352891fec84490dae2ded0/nixos/common/nix.nix
-* denoising? [rnnoise](https://github.com/fufexan/dotfiles/blob/17939d902a780a6db459312baa40940ff2a9c149/home/programs/media/rnnoise.nix#L1C1-L41C2)
+* denoising? [rnnoise](https://github.com/fufexan/ddotfilesblob/17939d902a780a6db459312baa40940ff2a9c149/home/programs/media/rnnoise.nix#L1C1-L41C2)
 * setup portals (what application opens what file)
 * check logs that there are no major errors
 * configure more kernel parameters
