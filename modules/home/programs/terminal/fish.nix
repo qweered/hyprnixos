@@ -38,6 +38,9 @@ in
         "....." = "cd ../../../..";
 
         ff = "fastfetch";
+        cat = "bat --style=plain --paging=never";
+        cp = "cp -iv"; # ask and show progress
+        mv = "mv -iv";
         df = "duf";
         du = "gdu";
         top = "btop";
