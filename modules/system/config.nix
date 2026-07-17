@@ -40,6 +40,7 @@ in
   };
 
   home-manager = {
+    verbose = true; # its a systemd unit so no spam in console
     useGlobalPkgs = true;
     useUserPackages = true;
     backupFileExtension = "backup";

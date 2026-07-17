@@ -7,6 +7,8 @@
 {
   programs.home-manager.enable = true;
 
+  manual.manpages.enable = false;
+
   home = {
     enableNixpkgsReleaseCheck = false; # flake keep it in sync, produces annoying warning right after release
     inherit (cfg) stateVersion;
