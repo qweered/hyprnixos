@@ -63,6 +63,13 @@ in
       suppress_unstable_features_warning = true;
       features = {
         memories = true;
+        multi_agent_v2 = {
+          enabled = true;
+          max_concurrent_threads_per_session = 6;
+        };
+      };
+      agents = {
+        max_depth = 2;
       };
       projects = lib.genAttrs trustedProjects (_: {
         trust_level = "trusted";
