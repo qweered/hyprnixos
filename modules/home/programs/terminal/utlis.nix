@@ -12,6 +12,7 @@
     ripgrep # grep/ack alternative
     fzf # fuzzy finder
     fd # find alternative
+    perf # speeed
     hyperfine # speed benchmarks
     ffmpeg # video/audio converter
     yt-dlp # download videos
