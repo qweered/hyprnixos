@@ -21,10 +21,11 @@
     # doCheckByDefault = true;
   };
 
+  nixpkgs.flake.source = lib.mkForce config.nixpkgs-patcher.patchedNixpkgs;
+
   nix = {
     package = inputs.determinate.packages.${config.hyprnixos.hostPlatform}.default;
     channel.enable = false;
-    # flake.source = self.outPath;
 
     # distributedBuilds = true; TODO when multiple machines
 
@@ -75,6 +76,7 @@
         "cgroups"
         "auto-allocate-uids"
         "pipe-operators"
+        "parallel-eval"
         # "recursive-nix"
       ];
 
