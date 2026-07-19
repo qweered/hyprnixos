@@ -1,7 +1,5 @@
 { pkgs, ... }:
 let
-  #  nmcli = lib.getExe' pkgs.networkmanager "nmcli";
-
   captivePortalLogin = pkgs.writeShellApplication {
     name = "captive-portal-login";
     runtimeInputs = with pkgs; [
@@ -30,6 +28,64 @@ let
       read -r -p "Press Enter once the captive-portal login is complete... " _
     '';
   };
+
+  vpnImport = pkgs.writeShellApplication {
+    name = "vpn-import";
+    runtimeInputs = with pkgs; [
+      networkmanager # nmcli
+      coreutils # comm, sort
+    ];
+    text = ''
+      mode="''${1:-}"
+      file="''${2:-}"
+      name="''${3:-}"
+
+      usage() {
+        echo "Usage: vpn-import <--split|--full> <file.ovpn> [name]" >&2
+        echo "  --split  HTB-style: only the VPN's pushed subnets route via the tunnel" >&2
+        echo "  --full   route ALL traffic through the VPN (privacy/full-tunnel)" >&2
+      }
+
+      case "$mode" in
+        --split | --full) ;;
+        *) usage; exit 1 ;;
+      esac
+
+      if [ ! -f "$file" ]; then
+        echo "vpn-import: no such file: $file" >&2
+        exit 1
+      fi
+
+      # Diff the connection list to learn the UUID the import created, without
+      # assuming how NetworkManager names the new connection.
+      before="$(nmcli -g UUID connection show)"
+      nmcli connection import type openvpn file "$file"
+      after="$(nmcli -g UUID connection show)"
+      mapfile -t new < <(comm -13 <(sort <<<"$before") <(sort <<<"$after"))
+      uuid="''${new[0]:-}"
+
+      if [ -z "$uuid" ]; then
+        echo "vpn-import: no new connection appeared (already imported?)" >&2
+        exit 1
+      fi
+
+      if [ "$mode" = "--split" ]; then
+        nmcli connection modify "$uuid" ipv4.never-default yes ipv6.never-default yes
+        tunnel="split-tunnel (only the VPN's pushed subnets)"
+      else
+        nmcli connection modify "$uuid" ipv4.never-default no ipv6.never-default no
+        tunnel="full-tunnel (ALL traffic)"
+      fi
+
+      if [ -n "$name" ]; then
+        nmcli connection modify "$uuid" connection.id "$name"
+      fi
+
+      id="$(nmcli -g connection.id connection show "$uuid")"
+      echo "Imported '$id' as $tunnel."
+      echo "Connect:  nmcli connection up '$id'"
+    '';
+  };
 in
 {
   # TODO: testing
@@ -44,7 +100,6 @@ in
 
   networking = {
     # CONFIG: may replace networkmanager
-    # but currently creates wait-online- (yes with -) service that cannot be disabled
     # useNetworkd = true;
 
     # We configure dns manually
@@ -61,69 +116,39 @@ in
     networkmanager = {
       enable = true;
       wifi.powersave = true;
-      # for captive portals but don't work it seems
-      # contribute to nixpkgs https://wiki.archlinux.org/title/NetworkManager#Checking_connectivity
-      # settings.connectivity.uri = "http://nmcheck.gnome.org/check_network_status.txt";
 
       plugins = with pkgs; [ networkmanager-openvpn ];
-      # Split tunneling: VPN connections should never become the default route.
-      # VPN-specific subnets (e.g. 10.129.0.0/16) are still routed through the tunnel,
-      # but general internet traffic stays on the normal connection.
-      # NOTE: Not sure if this works or is correct
-      # dispatcherScripts = [
-      #{
-      # source = pkgs.writeShellScript "vpn-never-default" ''
-      #   case "$2" in
-      #     vpn-pre-up)
-      #       # Ensure all VPN connections use split tunneling
-      #       ${nmcli} connection modify uuid "$CONNECTION_UUID" ipv4.never-default yes ipv6.never-default yes
-      #       ;;
-      #   esac
-      # '';
-      # type = "basic";
-      #}
-      # {
-      # Enforce DoT-only DNS: drop DHCP-provided resolvers (e.g. the router
-      # at 192.168.0.1) so only `networking.nameservers` are used.
-      # `ipv4.ignore-auto-dns` is NOT an overridable NetworkManager.conf
-      # [connection] default, so it must be set on each profile. Scoped to
-      # Wi-Fi/Ethernet so VPN- and Tailscale-pushed DNS still work.
-      # The ignore-auto-dns guard makes this idempotent and avoids a
-      # modify -> reapply -> dispatcher loop.
-      #  source = pkgs.writeShellScript "ignore-dhcp-dns" ''
-      # case "$2" in
-      # up | dhcp4-change | dhcp6-change)
-      #     case "$(${nmcli} -g connection.type connection show "$CONNECTION_UUID")" in
-      #        802-11-wireless | 802-3-ethernet)
-      #         if [ "$(${nmcli} -g ipv4.ignore-auto-dns connection show "$CONNECTION_UUID")" != "yes" ]; then
-      #           ${nmcli} connection modify "$CONNECTION_UUID" ipv4.ignore-auto-dns yes ipv6.ignore-auto-dns yes
-      #           ${nmcli} device reapply "$DEVICE_IFACE"
-      #         fi
-      #         ;;
-      #     esac
-      #     ;;
-      # esac
-      #'';
-      #  type = "basic";
-      #}
-      #];
+
+      # NOTE on DHCP DNS leak (tested 2026-07): on a fresh Wi-Fi activation NM
+      # pushes the router (e.g. 192.168.0.1) into resolved as a +DefaultRoute
+      # resolver. This is harmless here: strict `DNSOverTLS` refuses to use a
+      # plaintext resolver, so queries fall through to the DoT nameservers
+      # (verified: encrypted transport, router never sees plaintext). Blocking
+      # it would need a per-profile `ipv4.ignore-auto-dns` (a plain boolean, so
+      # NOT settable via a NetworkManager.conf [connection] default) — not worth
+      # a dispatcher script for a purely cosmetic resolver-list cleanup.
     };
   };
 
   # Mutable /etc/hosts for CTF/pentesting, impure changes will be discarded during rebuild
   environment.etc."hosts".mode = "0644";
 
-  # `captiv#e-portal-login`: temporarily hand DNS back to the gateway to log in.
-  environment.systemPackages = [ captivePortalLogin ];
+  # `captive-portal-login`: temporarily hand DNS back to the gateway to log in.
+  # `vpn-import <--split|--full> file.ovpn`: import an OpenVPN profile into NM
+  #   with the right default-route intent (split for HTB, full for privacy VPNs).
+  environment.systemPackages = [
+    captivePortalLogin
+    vpnImport
+  ];
 
   services.resolved = {
     enable = true;
     settings = {
       Resolve = {
-        # DNS comes from networking.nameservers
+        # DNS servers are from networking.nameservers
         Cache = true;
-        DNSOverTLS = "opportunistic";
-        DNSSEC = "allow-downgrade";
+        DNSOverTLS = true;
+        DNSSEC = false; # DNSOverTLS is enough
         Domains = [ "~." ];
       };
     };
