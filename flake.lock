@@ -203,10 +203,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1783008725,
+        "lastModified": 1784288435,
         "owner": "cachix",
         "repo": "git-hooks.nix",
-        "rev": "bca82caa46d5ec0f5d422c61fb1e30bc51313cbe",
+        "rev": "43b3c1ab9d40fb1dbb008f451988a91e375825e9",
         "type": "github"
       },
       "original": {
@@ -222,10 +222,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1784129366,
+        "lastModified": 1784407317,
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "165228b0efefc3e635e5174020c40ea64271dc25",
+        "rev": "39411a8e12a5526d992e65bc7e3dc9a4414d6713",
         "type": "github"
       },
       "original": {
@@ -236,10 +236,10 @@
     },
     "import-tree": {
       "locked": {
-        "lastModified": 1778781969,
+        "lastModified": 1784254960,
         "owner": "vic",
         "repo": "import-tree",
-        "rev": "d321337efd0f23a9eb14a42adb7b2c29313ab274",
+        "rev": "4ebb10ae17d5f1ad366e7aef5b92cb8eecf24f69",
         "type": "github"
       },
       "original": {
@@ -265,10 +265,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1784114722,
+        "lastModified": 1784411668,
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "5335f311c4d3293d1882c66f5c720412b5f26858",
+        "rev": "43f925a1a5d429c7e585b80efea03d9afdc630a0",
         "type": "github"
       },
       "original": {
@@ -378,10 +378,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1784137280,
+        "lastModified": 1784344906,
         "owner": "kaylorben",
         "repo": "nixcord",
-        "rev": "e6bab6344dc9f48a0b3764760ff53bbc2b9e34c3",
+        "rev": "c1285ad3cd7619bb58069b647086113f7e22597a",
         "type": "github"
       },
       "original": {
@@ -456,18 +456,6 @@
         "url": "https://github.com/NixOS/nixpkgs/pull/535346.diff"
       }
     },
-    "nixpkgs-patch-spicetify-cli": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-vbPqhXG5tznNpVTnxbIoMmCbIRNuXco8MBqTnJv4P1E=",
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/540416.diff"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/540416.diff"
-      }
-    },
     "nixpkgs-patcher": {
       "locked": {
         "lastModified": 1781789965,
@@ -516,11 +504,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1784007870,
-        "narHash": "sha256-G9I5EeMhwLckqD5QLgowA6hNBaOjG9CeYIzfSz4gZ6k=",
-        "rev": "18b9261cb3294b6d2a06d03f96872827b8fe2698",
+        "lastModified": 1784356753,
+        "narHash": "sha256-zupdTm41be2fY8cexroEOGjopl3F2Gqs3gk7ieqaM3s=",
+        "rev": "61b7c44c4073f0b827768aff0049561b5110ea5a",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1034379.18b9261cb329/nixexprs.tar.zst"
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1036777.61b7c44c4073/nixexprs.tar.zst"
       },
       "original": {
         "type": "tarball",
@@ -538,10 +526,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1784006538,
+        "lastModified": 1784418497,
         "owner": "notashelf",
         "repo": "nvf",
-        "rev": "1e2a60e76d6aa8dcebbccf100c0ccd7fcc2aea54",
+        "rev": "46fb444c033b0a943ddb75f3c2e3a51ff8294d25",
         "type": "github"
       },
       "original": {
@@ -571,7 +559,6 @@
         "nixpkgs-patch-builtins-filterattrs": "nixpkgs-patch-builtins-filterattrs",
         "nixpkgs-patch-codexbar-cli": "nixpkgs-patch-codexbar-cli",
         "nixpkgs-patch-singularityapp": "nixpkgs-patch-singularityapp",
-        "nixpkgs-patch-spicetify-cli": "nixpkgs-patch-spicetify-cli",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nvf": "nvf",
         "sops-nix": "sops-nix",
@@ -644,10 +631,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1780220602,
+        "lastModified": 1784369104,
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "db947814a175b7ca6ded66e21383d938df01c227",
+        "rev": "df3c0640565d04a0261253cdd89fce78ec50168a",
         "type": "github"
       },
       "original": {
@@ -678,11 +665,11 @@
     "vicinae-extensions": {
       "flake": false,
       "locked": {
-        "lastModified": 1783009133,
-        "narHash": "sha256-Non+frT3WG0TN60zCq63m8+d7yNmCCMaI363kZaDmPM=",
+        "lastModified": 1784407744,
+        "narHash": "sha256-dqNvtY+lQnJ9pihggbN4N7jH/7atieVvLfBx9EEK81o=",
         "owner": "vicinaehq",
         "repo": "extensions",
-        "rev": "afb84fe4b5253777ff82db8e19e6cc0c9b7f811f",
+        "rev": "235bc16408cba0a58903652edee285ba32ab1211",
         "type": "github"
       },
       "original": {

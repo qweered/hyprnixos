@@ -19,11 +19,6 @@
       url = "https://github.com/NixOS/nixpkgs/pull/535346.diff";
       flake = false;
     };
-    # Remove after nixos-unstable includes NixOS/nixpkgs#540416.
-    nixpkgs-patch-spicetify-cli = {
-      url = "https://github.com/NixOS/nixpkgs/pull/540416.diff";
-      flake = false;
-    };
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
       inputs = {
