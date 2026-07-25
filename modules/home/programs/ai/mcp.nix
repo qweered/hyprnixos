@@ -10,10 +10,17 @@
     enable = true;
     servers = {
       context7 = {
-        command = "npx";
+        command = "bunx";
         args = [
           "-y"
           "@upstash/context7-mcp"
+        ];
+      };
+      mantine = {
+        command = "bunx";
+        args = [
+          "-y"
+          "@mantine/mcp-server"
         ];
       };
       exa = {

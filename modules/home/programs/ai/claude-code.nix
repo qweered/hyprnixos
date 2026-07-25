@@ -1,9 +1,10 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   claudeCfg = config.programs.claude-code.settings;
   attributionTrail = "Assisted-by: claude-code with ${claudeCfg.model}-${claudeCfg.effortLevel}";
 in
 {
+  home.packages = [ pkgs.oh-my-claudecode ];
   programs.claude-code = {
     enable = true;
     enableMcpIntegration = true;
@@ -11,7 +12,7 @@ in
       search-code = ./skills/search-code.md;
     };
     settings = {
-      model = "claude-opus-4-8[1m]";
+      model = "claude-opus-5[1m]";
       effortLevel = "high";
       skipDangerousModePermissionPrompt = true;
       outputStyle = "Explanatory";

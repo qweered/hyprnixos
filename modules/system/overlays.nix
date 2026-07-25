@@ -22,6 +22,8 @@ in
         claude-code
         kilocode-cli
         codex
+        oh-my-claudecode
+        oh-my-codex
         ;
       amp-cli = llm-agents.amp;
     })

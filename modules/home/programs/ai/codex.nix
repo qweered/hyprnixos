@@ -17,6 +17,7 @@ let
     "infra"
     "nixpkgs"
     "repology-rules"
+    "arbitrage-master"
   ];
   codexCfg = config.programs.codex.settings;
   assistedByTrailerHook = pkgs.writers.writePython3Bin "codex-assisted-by-trailer" { } ''
@@ -48,6 +49,7 @@ let
   '';
 in
 {
+  home.packages = [ pkgs.oh-my-codex ];
   programs.codex = {
     enable = true;
     enableMcpIntegration = true;
