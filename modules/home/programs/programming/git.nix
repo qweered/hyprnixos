@@ -116,7 +116,7 @@
           renames = "copies";
         };
         difftool.prompt = false;
-        core.pager = "bat";
+        core.pager = "bat --style=plain";
         pager.difftool = true;
         init.defaultBranch = "main";
         log = {
