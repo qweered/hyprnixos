@@ -24,12 +24,7 @@ in
         CLAUDE_CODE_AUTO_COMPACT_WINDOW = "550000";
       };
       enabledPlugins = {
-        "expo@expo-plugins" = true;
-        "frontend-design@claude-plugins-official" = true;
-        "feature-dev@claude-plugins-official" = true;
-        "code-simplifier@claude-plugins-official" = true;
         "typescript-lsp@claude-plugins-official" = true;
-        "commit-commands@claude-plugins-official" = true;
         "security-guidance@claude-plugins-official" = true;
       };
       attribution = {
