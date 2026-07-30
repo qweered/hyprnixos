@@ -41,6 +41,7 @@
       keep-failed = true;
       flake-registry = "/etc/nix/registry.json";
       use-xdg-base-directories = true;
+      accept-flake-config = false; # true allows root access, see https://github.com/NixOS/nix/issues/9649
       allow-import-from-derivation = true; # for devenv and command-not-found, see if we can flip that to false
       trace-import-from-derivation = true;
       lint-url-literals = "warn";
