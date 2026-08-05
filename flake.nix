@@ -23,6 +23,10 @@
       url = "https://github.com/NixOS/nixpkgs/pull/535346.diff";
       flake = false;
     };
+    nixpkgs-patch-make-initrd-ng-dlopen-alternatives = {
+      url = "https://github.com/qweered/nixpkgs/commit/7441b95afb6da774204d96a68969c4014af0fbc4.diff";
+      flake = false;
+    };
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
       inputs = {
@@ -99,8 +103,8 @@
       inputs = {
         flake-parts.follows = "flake-parts";
         nixpkgs.follows = "nixpkgs"; # does not need cache hit
+        nixpkgs-nixcord.follows = "nixpkgs";
         treefmt-nix.follows = "treefmt-nix";
-        nixpkgs-nixcord.follows = "";
       };
     };
     spicetify = {

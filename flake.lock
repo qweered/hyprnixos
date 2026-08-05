@@ -171,10 +171,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1785531816,
+        "lastModified": 1785936982,
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "bf9ce9fec78f95f374e8dd3b503863a3ec128ebe",
+        "rev": "a9bcd0057073751a54ce5fd4b0dc63a391b6f349",
         "type": "github"
       },
       "original": {
@@ -292,7 +292,9 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "nixpkgs-nixcord": [],
+        "nixpkgs-nixcord": [
+          "nixpkgs"
+        ],
         "treefmt-nix": [
           "treefmt-nix"
         ]
@@ -358,6 +360,18 @@
       "original": {
         "type": "file",
         "url": "https://github.com/NixOS/nixpkgs/pull/549253.diff"
+      }
+    },
+    "nixpkgs-patch-make-initrd-ng-dlopen-alternatives": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-VpexweZTg/B62+t8WeBnKYXUns/+a+MsScofmOBNrOY=",
+        "type": "file",
+        "url": "https://github.com/qweered/nixpkgs/commit/7441b95afb6da774204d96a68969c4014af0fbc4.diff"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/qweered/nixpkgs/commit/7441b95afb6da774204d96a68969c4014af0fbc4.diff"
       }
     },
     "nixpkgs-patch-singularityapp": {
@@ -457,6 +471,7 @@
         "nixpkgs-patch-builtins-filterattrs": "nixpkgs-patch-builtins-filterattrs",
         "nixpkgs-patch-codexbar-cli": "nixpkgs-patch-codexbar-cli",
         "nixpkgs-patch-hyprland-hotfix": "nixpkgs-patch-hyprland-hotfix",
+        "nixpkgs-patch-make-initrd-ng-dlopen-alternatives": "nixpkgs-patch-make-initrd-ng-dlopen-alternatives",
         "nixpkgs-patch-singularityapp": "nixpkgs-patch-singularityapp",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nvf": "nvf",
