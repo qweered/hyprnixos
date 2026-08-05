@@ -9,7 +9,6 @@ in
 {
   nixpkgs.overlays = [
     inputs.nix-cachyos-kernel.overlays.pinned
-    inputs.nix-output-monitor.overlays.default
     inputs.self.overlays.pkgs
     (_final: prev: {
       nurl = prev.nurl.override { nix = config.nix.package; };

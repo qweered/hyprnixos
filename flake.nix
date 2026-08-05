@@ -7,6 +7,10 @@
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"; # Smaller then github tarball, less api hits
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
+    nixpkgs-patch-hyprland-hotfix = {
+      url = "https://github.com/NixOS/nixpkgs/pull/549253.diff";
+      flake = false;
+    };
     nixpkgs-patch-codexbar-cli = {
       url = "https://github.com/NixOS/nixpkgs/pull/525686.diff";
       flake = false;
@@ -24,6 +28,8 @@
       inputs = {
         flake-parts.follows = "flake-parts";
         git-hooks-nix.follows = "git-hooks";
+        nixpkgs-23-11.follows = "";
+        nixpkgs-regression.follows = "";
       };
     };
 
@@ -35,11 +41,6 @@
     };
     flake-compat = {
       url = "github:NixOS/flake-compat";
-    };
-    flake-utils = {
-      # only for nix-output-monitor
-      url = "github:numtide/flake-utils";
-      inputs.systems.follows = "systems";
     };
     treefmt-nix = {
       # only for llm-agents
@@ -93,22 +94,13 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
     };
-    nix-output-monitor = {
-      # use upstream flake: overlaying only `src` onto nixpkgs breaks the Haskell build
-      url = "github:maralorn/nix-output-monitor";
-      inputs = {
-        nixpkgs.follows = "nixpkgs"; # does not need cache hit
-        flake-utils.follows = "flake-utils";
-        git-hooks.follows = "git-hooks";
-      };
-    };
     nixcord = {
       url = "github:kaylorben/nixcord";
       inputs = {
-        flake-compat.follows = "flake-compat";
         flake-parts.follows = "flake-parts";
         nixpkgs.follows = "nixpkgs"; # does not need cache hit
-        nixpkgs-nixcord.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
+        nixpkgs-nixcord.follows = "";
       };
     };
     spicetify = {
