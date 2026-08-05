@@ -1,9 +1,13 @@
+{ lib, ... }:
 {
   security.rtkit.enable = true;
 
   services.pipewire = {
     pulse.enable = true;
-    alsa.enable = false;
+    alsa = {
+      enable = true;
+      support32Bit = lib.mkForce false; # some steam games may not work
+    };
     wireplumber.extraConfig = {
       "11-bluetooth-policy" = {
         "wireplumber.settings" = {
