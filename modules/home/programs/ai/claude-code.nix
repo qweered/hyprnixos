@@ -1,10 +1,11 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 let
   claudeCfg = config.programs.claude-code.settings;
   attributionTrail = "Assisted-by: claude-code with ${claudeCfg.model}-${claudeCfg.effortLevel}";
 in
 {
-  home.packages = [ pkgs.oh-my-claudecode ];
+  # TODO: configure or remove
+  # home.packages = [ pkgs.oh-my-claudecode ];
   programs.claude-code = {
     enable = true;
     enableMcpIntegration = true;

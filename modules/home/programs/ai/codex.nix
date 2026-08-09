@@ -49,7 +49,8 @@ let
   '';
 in
 {
-  home.packages = [ pkgs.oh-my-codex ];
+  # TODO: configure or remove:
+  # home.packages = [ pkgs.oh-my-codex ];
   programs.codex = {
     enable = true;
     enableMcpIntegration = true;
