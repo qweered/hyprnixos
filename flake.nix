@@ -7,8 +7,8 @@
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"; # Smaller then github tarball, less api hits
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
-    nixpkgs-patch-hyprland-hotfix = {
-      url = "https://github.com/NixOS/nixpkgs/pull/549253.diff";
+    nixpkgs-patch-config-dogfood = {
+      url = "https://github.com/NixOS/nixpkgs/pull/550890.diff";
       flake = false;
     };
     nixpkgs-patch-codexbar-cli = {
@@ -27,15 +27,6 @@
       url = "https://github.com/qweered/nixpkgs/commit/7441b95afb6da774204d96a68969c4014af0fbc4.diff";
       flake = false;
     };
-    determinate = {
-      url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
-      inputs = {
-        flake-parts.follows = "flake-parts";
-        git-hooks-nix.follows = "git-hooks";
-        nixpkgs-23-11.follows = "";
-        nixpkgs-regression.follows = "";
-      };
-    };
 
     # global inputs, other will follow them
     systems.url = "github:nix-systems/triplet";
@@ -53,12 +44,13 @@
     };
 
     # other inputs
-    nix-cachyos-kernel = {
-      url = "github:xddxdd/nix-cachyos-kernel/release";
+    determinate = {
+      url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
       inputs = {
-        flake-compat.follows = "flake-compat";
         flake-parts.follows = "flake-parts";
-        # nixpkgs.follows = "nixpkgs"; # do not override, painful cache misses
+        git-hooks-nix.follows = "git-hooks";
+        nixpkgs-23-11.follows = ""; # dev-only
+        nixpkgs-regression.follows = ""; # dev-only
       };
     };
     home-manager = {
@@ -68,6 +60,14 @@
     disko = {
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
+    };
+    nix-cachyos-kernel = {
+      url = "github:xddxdd/nix-cachyos-kernel/release";
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        flake-parts.follows = "flake-parts";
+        # nixpkgs.follows = "nixpkgs"; # do not override, painful cache misses
+      };
     };
     nvf = {
       url = "github:notashelf/nvf";
