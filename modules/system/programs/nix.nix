@@ -82,27 +82,6 @@
       ];
 
       trusted-users = [ "@wheel" ];
-
-      # lib.mkForce is to overwrite the NixOS defaults and propagation from flake inputs
-      substituters = lib.mkForce [
-        "https://cache.nixos.org?priority=1" # lower number means higher priority
-        "https://nix-community.cachix.org" # cache for unfree packages
-        # "https://ekala-corepkgs.cachix.org" # corepkgs - unused for now
-        "https://cache.numtide.com" # llm agents
-        "https://attic.xuyh0120.win/lantian" # cachyos kernel
-        "https://nix-gaming.cachix.org" # some gaming packages
-        "https://install.determinate.systems" # determinate nix
-      ];
-      trusted-substituters = config.nix.settings.substituters; # So non-root users can use all substituters;
-      trusted-public-keys = lib.mkForce [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "ekala-corepkgs.cachix.org-1:DcZV+vegWoEzacbSdXFXU4S7728C0eS9RfGpKeyHd6w="
-        "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
-        "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
-        "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
-        "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
-      ];
     };
   };
 }

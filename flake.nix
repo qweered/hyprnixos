@@ -53,6 +53,10 @@
         nixpkgs-regression.follows = ""; # dev-only
       };
     };
+    ncro = {
+      url = "github:feel-co/ncro";
+      inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs"; # important

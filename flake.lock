@@ -241,6 +241,25 @@
         "type": "github"
       }
     },
+    "ncro": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1786045750,
+        "owner": "feel-co",
+        "repo": "ncro",
+        "rev": "c6e07f2adeca2b7673b52628e531187dcbfc34e9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "feel-co",
+        "repo": "ncro",
+        "type": "github"
+      }
+    },
     "nix-cachyos-kernel": {
       "inputs": {
         "flake-compat": [
@@ -464,6 +483,7 @@
         "home-manager": "home-manager",
         "import-tree": "import-tree",
         "llm-agents": "llm-agents",
+        "ncro": "ncro",
         "nix-cachyos-kernel": "nix-cachyos-kernel",
         "nix-index-database": "nix-index-database",
         "nixcord": "nixcord",
