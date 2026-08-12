@@ -20,6 +20,7 @@ let
     LSUSB = "y";
 
     ASCII = "y";
+    BC = "y";
     DOS2UNIX = "y";
     HEXEDIT = "y";
     LZOP = "y";
