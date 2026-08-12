@@ -26,6 +26,7 @@
       # experimental features all derived from our nix.settings, not a hand-picked
       # subset. Caches/keys are defined once for every host, so any host is a
       # faithful reference; take the first.
+      #FIXME: binary caches are broken with ncro
       nixConf = (lib.head (lib.attrValues config.flake.nixosConfigurations)).config.environment.etc."nix/nix.conf".source;
 
       # Pinned via our own flake.lock instead of `nix run github:...#disko-install`,
