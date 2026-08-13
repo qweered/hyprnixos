@@ -73,7 +73,6 @@ _: {
       };
     in
     {
-      packages.update-pkgs = update-pkgs;
       apps.update-pkgs = {
         type = "app";
         program = lib.getExe update-pkgs;
