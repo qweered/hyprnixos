@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let
   captivePortalLogin = pkgs.writeShellApplication {
     name = "captive-portal-login";
@@ -98,8 +98,12 @@ in
   # I don't use mobile modems
   systemd.services.ModemManager.enable = false;
 
+  # We use resolved insteead
+  hardware.facter.detected.dhcp.enable = false;
+
+  # NOTE: this config is not ready for servers with static networking
   networking = {
-    # CONFIG: may replace networkmanager
+    # CONFIG: may replace networkmanager for static networks
     # useNetworkd = true;
 
     # We configure dns manually
@@ -115,7 +119,7 @@ in
     firewall.enable = false; # CONFIG
     networkmanager = {
       enable = true;
-      wifi.powersave = true;
+      wifi.powersave = config.hardware.facter.detected.chassis.laptop;
 
       plugins = with pkgs; [ networkmanager-openvpn ];
 

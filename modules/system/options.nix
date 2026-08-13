@@ -122,30 +122,47 @@
       default = false;
       description = "Set to true if manual configuration for secure boot has been performed";
     };
-    cpu = lib.mkOption {
-      type = lib.types.enum [
-        "amd"
-        "intel"
-      ];
-      description = "CPU architecture of the host.";
-    };
-    gpu = lib.mkOption {
-      type = lib.types.enum [
-        "amd"
-        "intel"
-        "nvidia"
-      ];
-      description = "GPU architecture of the host.";
-    };
     hostPlatform = lib.mkOption {
       type = lib.types.enum lib.systems.flakeExposed;
       example = "x86_64-linux";
       description = "Platform of the host.";
     };
+    kernelFlavour = lib.mkOption {
+      # `*` marks the flavours that also ship -march builds; the rest are
+      # baseline-only and fall back automatically.
+      type = lib.types.enum [
+        "bmq" # BMQ (Project C) scheduler
+        "bmq-lto"
+        "bore" # * BORE scheduler over EEVDF, CachyOS' flagship
+        "bore-lto" # *
+        "deckify" # handheld / Steam Deck tuning
+        "deckify-lto"
+        "eevdf" # stock mainline EEVDF, no alternative scheduler
+        "eevdf-lto"
+        "hardened" # hardening patch set; trails mainline by a series
+        "hardened-lto"
+        "latest" # * newest stable mainline
+        "latest-lto" # *
+        "lts" # * long-term support series
+        "lts-lto" # *
+        "rc" # mainline release candidate
+        "rc-lto"
+        "rt-bore" # PREEMPT_RT realtime + BORE
+        "rt-bore-lto"
+        "server" # server workload tuning
+        "server-lto"
+      ];
+      default = "latest-lto";
+      example = "bore-lto";
+      description = ''
+        CachyOS kernel flavour, without the `linuxPackages-cachyos-` prefix and
+        without any `-x86_64-vN` suffix: that is derived from the facter report.
+        `-lto` variants are the same tree built with Clang+ThinLTO.
+      '';
+    };
   };
 
   # TODO: configure keyboard, timezone, locale
-  # TODO: for cpu and gpu migrate to facter
 
   config = {
     _module.args.cfg = config.hyprnixos;

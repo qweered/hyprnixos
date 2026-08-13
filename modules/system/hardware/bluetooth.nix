@@ -1,7 +1,7 @@
 {
   # CONFIG: https://wiki.nixos.org/wiki/Bluetooth
+  # `enable` comes from facter (controller detected in the report).
   hardware.bluetooth = {
-    enable = true;
     powerOnBoot = true;
     settings = {
       General = {

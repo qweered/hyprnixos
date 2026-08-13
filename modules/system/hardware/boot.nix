@@ -1,9 +1,17 @@
 {
   cfg,
+  config,
   pkgs,
-  lib,
   ...
 }:
+let
+  level = config.hardware.facter.detected.cpu.microarchLevel;
+  # v2 is not cached
+  march = if level == "v3" || level == "v4" then "-x86_64-${level}" else "";
+  # Only bore/latest/lts ship -march builds; everything else has a baseline only.
+  optimised = "linuxPackages-cachyos-${cfg.kernelFlavour}${march}";
+  baseline = "linuxPackages-cachyos-${cfg.kernelFlavour}";
+in
 {
   boot = {
     loader = {
@@ -36,8 +44,7 @@
     };
     tmp.cleanOnBoot = true;
 
-    # Sane default, override per host
-    kernelPackages = lib.mkDefault pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto;
+    kernelPackages = pkgs.cachyosKernels.${if pkgs.cachyosKernels ? ${optimised} then optimised else baseline};
 
     plymouth = {
       enable = true;

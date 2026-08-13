@@ -1,9 +1,15 @@
 { inputs, lib, ... }:
 let
-  # Every sub-directory of modules/hosts is a host: its name becomes the
-  # nixosConfiguration (and hostname), and modules/hosts/<name>/ holds that host's
-  # private modules. Everything else under modules/ is shared across all hosts.
-  hostNames = lib.attrNames (lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./modules/hosts));
+  # A host is a sub-directory of modules/hosts holding a nixos-facter report: its
+  # name becomes the nixosConfiguration (and hostname), and the directory holds
+  # that host's private modules. Everything else under modules/ is shared.
+  # The report is required because every module reads it unguarded, so a
+  # directory without one (new-host) is a template to copy, not a machine.
+  hostNames = lib.attrNames (
+    lib.filterAttrs (name: type: type == "directory" && builtins.pathExists (./modules/hosts + "/${name}/facter.json")) (
+      builtins.readDir ./modules/hosts
+    )
+  );
 
   mkHost =
     name:
@@ -11,11 +17,11 @@ let
       # Drop a file when it is:
       #   - in the home/ or flake-parts/ trees (not host modules), or
       #   - inside another host's private directory.
-      # Vendor variants (cpu/gpu) are all imported and self-gate via lib.mkIf on
-      # Maybe TODO: to make them imported instead to reduce eval time
       exclude =
         path:
         lib.hasInfix "/home/" path || lib.hasInfix "/flake-parts/" path || (lib.hasInfix "/hosts/" path && !lib.hasInfix "/hosts/${name}/" path);
+
+      facterReport = ./modules/hosts + "/${name}/facter.json";
     in
     inputs.nixpkgs-patcher.lib.nixosSystem {
       specialArgs = { inherit inputs; };
@@ -28,7 +34,10 @@ let
       # it makes a folder/hostname mismatch impossible by construction.
       modules = (inputs.import-tree.filterNot exclude ./modules).imports ++ [
         inputs.disko.nixosModules.disko # needed for every host
-        { networking.hostName = name; }
+        {
+          networking.hostName = name;
+          hardware.facter.reportPath = facterReport;
+        }
       ];
     };
 in

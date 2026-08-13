@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   tlp = pkgs.tlp.override {
     enableRDW = config.networking.networkmanager.enable;
@@ -6,7 +11,8 @@ let
     systemd = config.systemd.package;
   };
 in
-{
+# Only worth running where there is a battery to optimise for.
+lib.mkIf config.hardware.facter.detected.chassis.laptop {
   # power management daemon with battery optimization (over power-profiles-daemon, auto-cpufreq)
   services = {
     tlp = {
