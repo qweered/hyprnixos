@@ -150,6 +150,15 @@ in
         DNSOverTLS = true;
         DNSSEC = false; # DNSOverTLS is enough
         Domains = [ "~." ];
+
+        # Both default to "yes", which is resolver *and* responder. The responder
+        # half announces this host's name and addresses to the whole L2 segment
+        # unsolicited — free recon for anyone on a public AP. "resolve" keeps
+        # lookups and drops the announcements; nothing here speaks LLMNR at all,
+        # so it goes entirely (which also closes the :5355 sockets, whereas
+        # "resolve" would keep them bound to receive replies).
+        LLMNR = "false";
+        MulticastDNS = "resolve"; # keeps .local reachable for printers/IoT
       };
     };
   };
