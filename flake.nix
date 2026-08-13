@@ -7,10 +7,6 @@
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"; # Smaller then github tarball, less api hits
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
-    nixpkgs-patch-config-dogfood = {
-      url = "https://github.com/NixOS/nixpkgs/pull/550890.diff";
-      flake = false;
-    };
     nixpkgs-patch-codexbar-cli = {
       url = "https://github.com/NixOS/nixpkgs/pull/525686.diff";
       flake = false;
@@ -54,7 +50,7 @@
       };
     };
     ncro = {
-      url = "github:feel-co/ncro";
+      url = "github:manic-systems/ncro";
       inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
     };
     home-manager = {

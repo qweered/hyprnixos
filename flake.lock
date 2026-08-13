@@ -51,10 +51,10 @@
     },
     "declarative-flatpak": {
       "locked": {
-        "lastModified": 1782495309,
+        "lastModified": 1786455112,
         "owner": "in-a-dil-emma",
         "repo": "declarative-flatpak",
-        "rev": "841b6e3ff33d73f63555ecca777b81369fe39350",
+        "rev": "a1173e04ef4e192960d724a9ad806bba25b5767e",
         "type": "github"
       },
       "original": {
@@ -171,10 +171,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1786286733,
+        "lastModified": 1786538400,
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "367f7ef80856d18438953d54dda235d42a46ba31",
+        "rev": "e13ba5e5abbd9b912fa8c6979bd119e87ca7fdd9",
         "type": "github"
       },
       "original": {
@@ -214,10 +214,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1786275593,
+        "lastModified": 1786550900,
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "a3cf44d5a3082134ada0d95736f542954eecd3f7",
+        "rev": "e12c4b1c81c208d5cb15c6ccb95881997e269349",
         "type": "github"
       },
       "original": {
@@ -249,13 +249,13 @@
       },
       "locked": {
         "lastModified": 1786045750,
-        "owner": "feel-co",
+        "owner": "manic-systems",
         "repo": "ncro",
         "rev": "c6e07f2adeca2b7673b52628e531187dcbfc34e9",
         "type": "github"
       },
       "original": {
-        "owner": "feel-co",
+        "owner": "manic-systems",
         "repo": "ncro",
         "type": "github"
       }
@@ -319,10 +319,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1786251505,
+        "lastModified": 1786530600,
         "owner": "kaylorben",
         "repo": "nixcord",
-        "rev": "a2c231759b0853d7b4adcef94860af472c5ce0fb",
+        "rev": "f4c14da614eb4e146cd8b65426038c75b06596f9",
         "type": "github"
       },
       "original": {
@@ -367,18 +367,6 @@
       "original": {
         "type": "file",
         "url": "https://github.com/NixOS/nixpkgs/pull/525686.diff"
-      }
-    },
-    "nixpkgs-patch-config-dogfood": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-uV7OsY5rE/ZQEfZjnTWJDUCQsMqmAqm4YgvXvtUdT7Y=",
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/550890.diff"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/550890.diff"
       }
     },
     "nixpkgs-patch-make-initrd-ng-dlopen-alternatives": {
@@ -437,11 +425,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1786106723,
-        "narHash": "sha256-CgKDSHL6rqAAQkkvg1xaZDQXb77+4XW73iGcUMJ+2w0=",
-        "rev": "f13ff45afd1bb73e640eaa08a7066dbed07e3238",
+        "lastModified": 1786384358,
+        "narHash": "sha256-OETwiymkMwunF+pfL25DzLMF2/YpMcJUjVd9qZ0YdsM=",
+        "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1049422.f13ff45afd1b/nixexprs.tar.zst"
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1051473.2fcb964de67f/nixexprs.tar.zst"
       },
       "original": {
         "type": "tarball",
@@ -459,10 +447,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1786271460,
+        "lastModified": 1786433999,
         "owner": "notashelf",
         "repo": "nvf",
-        "rev": "a92366a75549ec843fd46f0d13dc2ef971540b7b",
+        "rev": "a213644cadd5f90bf18b0c409f08f282b30e55e3",
         "type": "github"
       },
       "original": {
@@ -490,7 +478,6 @@
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-patch-builtins-filterattrs": "nixpkgs-patch-builtins-filterattrs",
         "nixpkgs-patch-codexbar-cli": "nixpkgs-patch-codexbar-cli",
-        "nixpkgs-patch-config-dogfood": "nixpkgs-patch-config-dogfood",
         "nixpkgs-patch-make-initrd-ng-dlopen-alternatives": "nixpkgs-patch-make-initrd-ng-dlopen-alternatives",
         "nixpkgs-patch-singularityapp": "nixpkgs-patch-singularityapp",
         "nixpkgs-patcher": "nixpkgs-patcher",
@@ -510,10 +497,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1783174389,
+        "lastModified": 1786375908,
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "f1406619a3884cd5c47992a70b8b35c9c0fcb4c9",
+        "rev": "d1337e05ba0a8e88a75d2c0e1595d82f3b3e2ac4",
         "type": "github"
       },
       "original": {
@@ -599,11 +586,11 @@
     "vicinae-extensions": {
       "flake": false,
       "locked": {
-        "lastModified": 1785867893,
-        "narHash": "sha256-uspI0fHn4BsbJcZ2Fv0wmoq+MErfT5xIFSrn+iuBKe0=",
+        "lastModified": 1786532473,
+        "narHash": "sha256-fzEQzmsU/EsW+GA7d9US1PbN6ohPqg8fHXbcAJiX+uM=",
         "owner": "vicinaehq",
         "repo": "extensions",
-        "rev": "22bc47b8ad1907a8aaeec502696a8202fac64a00",
+        "rev": "9fa12799f92c650bfde3d25b8acbb8bab7c1c6a2",
         "type": "github"
       },
       "original": {
