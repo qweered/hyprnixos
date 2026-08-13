@@ -43,6 +43,11 @@ let
       inherit url priority;
       public_key = cache.${url};
     };
+
+  # Defaults to ":8080" (every interface), which with our disabled firewall
+  # served /nix-cache-info to anyone on the LAN, the tailnet, or a public AP.
+  # NOTE: disables multi-host and mesh capabilites
+  listen = "127.0.0.1:8080";
 in
 {
   imports = [ inputs.ncro.nixosModules.ncro ];
@@ -52,13 +57,13 @@ in
     settings = {
       upstreams = lib.imap1 toUpstream caches;
       logging.timestamps = false;
+      server.listen = listen;
     };
   };
 
-  # NOTE: ncro needs to be the *only* substituter if you wish to benefit from it fully.
   nix.settings =
     let
-      proxy = "http://localhost:8080";
+      proxy = "http://${listen}";
     in
     {
       # lib.mkForce is to overwrite the NixOS defaults and propagation from flake inputs
