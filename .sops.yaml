@@ -1,5 +1,7 @@
 # Generated from the nix config (modules/flake-parts/sops.nix) — do not edit.
 # Change host/user options instead and run: nix run .#sops-sync
+%YAML 1.1
+---
 creation_rules:
 - age:
   - age1up3jh35rdmwn4efl25f48ssg3tauhcg05p2qfsezecx6mmxaqyzsxezmea
