@@ -7,6 +7,9 @@
   hardware = {
     # NOTE: list from https://github.com/NixOS/nixpkgs/blob/d2426f5728d33ce8e81f6c22857895de744ac1e0/nixos/modules/hardware/all-firmware.nix
     enableRedistributableFirmware = true; # TODO: flip it to false and configure only needed firmware to save space
+    # For devices without network-manager
+    # wirelessRegulatoryDatabase = true;
+
     # firmware = with pkgs; [
     #   linux-firmware
     #   # intel2200BGFirmware
