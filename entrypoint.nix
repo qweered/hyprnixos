@@ -9,71 +9,75 @@ let
   # The report is required because every module reads it unguarded, so a
   # directory without one (new-host) is a template to copy, not a machine.
   hostReport = name: hostsDir + "/${name}/facter.json";
-  hostNames = lib.attrNames (
-    lib.filterAttrs (name: type: type == "directory" && builtins.pathExists (hostReport name)) (builtins.readDir hostsDir)
-  );
+  hostNames = lib.filter (name: builtins.pathExists (hostReport name)) (lib.attrNames (builtins.readDir hostsDir));
 
   # Same rule for users: modules/users/<name>.nix is a profile *body*, so it
-  # never repeats its own name. Excluded from the import-tree below and handed to
-  # every host as one generated module instead. Profiles are declared on every
-  # host, so sops.nix reads the set back off a host rather than re-enumerating.
-  userNames = lib.map (lib.removeSuffix ".nix") (lib.attrNames (builtins.readDir usersDir));
-  userSecret = name: ./secrets/users + "/${name}.yaml";
+  # never repeats its own name. A host names the ones it runs in
+  # `hyprnixos.userProfiles` and only those are imported, so `users` on a host is
+  # exactly its user set -- no enable flag, and sops.nix reads the set back off
+  # each host rather than re-enumerating the directory.
+  userSecretsFile = name: ./secrets/users + "/${name}.yaml";
+
+  # The keys of secrets/users/<name>.yaml a profile asks for, as
+  # /run/secrets/<name>/<key> owned by them. Namespaced so two profiles can ask
+  # for the same key; `key` stays bare, which is how the per-user yaml is keyed.
+  # `password` is always present and is the one the system reads itself, before
+  # the user exists: sops-nix puts it in /run/secrets-for-users and forbids a
+  # non-root owner there.
+  userSecrets =
+    name: keys:
+    let
+      secret =
+        key: extra:
+        lib.nameValuePair "${name}/${key}" (
+          {
+            inherit key;
+            sopsFile = userSecretsFile name;
+          }
+          // extra
+        );
+    in
+    lib.listToAttrs ([ (secret "password" { neededForUsers = true; }) ] ++ lib.map (key: secret key { owner = name; }) keys);
 
   usersModule =
     { cfg, ... }:
     {
-      hyprnixos.users = lib.genAttrs userNames (name: import (usersDir + "/${name}.nix"));
+      hyprnixos.users = lib.genAttrs cfg.userProfiles (name: import (usersDir + "/${name}.nix"));
 
-      # A user's sops file is encrypted only to hosts that enable the profile
-      # (see .sops.yaml), so the gate matches what the host can actually
-      # decrypt -- declaring these elsewhere would fail at activation.
-      # TODO: hosts should import only used users, remove mkIf
-      sops.secrets = lib.mkMerge (
-        lib.map (
-          name:
-          lib.mkIf cfg.users.${name}.enable {
-            "password-${name}" = {
-              sopsFile = userSecret name;
-              neededForUsers = true; # provided before user creation
-            };
-          }
-        ) (lib.filter (name: builtins.pathExists (userSecret name)) userNames)
+      # A user's sops file is encrypted only to the hosts running the profile
+      # (see .sops.yaml), which is exactly the set this module is declaring.
+      sops.secrets = lib.mergeAttrsList (
+        lib.map (name: userSecrets name cfg.users.${name}.secrets) (lib.filter (name: builtins.pathExists (userSecretsFile name)) cfg.userProfiles)
       );
     };
 
+  # A host is the shared system tree plus its own directory -- the rest of
+  # modules/ belongs to someone else: home/ to home-manager (imported by
+  # system/config.nix), users/ to usersModule, flake-parts/ to the flake.
   mkHost =
     name:
-    let
-      # Drop a file when it is:
-      #   - in the home/ or flake-parts/ trees (not host modules), or
-      #   - a users/ profile body, supplied by usersModule above, or
-      #   - inside another host's private directory.
-      exclude =
-        path:
-        lib.hasInfix "/home/" path
-        || lib.hasInfix "/flake-parts/" path
-        || lib.hasInfix "/users/" path
-        || (lib.hasInfix "/hosts/" path && !lib.hasInfix "/hosts/${name}/" path);
-
-    in
     inputs.nixpkgs-patcher.lib.nixosSystem {
       specialArgs = { inherit inputs; };
       nixpkgsPatcher = {
         inherit inputs;
         enableTroubleshootingShell = false;
       };
-      # The directory name is the single source of truth for the hostname: it
-      # already keys this nixosConfiguration, so deriving networking.hostName from
-      # it makes a folder/hostname mismatch impossible by construction.
-      modules = (inputs.import-tree.filterNot exclude ./modules).imports ++ [
-        inputs.disko.nixosModules.disko # needed for every host
-        usersModule
-        {
-          networking.hostName = name;
-          hardware.facter.reportPath = hostReport name;
-        }
-      ];
+      modules =
+        (inputs.import-tree [
+          ./modules/system
+          (hostsDir + "/${name}")
+        ]).imports
+        ++ [
+          inputs.disko.nixosModules.disko # needed for every host
+          usersModule
+          {
+            # The directory name is the single source of truth for the hostname: it
+            # already keys this nixosConfiguration, so deriving networking.hostName
+            # from it makes a folder/hostname mismatch impossible by construction.
+            networking.hostName = name;
+            hardware.facter.reportPath = hostReport name;
+          }
+        ];
     };
 in
 {

@@ -1,6 +1,6 @@
 # Single source of truth for sops recipients is the nix config:
 # a host is a recipient by dropping its /etc/ssh/ssh_host_ed25519_key.pub into
-# modules/hosts/<name>/, and hosts enable users via `hyprnixos.users.<name>.enable`.
+# modules/hosts/<name>/, and hosts run users by naming them in `hyprnixos.userProfiles`.
 #
 #   nix run .#sops-sync   regenerate .sops.yaml + re-wrap all secret files
 #
@@ -11,7 +11,7 @@ let
   adminPgpKeys = [ "4D3C1993340D0ACEF6AF1903CACB28BA93CE71A2" ]; # qweered
   hosts = lib.mapAttrs (_: host: host.config.hyprnixos) config.flake.nixosConfigurations;
   hostPub = name: ../hosts + "/${name}/ssh_host_ed25519_key.pub";
-  userNames = lib.attrNames (lib.head (lib.attrValues hosts)).users;
+  userNames = lib.attrNames (lib.mergeAttrsList (lib.catAttrs "users" (lib.attrValues hosts)));
 in
 {
   perSystem =
@@ -19,7 +19,7 @@ in
     let
       ageOf = name: "age1-placeholder-${name}";
       hostKeys = lib.mapAttrsToList (name: _: ageOf name);
-      enablingHostKeys = user: hostKeys (lib.filterAttrs (_: cfg: cfg.users.${user}.enable) hosts);
+      userHostKeys = user: hostKeys (lib.filterAttrs (_: cfg: cfg.users ? ${user}) hosts);
 
       rule = path: keys: {
         path_regex = "secrets/${path}\\.yaml$";
@@ -30,8 +30,8 @@ in
       sopsConfig.creation_rules =
         # every host needs these
         [ (rule "common" (hostKeys hosts)) ]
-        # per user: only the hosts that enable them
-        ++ lib.map (user: rule "users/${user}" (enablingHostKeys user)) userNames
+        # per user: only the hosts that run them
+        ++ lib.map (user: rule "users/${user}" (userHostKeys user)) userNames
         # per host: only that host
         ++ lib.mapAttrsToList (name: _: rule "hosts/${name}" [ (ageOf name) ]) hosts;
 
@@ -91,7 +91,7 @@ in
         enable = true;
         entry = lib.getExe sops-config-sync;
         # every input the rendered recipient lists are derived from: the admin
-        # pgp keys here, host *.pub files, and `users.<name>.enable`
+        # pgp keys here, host *.pub files, and `hyprnixos.userProfiles`
         files = "^(\\.sops\\.yaml|modules/flake-parts/sops\\.nix|modules/(users|hosts)/.*\\.(nix|pub))$";
         pass_filenames = false;
       };

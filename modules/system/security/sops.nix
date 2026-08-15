@@ -28,13 +28,7 @@
         mode = "0440";
         group = config.users.groups.keys.name;
       };
-      context7-api-key = {
-        mode = "0440";
-        group = config.users.groups.keys.name;
-      };
-      # Loaded as a systemd credential by cachix-daemon (see programs/cachix.nix),
-      # so the value is the bare token — no `CACHIX_AUTH_TOKEN=` prefix.
-      # Root-only by sops-nix default — no user needs to read it.
+      # No user needs to read it.
       cachix-auth-token = { };
     };
   };

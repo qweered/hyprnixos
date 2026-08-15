@@ -30,26 +30,31 @@
       example = "26.05";
       description = "State version of the system.";
     };
+    userProfiles = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      example = [ "qweered" ];
+      description = ''
+        Names of `modules/users/<name>.nix` profiles this host runs. Each one
+        becomes a normal user account with a home-manager configuration importing
+        the shared `modules/home` tree, and populates `users.<name>` below.
+      '';
+    };
     users = lib.mkOption {
-      default = { };
+      readOnly = true;
       example = {
         qweered = { };
       };
       description = ''
-        User profiles, keyed by username. Defining a user here only describes it
-        (shell, browser, home directory, ...) and leaves it disabled; profiles are
-        typically supplied by the shared `modules/users/<name>.nix` tree, so every
-        host sees every definition. A profile is created on a host only when that
-        host sets `users.<name>.enable = true`, at which point a normal user account
-        is created and a home-manager configuration importing the shared
-        `modules/home` tree is wired up.
+        The profiles named by `userProfiles`, keyed by username and read back for
+        their details (shell, browser, home directory, ...). Set by the generated
+        users module in entrypoint.nix, not by hand.
       '';
       type = lib.types.attrsOf (
         lib.types.submodule (
           { name, ... }:
           {
             options = {
-              enable = lib.mkEnableOption "this user on the host; profiles default to disabled so they are only created where explicitly enabled";
               name = lib.mkOption {
                 type = lib.types.str;
                 default = name;
@@ -77,6 +82,17 @@
                 type = lib.types.str;
                 default = "us,ru";
                 description = "Comma-separated X keyboard layouts, passed to services.xserver.xkb.layout (system-wide).";
+              };
+              secrets = lib.mkOption {
+                type = lib.types.listOf lib.types.str;
+                default = [ ];
+                example = [ "context7-api-key" ];
+                description = ''
+                  Keys of secrets/users/<name>.yaml to expose as
+                  /run/secrets/<name>/<key>, readable only by this user. Declared
+                  on the hosts that run the profile, which are exactly the hosts
+                  the file is encrypted to.
+                '';
               };
               homeDirectory = lib.mkOption {
                 type = lib.types.str;

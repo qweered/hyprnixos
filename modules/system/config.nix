@@ -5,9 +5,6 @@
   inputs,
   ...
 }:
-let
-  enabledUsers = lib.filterAttrs (_: user: user.enable) cfg.users;
-in
 {
   imports = [ inputs.home-manager.nixosModules.home-manager ];
 
@@ -16,7 +13,7 @@ in
     users = lib.mapAttrs (
       name: user:
       let
-        hashedPasswordFile = config.sops.secrets."password-${name}".path or null;
+        hashedPasswordFile = config.sops.secrets."${name}/password".path or null;
       in
       {
         isNormalUser = true;
@@ -32,11 +29,11 @@ in
           "input"
           "podman"
           "adbusers"
-          "keys" # read group-gated sops secrets (nix-access-tokens, context7-api-key)
+          "keys" # read group-gated sops secrets (nix-access-tokens)
         ]
         ++ user.groups;
       }
-    ) enabledUsers;
+    ) cfg.users;
   };
 
   home-manager = {
@@ -49,6 +46,6 @@ in
       # TODO: customize imports by user
       _module.args = { inherit user cfg; };
       inherit (inputs.import-tree.matchNot ".*/hacking/.*" ../home) imports;
-    }) enabledUsers;
+    }) cfg.users;
   };
 }

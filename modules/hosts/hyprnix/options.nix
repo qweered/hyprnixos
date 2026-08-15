@@ -5,6 +5,6 @@
     desktop = "hyprland";
     stateVersion = "26.05";
     secureBootConfigured = true;
-    users.qweered.enable = true;
+    userProfiles = [ "qweered" ];
   };
 }

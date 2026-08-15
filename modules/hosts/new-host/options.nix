@@ -5,9 +5,6 @@
     desktop = "hyprland"; # or kde
     stateVersion = "26.05";
     secureBootConfigured = false;
-    users = {
-      # qweered.enable = true;
-      kavazar.enable = true;
-    };
+    userProfiles = [ "kavazar" ]; # or "qweered", see modules/users/
   };
 }
