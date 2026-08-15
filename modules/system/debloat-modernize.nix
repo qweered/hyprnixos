@@ -18,5 +18,9 @@
 
   # system.etc.overlay.enable = true; # Cant login after nh os boot
 
-  systemd.enableStrictShellChecks = true; # CONFIG: will become default
+  # TODO: enable upstream cause it rebuild all systemd units
+  # systemd.enableStrictShellChecks = true;
+
+  # TODO: enable upstream cause it rebuilds all shell completions
+  # programs.fish.useBabelfish = true;
 }
