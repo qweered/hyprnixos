@@ -81,6 +81,11 @@
         # "recursive-nix"
       ];
 
+      extra-system-features = [
+        "uid-range"
+        # "recursive-nix"
+      ];
+
       trusted-users = [ "@wheel" ];
     };
   };
