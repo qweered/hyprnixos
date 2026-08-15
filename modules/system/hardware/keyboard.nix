@@ -1,4 +1,9 @@
-{ cfg, pkgs, ... }:
+{
+  cfg,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   canary = toString (
@@ -86,27 +91,26 @@ let
       };
     ''
   );
+  layouts = lib.unique (lib.concatMap (user: user.keyboardLayouts) (lib.attrValues cfg.users));
 
-  baseLayouts = "us,ru";
-  # TODO: this should be set via options
-  layout = if cfg.users ? qweered then "${cfg.users.qweered.keyboardLayouts},${baseLayouts}" else baseLayouts;
+  selected = lib.filterAttrs (name: _: lib.elem name layouts) {
+    canary = {
+      description = "Best layout ever";
+      languages = [ "eng" ];
+      symbolsFile = canary;
+    };
+    rus_canary = {
+      description = "Russian mnemonic of canary layout";
+      languages = [ "rus" ];
+      symbolsFile = rus_canary;
+    };
+  };
 in
 {
   console.useXkbConfig = true;
 
   services.xserver.xkb = {
-    inherit layout;
-    extraLayouts = {
-      canary = {
-        description = "Best layout ever";
-        languages = [ "eng" ];
-        symbolsFile = canary;
-      };
-      rus_canary = {
-        description = "Russian mnemonic of canary layout";
-        languages = [ "rus" ];
-        symbolsFile = rus_canary;
-      };
-    };
+    layout = lib.concatStringsSep "," layouts;
+    extraLayouts = selected;
   };
 }

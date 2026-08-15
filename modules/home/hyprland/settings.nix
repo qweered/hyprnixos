@@ -1,4 +1,4 @@
-{ user, ... }:
+{ lib, user, ... }:
 {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -47,7 +47,7 @@
         };
 
         input = {
-          kb_layout = user.keyboardLayouts;
+          kb_layout = lib.concatStringsSep "," user.keyboardLayouts;
           kb_options = "grp:alt_shift_toggle,lv3:ralt_switch";
           repeat_rate = 30;
           repeat_delay = 300;
