@@ -171,10 +171,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1786538400,
+        "lastModified": 1786826571,
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "e13ba5e5abbd9b912fa8c6979bd119e87ca7fdd9",
+        "rev": "c8058ecc1329a71a3c99c4d0353dba4009a66152",
         "type": "github"
       },
       "original": {
@@ -214,10 +214,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1786550900,
+        "lastModified": 1786817893,
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "e12c4b1c81c208d5cb15c6ccb95881997e269349",
+        "rev": "03eb805f7600594270b9434ecb6619ae76e04bc3",
         "type": "github"
       },
       "original": {
@@ -248,10 +248,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1786045750,
+        "lastModified": 1786701834,
         "owner": "manic-systems",
         "repo": "ncro",
-        "rev": "c6e07f2adeca2b7673b52628e531187dcbfc34e9",
+        "rev": "3cc83303cc859901eb4330e9c4319b61f6ba1ffc",
         "type": "github"
       },
       "original": {
@@ -319,10 +319,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1786530600,
+        "lastModified": 1786767826,
         "owner": "kaylorben",
         "repo": "nixcord",
-        "rev": "f4c14da614eb4e146cd8b65426038c75b06596f9",
+        "rev": "0d7dc7ca169f7d453216b0bafbad2a43211e8c3c",
         "type": "github"
       },
       "original": {
@@ -369,6 +369,30 @@
         "url": "https://github.com/NixOS/nixpkgs/pull/525686.diff"
       }
     },
+    "nixpkgs-patch-hotfix-ananicy-cpp": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-FgIg6TIaPhaZbh/vwA4PNewiE4km0M3yulzSs/Gpt58=",
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/552211.diff"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/552211.diff"
+      }
+    },
+    "nixpkgs-patch-hotfix-nanoemoji-hash": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-+T3TjwiVVAyjvUYCYYymrXwCKopXVVAl7icOkISdiR0=",
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/commit/1e544d5f3944e555dd7919258882562e616407a8.diff"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/commit/1e544d5f3944e555dd7919258882562e616407a8.diff"
+      }
+    },
     "nixpkgs-patch-make-initrd-ng-dlopen-alternatives": {
       "flake": false,
       "locked": {
@@ -395,10 +419,10 @@
     },
     "nixpkgs-patcher": {
       "locked": {
-        "lastModified": 1781789965,
+        "lastModified": 1786578629,
         "owner": "gepbird",
         "repo": "nixpkgs-patcher",
-        "rev": "d2abed2b94b7955e05b4e2e8a9b8ac45597ecf94",
+        "rev": "59ecdb2d3783c2b1fd27e595b3f11411a5db730c",
         "type": "github"
       },
       "original": {
@@ -425,11 +449,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1786384358,
-        "narHash": "sha256-OETwiymkMwunF+pfL25DzLMF2/YpMcJUjVd9qZ0YdsM=",
-        "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+        "lastModified": 1786599213,
+        "narHash": "sha256-yjGG65gA1jORt0hWxjzrnw3AYkIn8EWolp8vezwXZ3I=",
+        "rev": "0e251e24a4f24e036a084b6b4b2d2491af4167f4",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1051473.2fcb964de67f/nixexprs.tar.zst"
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1053317.0e251e24a4f2/nixexprs.tar.zst"
       },
       "original": {
         "type": "tarball",
@@ -478,6 +502,8 @@
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-patch-builtins-filterattrs": "nixpkgs-patch-builtins-filterattrs",
         "nixpkgs-patch-codexbar-cli": "nixpkgs-patch-codexbar-cli",
+        "nixpkgs-patch-hotfix-ananicy-cpp": "nixpkgs-patch-hotfix-ananicy-cpp",
+        "nixpkgs-patch-hotfix-nanoemoji-hash": "nixpkgs-patch-hotfix-nanoemoji-hash",
         "nixpkgs-patch-make-initrd-ng-dlopen-alternatives": "nixpkgs-patch-make-initrd-ng-dlopen-alternatives",
         "nixpkgs-patch-singularityapp": "nixpkgs-patch-singularityapp",
         "nixpkgs-patcher": "nixpkgs-patcher",
@@ -497,10 +523,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1786375908,
+        "lastModified": 1786629091,
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "d1337e05ba0a8e88a75d2c0e1595d82f3b3e2ac4",
+        "rev": "a8627b21b9107c5711c96b84f32a9a4b3d45295f",
         "type": "github"
       },
       "original": {
@@ -519,10 +545,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1786252193,
+        "lastModified": 1786613850,
         "owner": "Gerg-L",
         "repo": "spicetify-nix",
-        "rev": "a87616995724d27079b495ca07318512af799449",
+        "rev": "c900155108f79f8ed6a29a8ed32c23494ce13415",
         "type": "github"
       },
       "original": {
@@ -586,11 +612,11 @@
     "vicinae-extensions": {
       "flake": false,
       "locked": {
-        "lastModified": 1786532473,
-        "narHash": "sha256-fzEQzmsU/EsW+GA7d9US1PbN6ohPqg8fHXbcAJiX+uM=",
+        "lastModified": 1786695377,
+        "narHash": "sha256-E3ZW5x/hemm6qEIY98fp7DrXiMg7uQdg80wIqcSRGCA=",
         "owner": "vicinaehq",
         "repo": "extensions",
-        "rev": "9fa12799f92c650bfde3d25b8acbb8bab7c1c6a2",
+        "rev": "d61bf7b835ebd29c806387f0e013df04dd61a368",
         "type": "github"
       },
       "original": {

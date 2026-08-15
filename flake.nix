@@ -7,6 +7,14 @@
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"; # Smaller then github tarball, less api hits
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
+    nixpkgs-patch-hotfix-nanoemoji-hash = {
+      url = "https://github.com/NixOS/nixpkgs/commit/1e544d5f3944e555dd7919258882562e616407a8.diff";
+      flake = false;
+    };
+    nixpkgs-patch-hotfix-ananicy-cpp = {
+      url = "https://github.com/NixOS/nixpkgs/pull/552211.diff";
+      flake = false;
+    };
     nixpkgs-patch-codexbar-cli = {
       url = "https://github.com/NixOS/nixpkgs/pull/525686.diff";
       flake = false;
