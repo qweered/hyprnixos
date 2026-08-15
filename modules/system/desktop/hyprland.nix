@@ -1,7 +1,7 @@
 { cfg, lib, ... }:
 
 {
-  config = lib.mkIf (cfg.desktop == "hyprland") {
+  config = lib.mkIf (lib.elem "hyprland" cfg.sessions) {
     programs.hyprland = {
       enable = true;
       withUWSM = true;

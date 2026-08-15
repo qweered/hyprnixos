@@ -7,17 +7,15 @@
 
 {
   options.hyprnixos = {
-    desktop = lib.mkOption {
-      type = lib.types.enum [
-        "hyprland"
-        "kde"
-      ];
-      description = "Which desktop environment / window manager to enable.";
-    };
-    isWindowManager = lib.mkOption {
-      type = lib.types.bool;
-      default = config.hyprnixos.desktop == "hyprland";
-      description = "Whether current desktop environment is a window-manager.";
+    sessions = lib.mkOption {
+      type = lib.types.listOf (
+        lib.types.enum [
+          "hyprland"
+          "kde"
+        ]
+      );
+      example = [ "hyprland" ];
+      description = "Desktop environments and window managers to install; the greeter offers one session per entry.";
     };
     stateVersion = lib.mkOption {
       type = lib.types.str;

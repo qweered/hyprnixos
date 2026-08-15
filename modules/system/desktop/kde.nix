@@ -6,7 +6,7 @@
 }:
 
 {
-  config = lib.mkIf (cfg.desktop == "kde") {
+  config = lib.mkIf (lib.elem "kde" cfg.sessions) {
     services.desktopManager.plasma6.enable = true;
     environment.plasma6.excludePackages = with pkgs.kdePackages; [
       konsole

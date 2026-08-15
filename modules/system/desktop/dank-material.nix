@@ -1,7 +1,7 @@
 { lib, cfg, ... }:
 
 {
-  config = lib.mkIf cfg.isWindowManager {
+  config = lib.mkIf (lib.elem "hyprland" cfg.sessions) {
     programs.dms-shell = {
       enable = true;
       enableVPN = false;
