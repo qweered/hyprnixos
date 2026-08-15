@@ -74,21 +74,21 @@ the right configuration without a `-H` flag.
   Point `device` at the host's real disk before formatting anything for real —
   it is the *only* place the install reads the target from.
 - **sops secrets** are keyed to the host's SSH key (converted to an age key).
-  On a brand-new host whose `hyprnixos.hostAgeKey` isn't set yet, secrets won't
-  decrypt at activation, so enroll it before the first real switch: get the key
-  with `ssh-keyscan <host> | ssh-to-age` (or locally
-  `ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub`), set it in the host's
-  `options.nix`, and run `nix run .#sops-sync`.
+  A brand-new host isn't a recipient of anything yet, so secrets won't decrypt
+  at activation — enroll it before the first real switch: copy its
+  `/etc/ssh/ssh_host_ed25519_key.pub` into `modules/hosts/<name>/` (or
+  `ssh-keyscan -t ed25519 <host> | cut -d' ' -f2-`), `git add` it, and run
+  `nix run .#sops-sync`. The `.pub` is committed verbatim so it stays checkable
+  against `ssh-keyscan`; the age conversion happens at build time.
 
   Hosts are not trusted by default. Each sops file has its own recipient list:
   `secrets/common.yaml` (all hosts), `secrets/users/<name>.yaml` (only hosts
-  that enable that user, plus the user's own `ageKey` if set),
-  `secrets/hosts/<name>.yaml` (only that host). A host can never decrypt a
-  secret outside its scopes, and the nix declarations mirror the same
-  boundaries (`modules/system/security/sops.nix`, the `modules/users/<name>.nix`
-  profiles, `modules/hosts/<name>/`). `.sops.yaml` is generated from the host
-  and user options by `nix run .#sops-sync` — never edit it by hand; a
-  pre-commit hook rejects drift.
+  that enable that user), `secrets/hosts/<name>.yaml` (only that host). A host
+  can never decrypt a secret outside its scopes, and the nix declarations
+  mirror the same boundaries (`modules/system/security/sops.nix`, the
+  `modules/users/<name>.nix` profiles, `modules/hosts/<name>/`). `.sops.yaml` is
+  generated from the host and user options by `nix run .#sops-sync` — never edit
+  it by hand; a pre-commit hook rejects drift.
 
 ### Doing it by hand
 

@@ -5,8 +5,6 @@
     desktop = "hyprland"; # or kde
     stateVersion = "26.05";
     secureBootConfigured = false;
-    # CHANGE ME: ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub, then `nix run .#sops-sync`
-    hostAgeKey = null;
     users = {
       # qweered.enable = true;
       kavazar.enable = true;
