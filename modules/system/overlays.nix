@@ -4,7 +4,8 @@
   ...
 }:
 let
-  llm-agents = inputs.llm-agents.packages.${config.hyprnixos.hostPlatform};
+  # Straight from the report, not from `pkgs`: these overlays are what builds it.
+  llm-agents = inputs.llm-agents.packages.${config.hardware.facter.report.system};
 in
 {
   nixpkgs.overlays = [

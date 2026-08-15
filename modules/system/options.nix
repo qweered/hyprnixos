@@ -37,19 +37,6 @@
       default = false;
       description = "Set to true if manual configuration for secure boot has been performed";
     };
-    # TODO: should be done via facter
-    hostPlatform = lib.mkOption {
-      type = lib.types.enum lib.systems.flakeExposed;
-      example = "x86_64-linux";
-      description = "Platform of the host.";
-    };
-    # TODO: should be done via facter
-    defaultScreenResolution = lib.mkOption {
-      type = lib.types.strMatching "[0-9]+x[0-9]+";
-      default = "1920x1080";
-      example = "2560x1440";
-      description = "Default screen resolution, formatted as WIDTHxHEIGHT, used for monitor and display configuration.";
-    };
     kernelFlavour = lib.mkOption {
       # `*` marks the flavours that also ship -march builds
       type = lib.types.enum [
@@ -158,7 +145,6 @@
 
   config = {
     _module.args.cfg = config.hyprnixos;
-    nixpkgs.hostPlatform = config.hyprnixos.hostPlatform;
     system.stateVersion = config.hyprnixos.stateVersion;
   };
 }

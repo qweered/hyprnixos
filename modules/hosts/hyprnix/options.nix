@@ -1,6 +1,5 @@
 {
   hyprnixos = {
-    hostPlatform = "x86_64-linux";
     kernelFlavour = "bore-lto"; # or rt-bore-lto
     sessions = [ "hyprland" ];
     stateVersion = "26.05";

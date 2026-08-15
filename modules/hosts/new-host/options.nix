@@ -1,6 +1,5 @@
 {
   hyprnixos = {
-    hostPlatform = "x86_64-linux";
     kernelFlavour = "latest-lto"; # or bore-lto, lts-lto, hardened, server
     sessions = [ "hyprland" ]; # or "kde", or both
     stateVersion = "26.05";

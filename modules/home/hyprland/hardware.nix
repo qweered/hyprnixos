@@ -1,10 +1,10 @@
-{ cfg, ... }:
+{ osConfig, ... }:
 
 {
   wayland.windowManager.hyprland.settings = {
     monitor = {
       output = "eDP-1";
-      mode = "${cfg.defaultScreenResolution}@60";
+      inherit (osConfig.hardware.facter.detected.monitor) mode;
       position = "auto";
       scale = 1;
       bitdepth = 10;

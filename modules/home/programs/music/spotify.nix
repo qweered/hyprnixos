@@ -1,6 +1,6 @@
-{ inputs, cfg, ... }:
+{ inputs, osConfig, ... }:
 let
-  spicetifyPkgs = inputs.spicetify.legacyPackages.${cfg.hostPlatform};
+  spicetifyPkgs = inputs.spicetify.legacyPackages.${osConfig.hardware.facter.report.system};
 in
 {
   imports = [ inputs.spicetify.homeManagerModules.default ];

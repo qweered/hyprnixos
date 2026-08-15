@@ -24,7 +24,7 @@
   nixpkgs.flake.source = lib.mkForce config.nixpkgs-patcher.patchedNixpkgs;
 
   nix = {
-    package = inputs.determinate.packages.${config.hyprnixos.hostPlatform}.default;
+    package = inputs.determinate.packages.${config.hardware.facter.report.system}.default;
     channel.enable = false;
 
     # distributedBuilds = true; TODO when multiple machines
