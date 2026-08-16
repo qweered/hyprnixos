@@ -1,6 +1,9 @@
 # Single source of truth for sops recipients is the nix config:
-# a host is a recipient by dropping its /etc/ssh/ssh_host_ed25519_key.pub into
+# a host is a recipient by dropping its ssh_host_ed25519_key.pub into
 # modules/hosts/<name>/, and hosts run users by naming them in `hyprnixos.userProfiles`.
+#
+# That keypair is minted by `nix run .#hostkey <host>`; the private half lives on
+# /var/lib, not /etc (see modules/system/security/sops.nix).
 #
 #   nix run .#sops-sync   regenerate .sops.yaml + re-wrap all secret files
 #
@@ -44,6 +47,50 @@ in
         '') (lib.attrNames hosts)}
       '';
 
+      # Where a host keeps the private half. Read off a host config rather than
+      # repeated here: every host sets it from modules/system/security/sops.nix.
+      hostKeyPath = lib.head (lib.head (lib.attrValues config.flake.nixosConfigurations)).config.sops.age.sshKeyPaths;
+
+      # Mint a new machine's identity before installing it. Nothing else creates
+      # this key -- services.openssh is off, so there is no sshd-keygen unit --
+      # and a host that cannot decrypt has no password hash on first boot.
+      hostkey = pkgs.writeShellApplication {
+        name = "hostkey";
+        runtimeInputs = [
+          pkgs.openssh
+          pkgs.ssh-to-age
+          pkgs.git
+        ];
+        text = ''
+          host="''${1:-}"
+          if [ -z "$host" ]; then
+            echo "usage: hostkey <host>   # mint ${hostKeyPath} and stage its .pub" >&2
+            exit 1
+          fi
+
+          if [ -e "${hostKeyPath}" ]; then
+            echo ">>> ${hostKeyPath} already exists, reusing it"
+          else
+            echo ">>> Generating ${hostKeyPath}"
+            sudo install -d -m 0755 "$(dirname "${hostKeyPath}")"
+            sudo ssh-keygen -t ed25519 -N "" -C "$host" -f "${hostKeyPath}"
+          fi
+
+          dir="$(git rev-parse --show-toplevel)/modules/hosts/$host"
+          mkdir -p "$dir"
+          sudo cp "${hostKeyPath}.pub" "$dir/ssh_host_ed25519_key.pub"
+          sudo chmod 0644 "$dir/ssh_host_ed25519_key.pub"
+
+          echo ">>> Staged $dir/ssh_host_ed25519_key.pub"
+          echo ">>> age recipient: $(ssh-to-age < "$dir/ssh_host_ed25519_key.pub")"
+          echo ">>>"
+          echo ">>> Next, where the admin PGP key lives:"
+          echo ">>>   nix run .#sops-sync   # re-wrap secrets/ to include this host"
+          echo ">>>   git add -A && git commit"
+          echo ">>> Only then can this host decrypt anything."
+        '';
+      };
+
       sops-sync = pkgs.writeShellApplication {
         name = "sops-sync";
         runtimeInputs = [
@@ -85,6 +132,12 @@ in
       apps.sops-sync = {
         type = "app";
         program = lib.getExe sops-sync;
+      };
+
+      # nix run <flake>#hostkey -- <host>
+      apps.hostkey = {
+        type = "app";
+        program = lib.getExe hostkey;
       };
 
       pre-commit.settings.hooks.sops-config = {

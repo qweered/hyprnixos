@@ -16,7 +16,14 @@
     nixos.enable = false;
   };
 
-  # system.etc.overlay.enable = true; # Cant login after nh os boot
+  # /etc becomes a read-only overlayfs generated from the nix config, masking
+  # anything install-time that lived on the mutable /etc. Keep such state
+  # elsewhere -- e.g. the sops host key on /var/lib, see
+  # modules/system/security/sops.nix.
+  system.etc.overlay = {
+    enable = true;
+    mutable = false;
+  };
 
   # TODO: enable upstream cause it rebuild all systemd units
   # systemd.enableStrictShellChecks = true;
