@@ -151,7 +151,7 @@ in
       Resolve = {
         # DNS servers are from networking.nameservers
         Cache = true;
-        DNSOverTLS = true;
+        DNSOverTLS = "opportunistic"; # TODO: flip to true for servers
         DNSSEC = false; # DNSOverTLS is enough
         Domains = [ "~." ];
 
