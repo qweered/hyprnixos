@@ -98,8 +98,9 @@
                 description = "Additional groups to add the user to, on top of system defaults.";
               };
               browser = lib.mkOption {
-                type = lib.types.str;
-                description = "Preferred web browser; exported as $BROWSER in the user's session.";
+                type = lib.types.enum (lib.map (lib.removeSuffix ".nix") (lib.attrNames (builtins.readDir ../home/programs/browsers)));
+                example = "vivaldi";
+                description = "Preferred web browser; installed for this user and exported as $BROWSER in their session.";
               };
               keyboardLayouts = lib.mkOption {
                 type = lib.types.listOf lib.types.str;
