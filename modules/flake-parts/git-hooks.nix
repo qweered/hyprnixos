@@ -30,8 +30,8 @@
           };
           nixfmt-rs = {
             enable = true;
-            package = pkgs.nixfmt-rs;
-            entry = "${lib.getExe pkgs.nixfmt-rs} --width=140 --strict";
+            package = config.formatter;
+            entry = lib.getExe config.formatter;
             files = "\\.nix$";
             priority = 2;
           };
