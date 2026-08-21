@@ -111,6 +111,7 @@ in
 
   services.xserver.xkb = {
     layout = lib.concatStringsSep "," layouts;
+    options = "grp:alt_shift_toggle,lv3:ralt_switch";
     extraLayouts = selected;
   };
 }
