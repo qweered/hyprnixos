@@ -6,12 +6,14 @@
 }:
 {
   nixpkgs.config = {
-    allowUnfree = true;
     allowAliases = false;
     warnUndeclaredOptions = true;
     checkMeta = true;
+    # NOTE: it defaults to true because of patch
+    # allowUnfree = true;
     # TODO: find a way to make this check less noisy, e.g. showing only one level deep packages
     # showDerivationWarnings = [ "maintainerless" ];
+    # Mass rebuilds:
     # strictDepsByDefault = true;
     # structuredAttrsByDefault = true;
     # fetchedSourceNameDefault = "versioned";

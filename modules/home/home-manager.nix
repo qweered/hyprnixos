@@ -16,7 +16,6 @@
     username = user.name;
     sessionVariables = {
       # for nix shell, nix run, etc. https://github.com/NixOS/nix/issues/9875
-      NIXPKGS_ALLOW_UNFREE = "1";
       NIXPKGS_ALLOW_INSECURE = "1";
       BROWSER = user.browser;
       QT_QPA_PLATFORMTHEME = "qt6ct";

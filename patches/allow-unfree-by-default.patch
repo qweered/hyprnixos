@@ -1,0 +1,30 @@
+Make nixpkgs' `allowUnfree` default to true.
+
+This is what github:numtide/nixpkgs-unfree does, minus the second nixpkgs
+instance: that flake is `import nixpkgs { config.allowUnfree = true; ... }`
+re-exposed as `legacyPackages`, so it carries no nixpkgs source tree of its
+own -- nixpkgs-patcher and `nixpkgs.flake.source` both need a real tree, and
+its GitHub tarball pin would not share a store path with our channel tarball.
+
+`nixpkgs.config.allowUnfree` already covers the system closure. What this
+patch adds is the ad-hoc CLI: `nixpkgs.flake.source` pins the registry and
+NIX_PATH to the patched tree, and nixpkgs' own `legacyPackages` is
+`import ./. { }` with no config, so flipping the option default is what makes
+`nix shell nixpkgs#<unfree>` work purely, without NIXPKGS_ALLOW_UNFREE=1.
+
+`pkgs/top-level/config.nix` is eval-only -- it is never copied into a
+derivation -- so no package rebuilds. The only thing that changes is the
+patched-nixpkgs tree itself and the registry/NIX_PATH pin that follows it.
+
+diff --git a/pkgs/top-level/config.nix b/pkgs/top-level/config.nix
+--- a/pkgs/top-level/config.nix
++++ b/pkgs/top-level/config.nix
+@@ -251,7 +251,7 @@
+ 
+     allowUnfree = mkOption {
+       type = types.bool;
+-      default = false;
++      default = true;
+       # getEnv part is in check-meta.nix
+       defaultText = literalExpression ''false || builtins.getEnv "NIXPKGS_ALLOW_UNFREE" == "1"'';
+       description = ''

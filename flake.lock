@@ -345,6 +345,18 @@
         "url": "https://flakehub.com/f/NixOS/nixpkgs/0.2605"
       }
     },
+    "nixpkgs-patch-allow-unfree": {
+      "flake": false,
+      "locked": {
+        "path": "./patches/allow-unfree-by-default.patch",
+        "type": "path"
+      },
+      "original": {
+        "path": "./patches/allow-unfree-by-default.patch",
+        "type": "path"
+      },
+      "parent": []
+    },
     "nixpkgs-patch-builtins-filterattrs": {
       "flake": false,
       "locked": {
@@ -477,6 +489,7 @@
         "nix-index-database": "nix-index-database",
         "nixcord": "nixcord",
         "nixpkgs": "nixpkgs_3",
+        "nixpkgs-patch-allow-unfree": "nixpkgs-patch-allow-unfree",
         "nixpkgs-patch-builtins-filterattrs": "nixpkgs-patch-builtins-filterattrs",
         "nixpkgs-patch-codexbar-cli": "nixpkgs-patch-codexbar-cli",
         "nixpkgs-patch-make-initrd-ng-dlopen-alternatives": "nixpkgs-patch-make-initrd-ng-dlopen-alternatives",
