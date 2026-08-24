@@ -54,9 +54,9 @@
     mutable = true; # Did you read comment above?
   };
 
-  # TODO: enable upstream cause it rebuild all systemd units
-  # systemd.enableStrictShellChecks = true;
+  # TODO: enable upstream
+  systemd.enableStrictShellChecks = true;
 
-  # TODO: enable upstream cause it rebuilds all shell completions
-  # programs.fish.useBabelfish = true;
+  # TODO: enable upstream
+  programs.fish.useBabelfish = true;
 }
