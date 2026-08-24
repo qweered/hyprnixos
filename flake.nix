@@ -3,14 +3,13 @@
 
   inputs = {
     # nixpkgs-local-testing.url = "git+file:///home/qweered/Projects/nixpkgs";
-    # nixpkgs-unstable-with-unfree.url = "github:numtide/nixpkgs-unfree/nixpkgs-unstable" - can't get this to work
+    # numtide/nixpkgs-unfree is deliberately not an input: it re-exposes
+    # `legacyPackages` only, carries no nixpkgs source tree for
+    # nixpkgs-patcher or `nixpkgs.flake.source` to use, and re-pins nixpkgs
+    # to a GitHub tarball. See patches/allow-unfree-by-default.patch instead.
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"; # Smaller then github tarball, less api hits
-    nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
-    nixpkgs-patch-hotfix-ananicy-cpp = {
-      url = "https://github.com/NixOS/nixpkgs/pull/552211.diff";
-      flake = false;
-    };
+    nixpkgs-patcher.url = "github:qweered/nixpkgs-patcher/perf-materialise-once"; # 4x faster
     nixpkgs-patch-codexbar-cli = {
       url = "https://github.com/NixOS/nixpkgs/pull/525686.diff";
       flake = false;
