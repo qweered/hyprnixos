@@ -63,6 +63,7 @@ in
 
   # systemd's default soft limit of 1024 starves ncro under nixpkgs-review:
   # nix opens unbounded connections and ncro races 10 upstreams per narinfo.
+  # TODO: remove when https://github.com/manic-systems/ncro/pull/71 merged
   systemd.services.ncro.serviceConfig.LimitNOFILE = 65536;
 
   nix.settings =

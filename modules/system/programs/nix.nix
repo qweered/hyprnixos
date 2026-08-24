@@ -55,7 +55,7 @@
       max-free = 10 * 1024 * 1024 * 1024; # Stop at 10GB left
 
       # Faster download and fallback
-      http-connections = 0;
+      http-connections = 128;
       max-substitution-jobs = 32;
       always-allow-substitutes = true;
       builders-use-substitutes = true;
