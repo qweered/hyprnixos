@@ -61,6 +61,10 @@ in
     };
   };
 
+  # systemd's default soft limit of 1024 starves ncro under nixpkgs-review:
+  # nix opens unbounded connections and ncro races 10 upstreams per narinfo.
+  systemd.services.ncro.serviceConfig.LimitNOFILE = 65536;
+
   nix.settings =
     let
       proxy = "http://${listen}";
