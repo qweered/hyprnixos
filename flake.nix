@@ -3,10 +3,6 @@
 
   inputs = {
     # nixpkgs-local-testing.url = "git+file:///home/qweered/Projects/nixpkgs";
-    # numtide/nixpkgs-unfree is deliberately not an input: it re-exposes
-    # `legacyPackages` only, carries no nixpkgs source tree for
-    # nixpkgs-patcher or `nixpkgs.flake.source` to use, and re-pins nixpkgs
-    # to a GitHub tarball. See patches/allow-unfree-by-default.patch instead.
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"; # Smaller then github tarball, less api hits
     nixpkgs-patcher.url = "github:qweered/nixpkgs-patcher/perf-materialise-once"; # 4x faster
@@ -27,7 +23,7 @@
       flake = false;
     };
     nixpkgs-patch-allow-unfree = {
-      url = "path:./patches/allow-unfree-by-default.patch";
+      url = "https://gist.githubusercontent.com/qweered/c3ed7d8b22bc9dac59717b1f148d9522/raw/allow-unfree-by-default.patch";
       flake = false;
     };
 

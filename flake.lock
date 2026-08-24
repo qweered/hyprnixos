@@ -348,14 +348,14 @@
     "nixpkgs-patch-allow-unfree": {
       "flake": false,
       "locked": {
-        "path": "./patches/allow-unfree-by-default.patch",
-        "type": "path"
+        "narHash": "sha256-H9yw3bNY2vwqFwHYm6n5c4clVJBFcnah90jZHY9Bxm0=",
+        "type": "file",
+        "url": "https://gist.githubusercontent.com/qweered/c3ed7d8b22bc9dac59717b1f148d9522/raw/allow-unfree-by-default.patch"
       },
       "original": {
-        "path": "./patches/allow-unfree-by-default.patch",
-        "type": "path"
-      },
-      "parent": []
+        "type": "file",
+        "url": "https://gist.githubusercontent.com/qweered/c3ed7d8b22bc9dac59717b1f148d9522/raw/allow-unfree-by-default.patch"
+      }
     },
     "nixpkgs-patch-builtins-filterattrs": {
       "flake": false,
