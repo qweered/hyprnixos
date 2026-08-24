@@ -46,6 +46,9 @@
       accept-flake-config = false; # true allows root access, see https://github.com/NixOS/nix/issues/9649
       allow-import-from-derivation = true; # for devenv and command-not-found, see if we can flip that to false
       trace-import-from-derivation = true;
+      always-allow-substitutes = true;
+      builders-use-substitutes = true;
+
       lint-url-literals = "warn";
       lint-short-path-literals = "warn";
       lint-absolute-path-literals = "ignore"; # still too noisy
@@ -55,12 +58,10 @@
       max-free = 10 * 1024 * 1024 * 1024; # Stop at 10GB left
 
       # Faster download and fallback
-      http-connections = 128;
+      http-connections = 64;
       max-substitution-jobs = 32;
-      always-allow-substitutes = true;
-      builders-use-substitutes = true;
-      connect-timeout = 10;
-      stalled-download-timeout = 15;
+      # connect-timeout = 10; # NOTE: dead under ncro
+      stalled-download-timeout = 30;
       download-attempts = 3;
       fallback = true;
 
