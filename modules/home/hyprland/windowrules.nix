@@ -28,7 +28,6 @@ in
     (ft "Picture-in-Picture")
     (ft "Bitwarden - Vivaldi")
     (ft "Bitwarden Password Manager")
-    (ft "PortProton")
 
     (fct "ayugram" "Media viewer")
     (fct "thunar" "File Operation Progress")
