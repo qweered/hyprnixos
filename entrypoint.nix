@@ -62,26 +62,25 @@ let
         inherit inputs;
         enableTroubleshootingShell = false;
       };
-      modules =
+      modules = [
         (inputs.import-tree [
           ./modules/system
           (hostsDir + "/${name}")
-        ]).imports
-        ++ [
-          inputs.disko.nixosModules.disko # needed for every host
-          usersModule
-          {
-            # The directory name is the single source of truth for the hostname: it
-            # already keys this nixosConfiguration, so deriving networking.hostName
-            # from it makes a folder/hostname mismatch impossible by construction.
-            networking.hostName = name;
-            hardware.facter.reportPath = hostReport name;
-          }
-        ];
+        ])
+        inputs.disko.nixosModules.disko # needed for every host
+        usersModule
+        {
+          # The directory name is the single source of truth for the hostname: it
+          # already keys this nixosConfiguration, so deriving networking.hostName
+          # from it makes a folder/hostname mismatch impossible by construction.
+          networking.hostName = name;
+          hardware.facter.reportPath = hostReport name;
+        }
+      ];
     };
 in
 {
-  inherit (inputs.import-tree ./modules/flake-parts) imports;
+  imports = [ (inputs.import-tree ./modules/flake-parts) ];
 
   flake.nixosConfigurations = lib.genAttrs hostNames mkHost;
   systems = inputs.nixpkgs.lib.systems.flakeExposed;

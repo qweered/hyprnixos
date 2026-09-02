@@ -45,7 +45,7 @@
     users = lib.mapAttrs (_: user: {
       # TODO: customize imports by user
       _module.args = { inherit user cfg; };
-      inherit (inputs.import-tree.matchNot ".*/hacking/.*" ../home) imports;
+      imports = [ (inputs.import-tree.matchNot ".*/hacking/.*" ../home) ];
     }) cfg.users;
   };
 }
