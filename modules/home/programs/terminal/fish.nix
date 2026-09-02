@@ -32,6 +32,9 @@ in
         nh-update = "${nhCmd} --update";
         nh-clean = "nh clean all --optimise --keep 3 --keep-one --no-direnv --cross-filesystems";
 
+        # Eval locally, build remotely. Order of args matters
+        nom-build-jon = "nom-build --store ssh-ng://jon-server --eval-store auto";
+
         ".." = "cd ..";
         "..." = "cd ../..";
         "...." = "cd ../../..";
