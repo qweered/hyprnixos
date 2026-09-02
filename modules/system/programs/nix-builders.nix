@@ -1,11 +1,5 @@
 { config, ... }:
 {
-  # Read by the daemon, which runs as root. Borrowing the user's gpg-agent
-  # socket instead would not be a permissions problem -- CAP_DAC_OVERRIDE makes
-  # its 0600 mode no barrier to root -- but the socket's lifetime is wrong:
-  # /run/user/1000 is torn down at last logout (Linger=no), the daemon starts
-  # at boot before any session exists, and a cold agent wants a pinentry that
-  # nothing can answer. A file the daemon owns outlives all three.
   sops.secrets.nix-builder-key = { };
 
   nix = {
@@ -13,19 +7,15 @@
 
     buildMachines = [
       {
-        # The port lives in hostName. /etc/nix/machines is assembled as
-        # `<protocol>://<sshUser>@<hostName>` and ssh-ng's URL format is
-        # ssh-ng://[user@]host[:port], so this needs no ssh_config Host block
-        # -- which is what keeps the daemon independent of ~/.ssh/config.
-        hostName = "jonringer.us:2222";
+        # Ignores home ssh config, compress for faster speed
+        hostName = "jonringer.us:2222?compress=true";
         protocol = "ssh-ng";
         systems = [ "x86_64-linux" ];
 
         sshUser = "qweered";
         sshKey = config.sops.secrets.nix-builder-key.path;
 
-        # Claim only what the remote can actually do: a job matching a feature
-        # listed here is routed there and fails outright if the host lacks it.
+        # Build everything
         supportedFeatures = [
           "big-parallel"
           "kvm"
@@ -33,9 +23,9 @@
           "benchmark"
         ];
 
-        # 128 cores / 188 GB against this laptop's 8 / 14. Kept under Jon's own
-        # max-jobs = 40 since the box is shared; speedFactor is only a relative
-        # weight, and 16:1 is enough that anything buildable goes there first.
+        # 128 cores / 188 GB RAM
+        # Kept under Jon's own  max-jobs = 40 since the box is shared
+        # speedFactor is only a relative, and 16:1 is enough that anything buildable goes there first.
         maxJobs = 32;
         speedFactor = 16;
 
