@@ -31,6 +31,7 @@ in
       attribution = {
         commit = attributionTrail;
         pr = attributionTrail;
+        sessionUrl = false;
       };
     };
   };
