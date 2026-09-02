@@ -33,9 +33,11 @@
           "benchmark"
         ];
 
-        # TODO: confirm the core count and re-weigh against this laptop.
-        maxJobs = 8;
-        speedFactor = 2;
+        # 128 cores / 188 GB against this laptop's 8 / 14. Kept under Jon's own
+        # max-jobs = 40 since the box is shared; speedFactor is only a relative
+        # weight, and 16:1 is enough that anything buildable goes there first.
+        maxJobs = 32;
+        speedFactor = 16;
 
         publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUYxRHJVUmpRY1RaUk5xazg2ZDV6dW9kc3M5bDRSZzh6NlR0M09SVE84RlYK";
       }
