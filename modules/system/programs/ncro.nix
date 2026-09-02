@@ -31,7 +31,9 @@ let
     # neovim flake
     { "https://nvf.cachix.org" = "nvf.cachix.org-1:GMQWiUhZ6ux9D5CvFFMwnc2nFrUHTeGaXRlVBXo+naI="; }
     # corepkgs
-    # { "https://ekala-corepkgs.cachix.org" = "ekala-corepkgs.cachix.org-1:DcZV+vegWoEzacbSdXFXU4S7728C0eS9RfGpKeyHd6w="; }
+    {
+      "https://ekala-corepkgs.cachix.org" = "ekala-corepkgs.cachix.org-1:DcZV+vegWoEzacbSdXFXU4S7728C0eS9RfGpKeyHd6w=";
+    }
   ];
 
   toUpstream =
@@ -60,11 +62,6 @@ in
       server.listen = listen;
     };
   };
-
-  # systemd's default soft limit of 1024 starves ncro under nixpkgs-review:
-  # nix opens unbounded connections and ncro races 10 upstreams per narinfo.
-  # TODO: remove when https://github.com/manic-systems/ncro/pull/71 merged
-  systemd.services.ncro.serviceConfig.LimitNOFILE = 65536;
 
   nix.settings =
     let
