@@ -17,10 +17,12 @@
         controlPersist = "no";
       };
 
+      # Interactive only -- the remote builder reaches the same host through
+      # nix.buildMachines, which does not read this file.
       external = {
         HostName = "jonringer.us";
         Port = 2222;
-        User = "jon";
+        User = "qweered";
       };
     };
   };

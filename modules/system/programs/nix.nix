@@ -29,8 +29,6 @@
     package = inputs.determinate.packages.${config.hardware.facter.report.system}.default;
     channel.enable = false;
 
-    # distributedBuilds = true; TODO when multiple machines
-
     # improve desktop responsiveness when updating the system
     # daemonCPUSchedPolicy = "batch"; TODO: configure only for low end devices
 
