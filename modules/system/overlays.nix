@@ -17,14 +17,21 @@ in
       nix-direnv = prev.nix-direnv.override { nix = config.nix.package; };
 
       inherit (llm-agents)
-        opencode
         claude-code
         kilocode-cli
         codex
-        oh-my-claudecode
-        oh-my-codex
         ;
-      amp-cli = llm-agents.amp;
+      # opencode v2 (upstream ships only bin/opencode2): expose as
+      # pkgs.opencode with a compat `opencode` symlink so the HM module,
+      # scripts and muscle memory keep working.
+      opencode = llm-agents.opencode2.overrideAttrs (old: {
+        postInstall = (old.postInstall or "") + ''
+          ln -s $out/bin/opencode2 $out/bin/opencode
+        '';
+        meta = old.meta // {
+          mainProgram = "opencode";
+        };
+      });
     })
   ];
 }

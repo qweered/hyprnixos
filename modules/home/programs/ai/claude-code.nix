@@ -4,10 +4,8 @@ let
   attributionTrail = "Assisted-by: claude-code with ${claudeCfg.model}-${claudeCfg.effortLevel}";
 in
 {
-  # TODO: configure or remove
-  # home.packages = [ pkgs.oh-my-claudecode ];
   programs.claude-code = {
-    enable = true;
+    enable = false;
     enableMcpIntegration = true;
     skills = {
       search-code = ./skills/search-code.md;

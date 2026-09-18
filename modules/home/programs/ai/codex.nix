@@ -51,10 +51,8 @@ let
   '';
 in
 {
-  # TODO: configure or remove:
-  # home.packages = [ pkgs.oh-my-codex ];
   programs.codex = {
-    enable = true;
+    enable = false;
     enableMcpIntegration = true;
     settings = {
       model = "gpt-5.6-sol";
