@@ -104,8 +104,9 @@
     nixcord = {
       url = "github:kaylorben/nixcord";
       inputs = {
-        flake-parts.follows = "flake-parts";
         nixpkgs.follows = "nixpkgs"; # does not need cache hit
+        home-manager.follows = "home-manager";
+        nix-darwin.follows = ""; # unused here
         nixpkgs-nixcord.follows = "nixpkgs";
         treefmt-nix.follows = "treefmt-nix";
       };
