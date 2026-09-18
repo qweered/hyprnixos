@@ -27,6 +27,7 @@ in
         claude-code
         kilocode-cli
         codex
+        freebuff
         ;
       # opencode v2 (upstream ships only bin/opencode2): expose as
       # pkgs.opencode with a compat `opencode` symlink so the HM module,
