@@ -104,7 +104,7 @@
         };
 
         # Performance
-        core.fsmonitor = true; # will benefit when support linux
+        # core.fsmonitor = true; # not supported on linux for now
         feature.manyFiles = true;
 
         checkout.defaultRemote = "origin";
