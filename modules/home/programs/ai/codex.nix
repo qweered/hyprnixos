@@ -17,7 +17,9 @@ let
     "infra"
     "nixpkgs"
     "repology-rules"
-    "arbitrage-master"
+    "corepkgs"
+    "ekapkgs"
+    "repkgs"
   ];
   codexCfg = config.programs.codex.settings;
   assistedByTrailerHook = pkgs.writers.writePython3Bin "codex-assisted-by-trailer" { } ''
