@@ -1,14 +1,14 @@
 {
-  lib,
-  inputs,
   config,
+  pkgs,
+  inputs,
   ...
 }:
 {
   nixpkgs.config = {
     allowAliases = false;
     warnUndeclaredOptions = true;
-    checkMeta = true;
+    # checkMeta = false; should remain false, slows down eval
     # NOTE: it defaults to true because of patch
     # allowUnfree = true;
     # TODO: find a way to make this check less noisy, e.g. showing only one level deep packages
@@ -23,10 +23,9 @@
     # doCheckByDefault = true;
   };
 
-  nixpkgs.flake.source = lib.mkForce config.nixpkgs-patcher.patchedNixpkgs;
-
   nix = {
-    package = inputs.determinate.packages.${config.hardware.facter.report.system}.default;
+    package = inputs.corepkgs-v2.packages.${pkgs.stdenv.hostPlatform.system}.nix;
+    nixPath = [ "nixpkgs=${config.nixpkgs-patcher.patchedNixpkgs}" ];
     channel.enable = false;
 
     # improve desktop responsiveness when updating the system
@@ -52,8 +51,8 @@
       lint-absolute-path-literals = "ignore"; # still too noisy
 
       # Avoid system full issues
-      min-free = 1024 * 1024 * 1024; # Start at 1GB left
-      max-free = 10 * 1024 * 1024 * 1024; # Stop at 10GB left
+      min-free = "5G"; # Start gc at
+      max-free = "20G"; # Stop gc at
 
       # Faster download and fallback
       http-connections = 64;
@@ -63,9 +62,9 @@
       download-attempts = 3;
       fallback = true;
 
-      lazy-trees = true;
-      lazy-locks = true; # TODO: check that install command works correctly
-      eval-cores = 0;
+      #lazy-trees = true;
+      #lazy-locks = true; # TODO: check that install command works correctly
+      #eval-cores = 0;
 
       use-cgroups = true;
       auto-allocate-uids = true;
@@ -74,17 +73,19 @@
         "nix-command" # for non-determinate nix
         "flakes" # for non-determinate nix
         "ca-derivations"
+        "dynamic-derivations"
         "local-overlay-store"
         "cgroups"
         "auto-allocate-uids"
         "pipe-operators"
-        "parallel-eval"
-        # "recursive-nix"
+        "recursive-nix"
+        #"parallel-eval"
       ];
 
       extra-system-features = [
         "uid-range"
-        # "recursive-nix"
+        "builder-rpc-v0"
+        "recursive-nix"
       ];
 
       trusted-users = [ "@wheel" ];
