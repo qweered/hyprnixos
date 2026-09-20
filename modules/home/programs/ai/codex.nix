@@ -18,6 +18,7 @@ let
     "nixpkgs"
     "repology-rules"
     "corepkgs"
+    "corepkgs-v2"
     "ekapkgs"
     "repkgs"
   ];
