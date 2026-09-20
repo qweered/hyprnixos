@@ -1,4 +1,9 @@
-{ lib, inputs, ... }:
+{
+  lib,
+  inputs,
+  config,
+  ...
+}:
 let
   caches = [
     { "https://cache.nixos.org" = "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="; }
@@ -50,6 +55,8 @@ let
   # served /nix-cache-info to anyone on the LAN, the tailnet, or a public AP.
   # NOTE: disables multi-host and mesh capabilites
   listen = "127.0.0.1:8080";
+  urls = map (c: lib.head (lib.attrNames c)) caches;
+  keys = map (c: lib.head (lib.attrValues c)) caches;
 in
 {
   imports = [ inputs.ncro.nixosModules.ncro ];
@@ -58,18 +65,18 @@ in
     enable = true;
     settings = {
       upstreams = lib.imap1 toUpstream caches;
-      logging.timestamps = false;
+      cache = {
+        ttl = "30m";
+        mass_query.upstream-cooldown = "10s";
+      };
+      logging.timestamps = false; # to not duplicate systemd timestamps
       server.listen = listen;
     };
   };
 
-  nix.settings =
-    let
-      proxy = "http://${listen}";
-    in
-    {
-      # lib.mkForce is to overwrite the NixOS defaults and propagation from flake inputs
-      substituters = lib.mkForce [ proxy ];
-      trusted-substituters = lib.mkForce [ proxy ]; # So non-root users can use the proxy too
-    };
+  nix.settings = {
+    substituters = if config.services.ncro.enable then lib.mkForce [ "http://${listen}" ] else urls;
+    trusted-substituters = lib.mkForce config.nix.settings.substituters;
+    trusted-public-keys = lib.mkIf (!config.services.ncro.enable) keys;
+  };
 }
