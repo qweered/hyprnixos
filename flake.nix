@@ -52,6 +52,8 @@
         nixpkgs-regression.follows = ""; # dev-only
       };
     };
+    # No overrides, goal is to remove nixpkgs from here
+    corepkgs-v2.url = "github:ekala-project/corepkgs-v2";
     ncro = {
       url = "github:manic-systems/ncro";
       inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
