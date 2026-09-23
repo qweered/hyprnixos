@@ -23,8 +23,11 @@
     # doCheckByDefault = true;
   };
 
+  services.jigd-remote.enable = true;
+
   nix = {
     package = inputs.corepkgs-v2.packages.${pkgs.stdenv.hostPlatform.system}.nix;
+    # NOTE: patched nixpkgs in nixpkgs.flake require lazy-trees
     nixPath = [ "nixpkgs=${config.nixpkgs-patcher.patchedNixpkgs}" ];
     channel.enable = false;
 
@@ -45,6 +48,12 @@
       trace-import-from-derivation = true;
       always-allow-substitutes = true;
       builders-use-substitutes = true;
+
+      # Compile cache for corepkgs/repkgs builds: the jigd-remote tunnel
+      # lands here (services.jigd-remote.localSocket). `?` keeps builds
+      # working while the tunnel is down (then uncached). Same mapping
+      # repkgs passes per-invocation via --option.
+      extra-sandbox-paths = [ "/nix/var/nix/jigd/socket?" ];
 
       lint-url-literals = "warn";
       lint-short-path-literals = "warn";

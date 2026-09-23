@@ -21,6 +21,11 @@
           "kvm"
           "nixos-test"
           "benchmark"
+          "builder-rpc-v0"
+          "recursive-nix"
+          "uid-range"
+          "ca-derivations"
+          "dynamic-derivations"
         ];
 
         # 128 cores / 188 GB RAM
