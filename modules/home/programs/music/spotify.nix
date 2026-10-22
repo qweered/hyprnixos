@@ -19,9 +19,9 @@ in
       fullAlbumDate
       wikify
       songStats
-      betterGenres
       beautifulLyrics
       # lastfm - broken upstream
+      # betterGenres
       # keyboardShortcut
       # popupLyrics
       # seekSong
