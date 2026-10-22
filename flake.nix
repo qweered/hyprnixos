@@ -6,10 +6,6 @@
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"; # Smaller then github tarball, less api hits
     nixpkgs-patcher.url = "github:qweered/nixpkgs-patcher/perf-materialise-once"; # 4x faster
-    nixpkgs-patch-codexbar-cli = {
-      url = "https://github.com/NixOS/nixpkgs/pull/525686.diff";
-      flake = false;
-    };
     nixpkgs-patch-singularityapp = {
       url = "https://github.com/NixOS/nixpkgs/pull/535346.diff";
       flake = false;
