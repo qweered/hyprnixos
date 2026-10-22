@@ -2,7 +2,7 @@
 
 {
   config = lib.mkIf (lib.elem "hyprland" cfg.sessions) {
-    programs.dms-shell.enable = true;
+    programs.dux-shell.enable = true;
 
     # TODO: requires config for keyboard etc.
     # services.displayManager.dms-greeter = {

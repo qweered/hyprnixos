@@ -7,8 +7,8 @@
 
     buildMachines = [
       {
-        # Ignores home ssh config, compress for faster speed
-        hostName = "jonringer.us:2222?compress=true";
+        # Ignores home ssh config
+        hostName = "jonringer.us:2222";
         protocol = "ssh-ng";
         systems = [ "x86_64-linux" ];
 
@@ -29,7 +29,7 @@
         ];
 
         # 128 cores / 188 GB RAM
-        # Kept under Jon's own  max-jobs = 40 since the box is shared
+        # Kept under Jon's own  max-jobs = 32 since the box is shared
         # speedFactor is only a relative, and 16:1 is enough that anything buildable goes there first.
         maxJobs = 32;
         speedFactor = 16;

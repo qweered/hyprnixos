@@ -27,8 +27,6 @@
 
   nix = {
     package = inputs.corepkgs-v2.packages.${pkgs.stdenv.hostPlatform.system}.nix;
-    # NOTE: patched nixpkgs in nixpkgs.flake require lazy-trees
-    nixPath = [ "nixpkgs=${config.nixpkgs-patcher.patchedNixpkgs}" ];
     channel.enable = false;
 
     # improve desktop responsiveness when updating the system
@@ -42,6 +40,8 @@
       keep-going = true;
       keep-failed = true;
       flake-registry = "/etc/nix/registry.json";
+      # NOTE: patched nixpkgs in nixpkgs.flake require lazy-trees
+      nix-path = [ "nixpkgs=${config.nixpkgs-patcher.patchedNixpkgs}" ];
       use-xdg-base-directories = true;
       accept-flake-config = false; # true allows root access, see https://github.com/NixOS/nix/issues/9649
       allow-import-from-derivation = true; # for devenv and command-not-found, see if we can flip that to false

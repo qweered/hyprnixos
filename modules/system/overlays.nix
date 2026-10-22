@@ -25,6 +25,7 @@ in
           rev = "0014da1ab4277b86ea9c58cc8f56fe6a20fe9f21";
           hash = "sha256-vaOAXpaEtAuVE76IaliwKT8zpNttzN3ja3wvRozKmnA=";
         };
+        patches = [ ];
       });
 
       inherit (llm-agents)

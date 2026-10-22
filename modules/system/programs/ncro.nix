@@ -67,7 +67,7 @@ in
       upstreams = lib.imap1 toUpstream caches;
       cache = {
         ttl = "30m";
-        mass_query.upstream-cooldown = "10s";
+        mass_query.upstream_cooldown = "10s";
       };
       logging.timestamps = false; # to not duplicate systemd timestamps
       server.listen = listen;
