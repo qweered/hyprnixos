@@ -78,7 +78,7 @@
         user.name = "Aliaksandr";
         user.email = "grubian2@gmail.com";
         github.user = "qweered";
-        feature.experimental = true;
+        feature.experimental = false; # TODO: debug if it influences fsmonitor, then enable
         credential.helper = "libsecret";
 
         blame = {
@@ -104,7 +104,9 @@
         };
 
         # Performance
-        core.fsmonitor = false; # not supported on linux for now
+        core.fsmonitor = false;
+        # TODO: set socketDir
+        fsmonitor.socketDir = "/tmp";
         feature.manyFiles = true;
 
         checkout.defaultRemote = "origin";
