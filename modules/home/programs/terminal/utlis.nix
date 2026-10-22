@@ -18,14 +18,7 @@
     yt-dlp # download videos
     wireplumber # audio control
     wl-clipboard # copy-paste in shell, over wl-clipboard-rs
-    grim # screenshot
-    slurp # screenshot
-    satty # screenshot, over hyprshot swappy
-
-    libnotify # notifications in shell
-    hyprpicker # color picker
     wget # download files, over curl
-
     jq
   ];
 }
