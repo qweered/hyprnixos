@@ -25,7 +25,7 @@ in
     '';
     shellAliases =
       let
-        nhCmd = "nh os switch --ask --show-activation-logs --show-trace";
+        nhCmd = "nh os switch --ask --show-trace";
       in
       {
         nh-switch = "${nhCmd}";

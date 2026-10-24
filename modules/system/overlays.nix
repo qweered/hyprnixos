@@ -17,6 +17,7 @@ in
       nix-update = prev.nix-update.override { nix = config.nix.package; };
       nix-direnv = prev.nix-direnv.override { nix = config.nix.package; };
 
+      # TODO: drop when rom have feature parity
       nix-output-monitor = prev.nix-output-monitor.overrideAttrs (_: {
         version = "2.2.0-unstable-2026-09-30";
         src = final.fetchFromGitHub {

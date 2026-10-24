@@ -10,12 +10,16 @@
       url = "https://github.com/NixOS/nixpkgs/pull/535346.diff";
       flake = false;
     };
-    nixpkgs-patch-make-initrd-ng-dlopen-alternatives = {
-      url = "https://github.com/qweered/nixpkgs/commit/7441b95afb6da774204d96a68969c4014af0fbc4.diff";
+    nixpkgs-patch-init-rom = {
+      url = "https://github.com/NixOS/nixpkgs/pull/578391.diff";
       flake = false;
     };
-    nixpkgs-patch-builtins-filterattrs = {
-      url = "https://github.com/NixOS/nixpkgs/pull/498999.diff";
+    nixpkgs-patch-nh-4-5 = {
+      url = "https://github.com/NixOS/nixpkgs/pull/578415.diff";
+      flake = false;
+    };
+    nixpkgs-patch-make-initrd-ng-dlopen-alternatives = {
+      url = "https://github.com/qweered/nixpkgs/commit/7441b95afb6da774204d96a68969c4014af0fbc4.diff";
       flake = false;
     };
     nixpkgs-patch-allow-unfree = {
