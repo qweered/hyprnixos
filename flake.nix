@@ -4,28 +4,8 @@
   inputs = {
     # nixpkgs-local-testing.url = "git+file:///home/qweered/Projects/nixpkgs";
     # nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"; # Smaller then github tarball, less api hits
-    nixpkgs-patcher.url = "github:qweered/nixpkgs-patcher/perf-materialise-once"; # 4x faster
-    nixpkgs-patch-singularityapp = {
-      url = "https://github.com/NixOS/nixpkgs/pull/535346.diff";
-      flake = false;
-    };
-    nixpkgs-patch-init-rom = {
-      url = "https://github.com/NixOS/nixpkgs/pull/578391.diff";
-      flake = false;
-    };
-    nixpkgs-patch-nh-4-5 = {
-      url = "https://github.com/NixOS/nixpkgs/pull/578415.diff";
-      flake = false;
-    };
-    nixpkgs-patch-make-initrd-ng-dlopen-alternatives = {
-      url = "https://github.com/qweered/nixpkgs/commit/7441b95afb6da774204d96a68969c4014af0fbc4.diff";
-      flake = false;
-    };
-    nixpkgs-patch-allow-unfree = {
-      url = "https://gist.githubusercontent.com/qweered/c3ed7d8b22bc9dac59717b1f148d9522/raw/allow-unfree-by-default.patch";
-      flake = false;
-    };
+    # nixpkgs-unpatched.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"; # Smaller then github tarball, less api hits
+    nixpkgs.url = "github:qweered/nixpkgs/nixos-unstable-patched";
 
     # global inputs, other will follow them
     systems.url = "github:nix-systems/triplet";

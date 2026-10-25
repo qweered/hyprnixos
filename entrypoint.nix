@@ -56,12 +56,8 @@ let
   # system/config.nix), users/ to usersModule, flake-parts/ to the flake.
   mkHost =
     name:
-    inputs.nixpkgs-patcher.lib.nixosSystem {
+    lib.nixosSystem {
       specialArgs = { inherit inputs; };
-      nixpkgsPatcher = {
-        inherit inputs;
-        enableTroubleshootingShell = false;
-      };
       modules = [
         (inputs.import-tree [
           ./modules/system

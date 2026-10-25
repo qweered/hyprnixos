@@ -3,7 +3,6 @@
 * fish with starship, colorful man pages
 * secrets with sops-nix (GPG admin identity, host SSH key via ssh-to-age)
 * cachyos kernel
-* nixpkgs-patcher to apply patches and pull requests on top of nixpkgs
 * hyprland with UWSM
 * multihost, multiuser, multicpu
 * git w/ gpg + ssh
