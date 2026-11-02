@@ -8,6 +8,17 @@
 {
   imports = [ inputs.nvf.homeManagerModules.default ];
 
+  programs.neovide = {
+    enable = true;
+    settings = {
+      neovim-bin = "${config.programs.nvf.finalPackage}/bin/nvim";
+      font = {
+        normal = [ "JetBrainsMono Nerd Font" ];
+        size = 12.0;
+      };
+    };
+  };
+
   programs.nvf = {
     enable = true;
     defaultEditor = true;
@@ -25,6 +36,30 @@
         foldlevel = 99;
         foldlevelstart = 99;
         foldenable = true;
+      };
+
+      languages = {
+        enableTreesitter = true;
+        enableFormat = true;
+        enableExtraDiagnostics = true;
+
+        nix = {
+          enable = true;
+          lsp.servers = [ "nixd" ];
+          format.type = [ "nixfmt" ];
+        };
+        typescript = {
+          enable = true;
+          format.enable = false;
+        };
+        markdown = {
+          enable = true;
+          extraDiagnostics.types = [ "rumdl" ];
+          format.enable = false;
+        };
+        terraform.enable = true;
+        toml.enable = true;
+        yaml.enable = true;
       };
 
       autocomplete = {
@@ -213,6 +248,20 @@
         setupOpts = {
           bigfile.enabled = true;
           bufdelete.enabled = true;
+          indent.enabled = false;
+          input.enabled = true;
+          lazygit.enabled = true;
+          picker.enabled = true;
+          notifier = {
+            enabled = true;
+            timeout = 3000;
+          };
+          quickfile.enabled = true;
+          scope.enabled = false;
+          scratch.enabled = true;
+          statuscolumn.enabled = true;
+          terminal.enabled = true;
+          words.enabled = true;
           dashboard = {
             enabled = true;
             preset.keys = [
@@ -270,43 +319,7 @@
               }
             ];
           };
-          indent.enabled = false;
-          input.enabled = true;
-          lazygit.enabled = true;
-          picker.enabled = true;
-          notifier = {
-            enabled = true;
-            timeout = 3000;
-          };
-          quickfile.enabled = true;
-          scope.enabled = false;
-          scratch.enabled = true;
-          statuscolumn.enabled = true;
-          terminal.enabled = true;
-          words.enabled = true;
         };
-      };
-
-      languages = {
-        enableTreesitter = true;
-        enableFormat = true;
-        enableExtraDiagnostics = true;
-
-        nix = {
-          enable = true;
-          lsp.servers = [ "nixd" ];
-          format.type = [ "nixfmt" ];
-        };
-        typescript = {
-          enable = true;
-          format.enable = false;
-        };
-        markdown = {
-          enable = true;
-          extraDiagnostics.types = [ "rumdl" ];
-          format.enable = false;
-        };
-        terraform.enable = true;
       };
 
       keymaps = [
@@ -813,17 +826,6 @@
           desc = "Escape and Clear hlsearch";
         }
       ];
-    };
-  };
-
-  programs.neovide = {
-    enable = true;
-    settings = {
-      neovim-bin = "${config.programs.nvf.finalPackage}/bin/nvim";
-      font = {
-        normal = [ "JetBrainsMono Nerd Font" ];
-        size = 12.0;
-      };
     };
   };
 }
