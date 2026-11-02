@@ -44,6 +44,12 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    # Compile cache for corepkgs/repkgs builds: the jigd-remote tunnel
+    # lands here (services.jigd-remote.localSocket). `?` keeps builds
+    # working while the tunnel is down (then uncached). Same mapping
+    # repkgs passes per-invocation via --option.
+    nix.settings.extra-sandbox-paths = [ "/nix/var/nix/jigd/socket?" ];
+
     systemd.services.jigd-remote = {
       description = "Forward remote jigd socket (${cfg.host}:${toString cfg.port})";
       wants = [ "network-online.target" ];
