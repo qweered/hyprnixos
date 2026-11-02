@@ -20,42 +20,39 @@ in
     interactiveShellInit = ''
       set fish_greeting
     '';
-    functions.which-real = ''
-      readlink -f (command -v -- $argv)
-    '';
-    shellAliases =
-      let
-        nhCmd = "nh os switch --ask --show-trace";
-      in
-      {
-        nh-switch = "${nhCmd}";
-        nh-update = "${nhCmd} --update";
-        nh-clean = "nh clean all --optimise --keep 3 --keep-one --no-direnv --cross-filesystems";
+    functions = {
+      which-real = ''
+        readlink -f (command -v -- $argv)
+      '';
+      # Eval locally, build remotely. Order of args matters
+      rom-build-jon = ''
+        rom build $argv -- -f . --store ssh-ng://jon-server --eval-store auto
+      '';
+    };
+    shellAliases = {
+      nh-clean = "nh clean all --optimise --keep 3 --keep-one --cross-filesystems";
 
-        # Eval locally, build remotely. Order of args matters
-        nom-build-jon = "nom-build --store ssh-ng://jon-server --eval-store auto";
+      ".." = "cd ..";
+      "..." = "cd ../..";
+      "...." = "cd ../../..";
+      "....." = "cd ../../../..";
 
-        ".." = "cd ..";
-        "..." = "cd ../..";
-        "...." = "cd ../../..";
-        "....." = "cd ../../../..";
-
-        ff = "fastfetch";
-        cat = "bat --style=plain --paging=never";
-        cp = "cp -iv"; # ask and show progress
-        mv = "mv -iv";
-        df = "duf";
-        du = "gdu";
-        top = "btop";
-        htop = "btop";
-        tree = "eza --tree";
-        rm = "rip";
-        terraform = "tofu";
-        svi = "sudo nvim";
-        codex = "codex --dangerously-bypass-hook-trust";
-        nix-env = "echo 'Do not use nix-env ever, use nix shell or nix run instead'";
-        nix-olde = "nix-olde -f ${flakeDirectory} > ${flakeDirectory}/OUTDATED.md"; # TODO: add verbosity for not existing in repology packages
-        # "ps aux" = "procs"; TODO: add this
-      };
+      ff = "fastfetch";
+      cat = "bat --style=plain --paging=never";
+      cp = "cp -iv"; # ask and show progress
+      mv = "mv -iv";
+      df = "duf";
+      du = "gdu";
+      top = "btop";
+      htop = "btop";
+      ps = "procs";
+      tree = "eza --tree";
+      rm = "rip";
+      terraform = "tofu";
+      svi = "sudo nvim";
+      codex = "codex --dangerously-bypass-hook-trust";
+      nix-env = "echo 'Do not use nix-env ever, use nix shell or nix run instead'";
+      nix-olde = "nix-olde -f ${flakeDirectory} > ${flakeDirectory}/OUTDATED.md"; # TODO: add verbosity for not existing in repology packages
+    };
   };
 }

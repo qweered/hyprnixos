@@ -3,7 +3,7 @@
   sops.secrets.nix-builder-key = { };
 
   nix = {
-    distributedBuilds = true;
+    distributedBuilds = false;
 
     buildMachines = [
       {
@@ -21,18 +21,18 @@
           "kvm"
           "nixos-test"
           "benchmark"
-          "builder-rpc-v0"
-          "recursive-nix"
           "uid-range"
-          "ca-derivations"
-          "dynamic-derivations"
+          # "builder-rpc-v0"
+          # "recursive-nix"
+          # "ca-derivations"
+          # "dynamic-derivations"
         ];
 
         # 128 cores / 188 GB RAM
         # Kept under Jon's own  max-jobs = 32 since the box is shared
         # speedFactor is only a relative, and 16:1 is enough that anything buildable goes there first.
         maxJobs = 32;
-        speedFactor = 16;
+        speedFactor = 0;
 
         publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUYxRHJVUmpRY1RaUk5xazg2ZDV6dW9kc3M5bDRSZzh6NlR0M09SVE84RlYK";
       }
