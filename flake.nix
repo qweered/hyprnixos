@@ -23,17 +23,10 @@
     };
 
     # other inputs
-    determinate = {
-      url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
-      inputs = {
-        flake-parts.follows = "flake-parts";
-        git-hooks-nix.follows = "git-hooks";
-        nixpkgs-23-11.follows = ""; # dev-only
-        nixpkgs-regression.follows = ""; # dev-only
-      };
+    corepkgs-v2 = {
+      url = "github:ekala-project/corepkgs-v2";
+      inputs.nixpkgs.follows = "nixpkgs"; # so we dont bloat closure
     };
-    # No overrides, goal is to remove nixpkgs from here
-    corepkgs-v2.url = "github:ekala-project/corepkgs-v2";
     ncro = {
       url = "github:manic-systems/ncro";
       inputs.nixpkgs.follows = "nixpkgs"; # does not need cache hit
@@ -87,10 +80,11 @@
       url = "github:kaylorben/nixcord";
       inputs = {
         nixpkgs.follows = "nixpkgs"; # does not need cache hit
+        nixpkgs-packages.follows = "nixpkgs";
+        nixpkgs-ci.follows = "nixpkgs";
         home-manager.follows = "home-manager";
-        nix-darwin.follows = ""; # unused here
-        nixpkgs-nixcord.follows = "nixpkgs";
         treefmt-nix.follows = "treefmt-nix";
+        nix-darwin.follows = ""; # unused here
       };
     };
     spicetify = {
@@ -115,10 +109,27 @@
     };
     direnv-instant = {
       url = "github:Mic92/direnv-instant";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.treefmt-nix.follows = "treefmt-nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        treefmt-nix.follows = "treefmt-nix";
+      };
     };
+
+    # determinate = {
+    #   url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
+    #   inputs = {
+    #     flake-parts.follows = "flake-parts";
+    #     git-hooks-nix.follows = "git-hooks";
+    #     nixpkgs-23-11.follows = ""; # dev-only
+    #     nixpkgs-regression.follows = ""; # dev-only
+    #   };
+    # };
+    # only for determinate nix
+    # nixpkgs-patch-builtins-filterattrs = {
+    #  url = "https://github.com/NixOS/nixpkgs/pull/498999.diff";
+    #  flake = false;
+    # };
   };
   outputs =
     inputs@{ flake-parts, ... }:
