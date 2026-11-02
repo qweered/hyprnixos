@@ -9,7 +9,6 @@ in
 {
   nixpkgs.overlays = [
     inputs.nix-cachyos-kernel.overlays.pinned
-    inputs.self.overlays.pkgs
     (final: prev: {
       # TODO: nuke even more nix duplicates
       nurl = prev.nurl.override { nix = config.nix.package; };

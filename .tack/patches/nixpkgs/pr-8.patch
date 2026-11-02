@@ -1,0 +1,39 @@
+diff --git a/pkgs/stdenv/generic/check-meta.nix b/pkgs/stdenv/generic/check-meta.nix
+index 08e2c7a37a09d..85aa57925c32f 100644
+--- a/pkgs/stdenv/generic/check-meta.nix
++++ b/pkgs/stdenv/generic/check-meta.nix
+@@ -72,7 +72,7 @@ let
+   # messages and make problems easier to spot.
+   inHydra = config.inHydra or false;
+ 
+-  allowUnfree = config.allowUnfree || getEnv "NIXPKGS_ALLOW_UNFREE" == "1";
++  allowUnfree = config.allowUnfree;
+ 
+   allowNonSource =
+     let
+diff --git a/pkgs/top-level/config.nix b/pkgs/top-level/config.nix
+index 058e383e0b7aa..c9ac4145eb4cd 100644
+--- a/pkgs/top-level/config.nix
++++ b/pkgs/top-level/config.nix
+@@ -251,9 +251,7 @@ let
+ 
+     allowUnfree = mkOption {
+       type = types.bool;
+-      default = false;
+-      # getEnv part is in check-meta.nix
+-      defaultText = literalExpression ''false || builtins.getEnv "NIXPKGS_ALLOW_UNFREE" == "1"'';
++      default = true;
+       description = ''
+         Whether to allow unfree packages.
+ 
+@@ -471,9 +469,7 @@ let
+ 
+     microsoftVisualStudioLicenseAccepted = mkOption {
+       type = types.bool;
+-      default = false;
+-      # getEnv part is in check-meta.nix
+-      defaultText = literalExpression ''false || builtins.getEnv "NIXPKGS_ALLOW_UNFREE" == "1"'';
++      default = true;
+       description = ''
+         If the Microsoft Visual Studio license has been accepted.
+ 

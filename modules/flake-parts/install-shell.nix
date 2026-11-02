@@ -29,11 +29,6 @@
   perSystem =
     { pkgs, inputs', ... }:
     let
-      # Install with the same nix the target host runs (Determinate Nix) instead
-      # of whatever the live ISO happens to ship, so the installer honours the
-      # host's experimental features (lazy-trees, cgroups, ca-derivations).
-      determinateNix = inputs'.determinate.packages.default;
-
       # The target host's fully-rendered nix.conf — substituters, trusted keys and
       # experimental features all derived from our nix.settings, not a hand-picked
       # subset. Caches/keys are defined once for every host, so any host is a
@@ -64,7 +59,6 @@
         pkgs.writeShellApplication {
           name = "hyprnixos-install";
           runtimeInputs = [
-            determinateNix
             pkgs.nix-output-monitor
             pkgs.openssh # ssh-keygen -y, to derive the public half for the check below
           ];
