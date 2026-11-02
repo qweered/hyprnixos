@@ -17,8 +17,14 @@
         '';
       };
 
+      formatter = pkgs.writeShellScriptBin "pre-commit-run" ''
+        exec ${lib.getExe config.pre-commit.settings.package} run --all-files --config ${config.pre-commit.settings.configFile}
+      '';
+
       pre-commit.settings = {
         package = pkgs.prek;
+        excludes = [ "(^|/)\\.tack/" ];
+
         # TODO: keep-sorted, nixf-diagnose
         hooks = {
           deadnix = {
@@ -35,15 +41,16 @@
           };
           statix = {
             enable = true;
-            package = pkgs.statix;
-            entry = lib.mkForce "${lib.getExe pkgs.statix} fix";
+            entry = "${lib.getExe pkgs.statix} fix";
+            pass_filenames = false;
             files = "\\.nix$";
             priority = 1;
           };
-          nixfmt-rs = {
+          nixfmt = {
             enable = true;
-            package = config.formatter;
-            entry = lib.getExe config.formatter;
+            package = pkgs.nixfmt-rs;
+            settings.width = 140;
+            args = [ "--strict" ];
             files = "\\.nix$";
             priority = 2;
           };

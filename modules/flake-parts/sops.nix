@@ -146,7 +146,6 @@ in
         # every input the rendered recipient lists are derived from: the admin
         # pgp keys here, host *.pub files, and `hyprnixos.userProfiles`
         files = "^(\\.sops\\.yaml|modules/flake-parts/sops\\.nix|modules/(users|hosts)/.*\\.(nix|pub))$";
-        pass_filenames = false;
       };
     };
 }

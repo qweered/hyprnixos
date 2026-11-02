@@ -1,0 +1,2 @@
+# tack's generated resolver is not ours to lint.
+ignore = [".direnv", ".tack"]
