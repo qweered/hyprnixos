@@ -5,15 +5,18 @@
   ...
 }:
 let
+  # my own cache
+  # {
+  #    "https://qweered.cachix.org" = "qweered.cachix.org-1:X6WgfA8u+Xo+POju6JTr0/68YWNmT2bQjEww4qBvFZk=";
+  #  }
   caches = [
     { "https://cache.nixos.org" = "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="; }
     # cache for unfree packages
     {
       "https://nix-community.cachix.org" = "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=";
     }
-    # my own cache
     {
-      "https://qweered.cachix.org" = "qweered.cachix.org-1:X6WgfA8u+Xo+POju6JTr0/68YWNmT2bQjEww4qBvFZk=";
+      "https://cache.manic.systems" = "cache.manic.systems-1:s6OZanN8Us8vRi0jVivP3qlMn0cYHBjBALKrNe5nH8s=";
     }
     # determinate nix
     {
