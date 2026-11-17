@@ -1,18 +1,18 @@
 [shorturls]
-gh = "github:{path}"
+gh         = "github:{path}"
 nixpkgs-pr = "https://github.com/NixOS/nixpkgs/pull/{path}"
 
 # all_follow maps input names at every depth to the top-level pin they follow
 # opt out per-input with exclude_follow, scope with flake: or tack:
 [all_follow]
-nixpkgs = ["nixpkgs", "nixpkgs-lib"]
+nixpkgs      = ["nixpkgs", "nixpkgs-lib"]
 home-manager = "home-manager"
-systems = "systems"
-import-tree = "import-tree"
-git-hooks = ["git-hooks", "git-hooks-nix"]
+systems      = "systems"
+import-tree  = "import-tree"
+git-hooks    = ["git-hooks", "git-hooks-nix"]
 # maybe add them to omit instead?
-treefmt-nix = "treefmt-nix"
-flake-parts = "flake-parts"
+treefmt-nix  = "treefmt-nix"
+flake-parts  = "flake-parts"
 flake-compat = "flake-compat"
 
 # recursively omit selected upstream inputs from every top-level pin
@@ -40,30 +40,36 @@ names = ["nix-darwin"]
 #   tags_from       fixed-only repo url or http(s) page to read tag's tags from, for an
 #                   asset that isn't a release download
 [inputs.nixpkgs]
-url = "gh:NixOS/nixpkgs/nixos-unstable"
+# TODO: switch to nixos-unstable
+url = "gh:NixOS/nixpkgs/nixos-unstable-small"
 patches = [
-# Unfree by default
-"https://github.com/qweered/nixpkgs/pull/8",
-# singularity-app: init
-"nixpkgs-pr:535346",
-# nh: update to 4.5.0
-"nixpkgs-pr:578415"
+  # Unfree by default
+  "https://github.com/qweered/nixpkgs/pull/8",
+  # singularity-app: init
+  # "nixpkgs-pr:535346",
 ]
 
-[inputs.nixpkgs-unpatched]
-url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"
+#[inputs.nixpkgs-unpatched]
+#url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"
 
-[inputs.nixpkgs-master]
-url = "gh:NixOS/nixpkgs/master"
+#[inputs.nixpkgs-master]
+#url = "gh:NixOS/nixpkgs/master"
 
-[inputs.corepkgs-v2]
-url = "gh:ekala-project/corepkgs-v2"
+[inputs.determinate]
+url = "https://flakehub.com/f/DeterminateSystems/nix-src/*"
+# TODO: maybe remove exclude, it builds againts stable nixpkgs
+# but painful cache miss and cant build currently
+exclude_follow = ["nixpkgs"]
+omit_inputs    = ["nixpkgs-23-11", "nixpkgs-regression"]
+
+#[inputs.corepkgs-v2]
+#url = "gh:ekala-project/corepkgs-v2"
 
 [inputs.home-manager]
 url = "gh:nix-community/home-manager"
 
 [inputs.systems]
-url = "gh:nix-systems/triplet"
+url    = "gh:nix-systems/triplet"
 frozen = "6de7bc09397911ce03636afbcf6118745ab2cda0"
 
 [inputs.flake-parts]
@@ -79,8 +85,8 @@ url = "gh:numtide/treefmt-nix"
 url = "gh:nix-community/disko" # have /latest but its 9 months old
 
 [inputs.nix-cachyos-kernel]
-url = "gh:xddxdd/nix-cachyos-kernel/release"
-exclude_follow = ["nixpkgs"] # painful cache miss
+url            = "gh:xddxdd/nix-cachyos-kernel/release"
+exclude_follow = ["nixpkgs"]                            # painful cache miss
 
 [inputs.nvf]
 url = "gh:notashelf/nvf"
@@ -98,18 +104,14 @@ url = "gh:cachix/git-hooks.nix"
 url = "gh:nix-community/nix-index-database"
 
 [inputs.nixcord]
-url = "gh:kaylorben/nixcord"
-follows = { nixpkgs-packages = "nixpkgs", nixpkgs-ci = "nixpkgs"}
+url     = "gh:kaylorben/nixcord"
+follows = { nixpkgs-packages = "nixpkgs", nixpkgs-ci = "nixpkgs" }
 
 [inputs.spicetify]
 url = "gh:Gerg-L/spicetify-nix"
 
 [inputs.ucodenix]
 url = "gh:e-tho/ucodenix"
-
-[inputs.determinate]
-url = "https://flakehub.com/f/DeterminateSystems/nix-src/*"
-omit_inputs = ["nixpkgs-23-11", "nixpkgs-regression"]
 
 [inputs.direnv-instant]
 url = "gh:Mic92/direnv-instant"
@@ -127,4 +129,3 @@ url = "gh:manic-systems/tack"
 # TODO: drop, add to nixpkgs
 [inputs.ncro]
 url = "gh:manic-systems/ncro"
-

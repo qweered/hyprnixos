@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: EUPL-1.2
 # tack-managed resolver. delete this line to take ownership; tack will leave it alone afterwards.
-# tack-resolver: patched patchedDiff tag version signedBy groups
+# tack-resolver: patched patchedDiff tag version signedBy groups archive defaultType nestedGroups
 
 let
   inherit (builtins)
@@ -8,11 +8,13 @@ let
     all
     attrNames
     attrValues
+    compareVersions
     concatMap
     concatStringsSep
     any
     elem
     elemAt
+    fetchGit
     filter
     foldl'
     fromJSON
@@ -27,6 +29,8 @@ let
     listToAttrs
     mapAttrs
     match
+    nixVersion
+    path
     pathExists
     readFile
     readFileType
@@ -37,6 +41,7 @@ let
     substring
     tail
     trace
+    warn
     ;
 
   validateInputNames =
@@ -46,10 +51,39 @@ let
     else
       value;
 
+  isPinGroup =
+    entry:
+    isAttrs entry
+    && !(entry ? url)
+    && all isAttrs (attrValues entry)
+    && any (pin: pin ? url) (attrValues entry);
+
+  flattenInputs =
+    inputs:
+    foldl' (
+      acc: name:
+      let
+        entry = inputs.${name};
+        pins =
+          if isPinGroup entry then
+            mapAttrs (
+              pin: value:
+              if value ? group then
+                throw "tack: input '${pin}' sits under [inputs.${name}], so it can't also set group"
+              else
+                value // { group = name; }
+            ) entry
+          else
+            { ${name} = entry; };
+        clashes = filter (pin: acc ? ${pin}) (attrNames pins);
+      in
+      if clashes != [ ] then throw "tack: input '${head clashes}' is defined twice" else acc // pins
+    ) { } (attrNames inputs);
+
   pinsOf =
     toml:
     mapAttrs (_: pin: if pin ? group then (toml.groups or { }).${pin.group} or { } // pin else pin) (
-      toml.inputs or { }
+      flattenInputs (toml.inputs or { })
     );
 
   knownTypes = [
@@ -110,12 +144,117 @@ let
     treeHash = null;
   };
 
+  fetchGitAttrs = {
+    url = null;
+    ref = null;
+    rev = null;
+    narHash = null;
+    submodules = null;
+    shallow = null;
+    allRefs = null;
+    lfs = null;
+    verifyCommit = null;
+    keytype = null;
+    publicKey = null;
+    publicKeys = null;
+  };
+
+  # fetchTarball ignores access-tokens, so prefer fetchTree when available
+  fetchLocked =
+    { what, locked }:
+    let
+      type = locked.type or "";
+      host = default: locked.host or default;
+      verifyCommit = locked.verifyCommit or (locked ? publicKey || locked ? publicKeys);
+      archiveUrl = {
+        github = "https://${host "github.com"}/${locked.owner}/${locked.repo}/archive/${locked.rev}.tar.gz";
+        gitlab = "https://${host "gitlab.com"}/api/v4/projects/${locked.owner}%2F${locked.repo}/repository/archive.tar.gz?sha=${locked.rev}";
+        sourcehut = "https://${host "git.sr.ht"}/${locked.owner}/${locked.repo}/archive/${locked.rev}.tar.gz";
+      };
+      revInfo =
+        if locked ? rev then
+          {
+            inherit (locked) rev;
+            shortRev = substring 0 7 locked.rev;
+          }
+        else
+          { };
+      dateInfo =
+        if locked ? lastModified then
+          {
+            inherit (locked) lastModified;
+            lastModifiedDate = formatEpoch locked.lastModified;
+          }
+        else
+          { };
+      tarball = url: {
+        outPath = fetchTarball {
+          inherit url;
+          sha256 = locked.narHash;
+        };
+        inherit (locked) narHash;
+      };
+    in
+    if builtins ? fetchTree then
+      builtins.fetchTree locked
+    else if !(locked ? narHash) then
+      throw "tack: ${what} has no narHash and requires builtins.fetchTree"
+    else if archiveUrl ? ${type} && locked ? rev then
+      tarball archiveUrl.${type} // revInfo // dateInfo
+    else if type == "tarball" then
+      tarball locked.url // revInfo // dateInfo
+    else if type == "git" && locked ? rev then
+      dateInfo
+      // {
+        submodules = locked.submodules or false;
+      }
+      // removeAttrs (fetchGit (
+        removeAttrs (intersectAttrs fetchGitAttrs locked) (
+          (if locked.lfs or false then [ ] else [ "lfs" ])
+          ++ (
+            if verifyCommit then
+              [ ]
+            else
+              [
+                "verifyCommit"
+                "keytype"
+                "publicKey"
+                "publicKeys"
+              ]
+          )
+        )
+        # nix 2.20 added exportIgnore and enabled it by default, and lix and older nix reject
+        # it, lfs and verifyCommit outright. lix reports 2.18.3-lix
+        // (
+          if compareVersions nixVersion "2.20" >= 0 then
+            { exportIgnore = locked.exportIgnore or false; }
+          else
+            { }
+        )
+        // (if locked.allRefs or false then { } else { shallow = locked.shallow or true; })
+      )) [ "revCount" ]
+      // (if locked ? revCount then { inherit (locked) revCount; } else { })
+    else if type == "path" && substring 0 1 locked.path == "/" then
+      {
+        outPath = path {
+          inherit (locked) path;
+          sha256 = locked.narHash;
+          name = "source";
+        };
+        inherit (locked) narHash;
+        lastModified = locked.lastModified or 0;
+        lastModifiedDate = formatEpoch (locked.lastModified or 0);
+      }
+    else
+      throw "tack: ${what} has type '${type}', which requires builtins.fetchTree";
+
   call =
     {
       overrides ? { },
       resolverDir ? ./.,
       pkgs ? null,
       system ? builtins.currentSystem or null,
+      fetch_mode ? null,
     }:
     let
       pins = fromTOML (readFile (resolverDir + "/pins.toml"));
@@ -140,6 +279,26 @@ let
       inheritedOmitted = inheritedPolicy.omitted or [ ];
       inheritedOmitLayers = (inheritedPolicy.omit or { }).layers or [ ];
       pinOverrides = removeAttrs overrides [ "__tack_policy" ];
+      forcedMode =
+        let
+          value = if fetch_mode != null then fetch_mode else inheritedPolicy.fetchMode or null;
+        in
+        if
+          elem value [
+            null
+            "build"
+            "eval"
+          ]
+        then
+          value
+        else
+          throw "tack: fetch_mode must be 'build' or 'eval', got '${toString value}'";
+      pinFetchMode =
+        pin:
+        if forcedMode != null then
+          forcedMode
+        else
+          pin.fetch_mode or (pins.tack or { }).fetch_mode or "eval";
 
       all_omit_inputs =
         if !(pins ? omit_inputs) then
@@ -236,7 +395,10 @@ let
         else if !(elem type knownTypes) then
           throw "tack: unknown lock type '${type}' for pin '${name}'"
         else
-          fetchTree (intersectAttrs fetchTreeAttrs node);
+          fetchLocked {
+            what = "pin '${name}'";
+            locked = intersectAttrs fetchTreeAttrs node;
+          };
 
       fetchPin =
         name:
@@ -252,6 +414,7 @@ let
       fetchFixed =
         { name, entry }:
         let
+          # tack update adds the file to the store under this name, see fetch_fixed_pin
           raw = derivation {
             inherit name;
             inherit (entry) url;
@@ -270,6 +433,46 @@ let
           };
         in
         if (entry.unpack or "file") == "tarball" then unpacked.outPath + "/" + name else raw.outPath;
+
+      # lix's builtin:fetchurl requires outputHashAlgo
+      fetchArchive =
+        node:
+        let
+          raw = derivation {
+            name = "source-archive";
+            url =
+              {
+                github = "https://codeload.github.com/${node.owner}/${node.repo}/tar.gz/${node.rev}";
+                tarball = node.url;
+              }
+              .${node.type};
+            builder = "builtin:fetchurl";
+            system = "builtin";
+            outputHash = node.archive.hash;
+            outputHashAlgo = "sha256";
+            outputHashMode = "flat";
+            preferLocalBuild = true;
+            impureEnvVars = [
+              "http_proxy"
+              "https_proxy"
+              "ftp_proxy"
+              "all_proxy"
+              "no_proxy"
+            ];
+          };
+          unpacked = derivation {
+            name = "source";
+            builder = "builtin:unpack-channel";
+            system = "builtin";
+            src = raw;
+            channelName = "source";
+            outputHash = node.archive.outHash;
+            outputHashAlgo = "sha256";
+            outputHashMode = "recursive";
+            preferLocalBuild = true;
+          };
+        in
+        unpacked.outPath + "/source";
 
       patchedTree =
         { name, pin }:
@@ -305,15 +508,14 @@ let
           fetched =
             addErrorContext
               "tack: the patched tree of '${name}' is not in the store, run tack materialize or nix-build .tack -A _patched -o .tack/patched, or tack update ${name} if the lock was edited by hand"
-              (
-                fetchTree (
-                  {
-                    type = "path";
-                    inherit (tree) path narHash;
-                  }
-                  // (if tree ? lastModified then { inherit (tree) lastModified; } else { })
-                )
-              );
+              (fetchLocked {
+                what = "the patched tree of '${name}'";
+                locked = {
+                  type = "path";
+                  inherit (tree) path narHash;
+                }
+                // (if tree ? lastModified then { inherit (tree) lastModified; } else { });
+              });
         in
         fetched
         // (
@@ -643,7 +845,13 @@ let
           );
           fetched = if type == "indirect" then intersectAttrs lockedFields (fetchPin name) else { };
         in
-        (metaDefaults.${type} or { }) // intersectAttrs fields entry // fetched // { inherit type; };
+        (metaDefaults.${type} or { })
+        // intersectAttrs fields entry
+        // fetched
+        // intersectAttrs { group = null; } (declared.${name} or { })
+        // {
+          inherit type;
+        };
 
       resolveFollowMeta = mapAttrs (_: target: selfMeta.${target} or { type = "upstream"; });
 
@@ -780,14 +988,23 @@ let
 
       omittedInput =
         { side, name }:
-        throw "tack: ${side} input '${name}' was omitted by omit_inputs";
+        warn "tack: ${side} input '${name}' was omitted by omit_inputs, ${name} will be null" null;
 
       # `pin/input/...` walks the inputs that pin was evaluated with, as a flake.nix follows does
       resolveFollows = mapAttrs (
         _: target:
         let
           path = filter isString (split "/" target);
-          pin = self.${head path} or (throw "tack: follows target '${head path}' is not a pin");
+          name = head path;
+          pin =
+            self.${name} or (
+              if
+                any (alias: all_follow.${alias} == name && substring 0 5 alias != "tack:") (attrNames all_follow)
+              then
+                throw "tack: all_follow target '${name}' has no lock entry; run tack update"
+              else
+                throw "tack: follows target '${name}' is not a pin"
+            );
         in
         foldl' (
           node: key:
@@ -921,6 +1138,7 @@ let
           override = {
             __tack_policy = {
               inherit omit omitted meta;
+              fetchMode = forcedMode;
               follows = followValues;
               followMeta = scopedFollowValues "tack" (followMetaForSide {
                 side = "tack";
@@ -1033,7 +1251,10 @@ let
                   spec = ref;
                 };
                 childNode = upLock.nodes.${childName};
-                childSrc = fetchTree childNode.locked;
+                childSrc = fetchLocked {
+                  what = "flake.lock node '${childName}'";
+                  locked = removeAttrs childNode.locked [ "dir" ];
+                };
               in
               if isList ref && ref != [ ] then
                 followed
@@ -1042,7 +1263,14 @@ let
                   inherit upLock rootInputs omit;
                   nodeName = childName;
                   sourceInfo = childSrc;
+                  dir = childNode.locked.dir or null;
                   follows = deepFollows;
+                }
+              else if childNode.locked ? dir then
+                childSrc
+                // {
+                  outPath = childSrc.outPath + "/" + childNode.locked.dir;
+                  sourceInfo = childSrc;
                 }
               else
                 childSrc
@@ -1109,7 +1337,7 @@ let
           # upstream declares its outputs forward tackOverrides; a closed `{ self }:`
           # would throw on the extra kwarg, so forward only when declared
           extraArgs =
-            if tackCall.supportsOverrides && tackCall.needed then
+            if tackCall.supportsOverrides && (tackCall.needed || forcedMode != null) then
               { tackOverrides = tackCall.overrides; }
             else
               { };
@@ -1132,6 +1360,7 @@ let
           upLock,
           nodeName,
           sourceInfo,
+          dir,
           follows,
           omit,
           rootInputs,
@@ -1144,7 +1373,7 @@ let
             omit
             rootInputs
             ;
-          flakeDir = sourceInfo.outPath;
+          flakeDir = sourceInfo.outPath + (if dir == null then "" else "/" + dir);
           levelFollows = follows;
           deepFollows = follows;
         };
@@ -1214,7 +1443,10 @@ let
       loadPin =
         { name, pin }:
         let
-          pinType = pin.type or (if pin.flake or true then "flake" else "fetch");
+          pinType =
+            pin.type or (
+              if pin ? flake then (if pin.flake then "flake" else "fetch") else (pins.tack or { }).type or "flake"
+            );
           omit = omitsFor { inherit name pin; };
           follows = checkFollowKeys {
             follows = pin.follows or { };
@@ -1242,6 +1474,7 @@ let
                 sourceInfo =
                   if (pin.patches or [ ]) == [ ] then fetchPin name else fetchPatched { inherit name pin; };
                 subdir = if pin ? dir then "/" + pin.dir else "";
+                node = lock.${name} or { };
               in
               if pinType == "flake" then
                 evalTopFlake {
@@ -1252,6 +1485,11 @@ let
                     omit
                     ;
                 }
+              # archive is only locked for trees without .tack
+              else if
+                pinFetchMode pin == "build" && node.archive or null != null && (pin.patches or [ ]) == [ ]
+              then
+                fetchArchive node + subdir
               else
                 evalFetch {
                   inherit
