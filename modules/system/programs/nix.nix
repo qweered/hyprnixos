@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   inputs,
   ...
 }:
@@ -24,7 +23,7 @@
   };
 
   nix = {
-    package = inputs.corepkgs-v2.packages.${pkgs.stdenv.hostPlatform.system}.nix;
+    package = inputs.determinate.packages.${config.hardware.facter.report.system}.default;
     channel.enable = false;
 
     # improve desktop responsiveness when updating the system
