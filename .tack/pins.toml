@@ -40,8 +40,7 @@ names = ["nix-darwin"]
 #   tags_from       fixed-only repo url or http(s) page to read tag's tags from, for an
 #                   asset that isn't a release download
 [inputs.nixpkgs]
-# TODO: switch to nixos-unstable
-url = "gh:NixOS/nixpkgs/nixos-unstable-small"
+url = "gh:NixOS/nixpkgs/nixos-unstable"
 patches = [
   # Unfree by default
   "https://github.com/qweered/nixpkgs/pull/8",
