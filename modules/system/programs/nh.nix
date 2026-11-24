@@ -4,6 +4,6 @@
   programs.nh.clean = {
     enable = true;
     dates = "weekly";
-    extraArgs = "--optimise --keep 3 --keep-one --no-direnv --cross-filesystems";
+    extraArgs = "--optimise --keep 3 --keep-one --cross-filesystems";
   };
 }

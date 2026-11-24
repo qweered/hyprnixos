@@ -113,9 +113,6 @@ url = "gh:Gerg-L/spicetify-nix"
 [inputs.ucodenix]
 url = "gh:e-tho/ucodenix"
 
-[inputs.direnv-instant]
-url = "gh:Mic92/direnv-instant"
-
 [inputs.sops-nix]
 url = "gh:Mic92/sops-nix"
 
@@ -129,3 +126,7 @@ url = "gh:manic-systems/tack"
 # TODO: drop, add to nixpkgs
 [inputs.ncro]
 url = "gh:manic-systems/ncro"
+
+# TODO: drop, add to nixpkgs
+[inputs.cade]
+url = "gh:manic-systems/cade"
