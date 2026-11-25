@@ -16,6 +16,7 @@ in
       nix-update = prev.nix-update.override { nix = config.nix.package; };
 
       inherit (llm-agents)
+        antigravity-cli
         claude-code
         codex
         freebuff
