@@ -21,7 +21,8 @@
     "systems": "github:nix-systems/triplet",
     "tack": "github:manic-systems/tack",
     "treefmt-nix": "github:numtide/treefmt-nix",
-    "ucodenix": "github:e-tho/ucodenix"
+    "ucodenix": "github:e-tho/ucodenix",
+    "xdg-utils-nu": "github:manic-systems/xdg-utils.nu"
   },
   "cade": {
     "type": "github",
@@ -224,5 +225,14 @@
     "rev": "36933183e87c95361d5913fee3debe5e931c6e1c",
     "narHash": "sha256-7L64yjvuFw56/RrcOvuRSIwu0/z3ANUIEOQ3njkSl0k=",
     "lastModified": 1788792915
+  },
+  "xdg-utils-nu": {
+    "type": "github",
+    "owner": "manic-systems",
+    "repo": "xdg-utils.nu",
+    "rev": "e4541a6ac913bd271e4af643864b66ab9792a906",
+    "narHash": "sha256-bn0+cdlefJhWJR0jNPJIM2dNhpPiX7SRsMuwqzegpEA=",
+    "lastModified": 1794264376,
+    "public": true
   }
 }

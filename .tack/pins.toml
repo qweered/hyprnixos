@@ -129,3 +129,6 @@ url = "gh:manic-systems/ncro"
 # TODO: drop, add to nixpkgs
 [inputs.cade]
 url = "gh:manic-systems/cade"
+
+[inputs.xdg-utils-nu]
+url = "gh:manic-systems/xdg-utils.nu"

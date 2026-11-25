@@ -4,7 +4,8 @@
   ...
 }:
 let
-  llm-agents = inputs.llm-agents.packages.${config.hardware.facter.report.system};
+  inherit (config.hardware.facter.report) system;
+  llm-agents = inputs.llm-agents.packages.${system};
 in
 {
   nixpkgs.overlays = [
@@ -14,6 +15,7 @@ in
       nurl = prev.nurl.override { nix = config.nix.package; };
       nixpkgs-review = prev.nixpkgs-review.override { nix = config.nix.package; };
       nix-update = prev.nix-update.override { nix = config.nix.package; };
+      xdg-utils = inputs.xdg-utils-nu.packages.${system}.xdg-utils-nu-uutils;
 
       inherit (llm-agents)
         antigravity-cli
