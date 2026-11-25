@@ -17,7 +17,6 @@ in
 
       inherit (llm-agents)
         claude-code
-        kilocode-cli
         codex
         freebuff
         ;
