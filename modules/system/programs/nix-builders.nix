@@ -3,7 +3,7 @@
   sops.secrets.nix-builder-key = { };
 
   nix = {
-    distributedBuilds = false;
+    distributedBuilds = false; # only explicit
 
     buildMachines = [
       {
@@ -15,7 +15,6 @@
         sshUser = "qweered";
         sshKey = config.sops.secrets.nix-builder-key.path;
 
-        # Build everything
         supportedFeatures = [
           "big-parallel"
           "kvm"
@@ -29,10 +28,8 @@
         ];
 
         # 128 cores / 188 GB RAM
-        # Kept under Jon's own  max-jobs = 32 since the box is shared
-        # speedFactor is only a relative, and 16:1 is enough that anything buildable goes there first.
         maxJobs = 32;
-        speedFactor = 0;
+        speedFactor = 16; # should be more than 0 so explicit `--builders jon-server` works without `-j 0`
 
         publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUYxRHJVUmpRY1RaUk5xazg2ZDV6dW9kc3M5bDRSZzh6NlR0M09SVE84RlYK";
       }
