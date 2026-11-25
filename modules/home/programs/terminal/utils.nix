@@ -17,7 +17,6 @@
     ffmpeg # video/audio converter
     yt-dlp # download videos
     wireplumber # audio control
-    wl-clipboard # copy-paste in shell, over wl-clipboard-rs
     wget # download files, over curl
     jq
   ];
