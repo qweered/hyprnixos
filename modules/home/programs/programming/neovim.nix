@@ -9,7 +9,7 @@
   imports = [ inputs.nvf.homeModules.default ];
 
   programs.neovide = {
-    enable = true;
+    enable = false; # TODO: configure or drop
     settings = {
       neovim-bin = "${config.programs.nvf.finalPackage}/bin/nvim";
       font = {
