@@ -59,11 +59,11 @@ hl.bind("SUPER + SHIFT + C", exec("dms color pick -a"))
 hl.bind("CTRL + ALT + Delete", hl.dsp.exec_cmd("dms ipc call processlist focusOrToggle"))
 
 -- brightness and audio
-hl.bind("XF86MonBrightnessUp", exec([[dms ipc call brightness increment 5 ""]]), {
+hl.bind("XF86MonBrightnessUp", exec("dms ipc call brightness increment 5"), {
   locked = true,
   repeating = true,
 })
-hl.bind("XF86MonBrightnessDown", exec([[dms ipc call brightness decrement 5 ""]]), {
+hl.bind("XF86MonBrightnessDown", exec("dms ipc call brightness decrement 5"), {
   locked = true,
   repeating = true,
 })

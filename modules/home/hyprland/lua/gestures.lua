@@ -43,5 +43,5 @@ hl.gesture({
 
 hl.workspace_rule({
   workspace = "special:magic",
-  on_created_empty = "uwsm app -- " .. vars.terminal,
+  -- on_created_empty = "uwsm app -- " .. vars.terminal,
 })

@@ -54,7 +54,7 @@
     mutable = true; # Did you read comment above?
   };
 
-  # TODO: enable upstream
+  # TODO: enable upstream, also one of the last haskell packages in closure
   systemd.enableStrictShellChecks = true;
 
   # TODO: enable upstream

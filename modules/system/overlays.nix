@@ -9,23 +9,11 @@ in
 {
   nixpkgs.overlays = [
     inputs.nix-cachyos-kernel.overlays.pinned
-    (final: prev: {
+    (_final: prev: {
       # TODO: nuke even more nix duplicates
       nurl = prev.nurl.override { nix = config.nix.package; };
       nixpkgs-review = prev.nixpkgs-review.override { nix = config.nix.package; };
       nix-update = prev.nix-update.override { nix = config.nix.package; };
-
-      # TODO: drop when rom have feature parity
-      nix-output-monitor = prev.nix-output-monitor.overrideAttrs (_: {
-        version = "2.2.0-unstable-2026-09-30";
-        src = final.fetchFromGitHub {
-          owner = "qweered";
-          repo = "nix-output-monitor";
-          rev = "0014da1ab4277b86ea9c58cc8f56fe6a20fe9f21";
-          hash = "sha256-vaOAXpaEtAuVE76IaliwKT8zpNttzN3ja3wvRozKmnA=";
-        };
-        patches = [ ];
-      });
 
       inherit (llm-agents)
         claude-code
