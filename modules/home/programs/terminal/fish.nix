@@ -37,6 +37,7 @@ in
       "...." = "cd ../../..";
       "....." = "cd ../../../..";
 
+      ssh = "ghostty +ssh --";
       ff = "fastfetch";
       cat = "bat --style=plain --paging=never";
       cp = "cp -iv"; # ask and show progress

@@ -5,16 +5,20 @@
   programs.ghostty = {
     enable = true;
     settings = {
-      theme = "Wez";
+      theme = "dankcolors";
+      window-decoration = false;
+      gtk-titlebar = false;
+      font-size = 12;
       cursor-style = "block";
       cursor-style-blink = true;
+      mouse-hide-while-typing = true;
+
+      copy-on-select = "none";
       confirm-close-surface = false;
-      gtk-titlebar-hide-when-maximized = true;
+      app-notifications = false;
+      gtk-single-instance = true;
+
+      keybind = "ctrl+t=new_tab";
     };
   };
-
-  xdg.configFile."kdeglobals".text = ''
-    [General]
-    TerminalApplication=ghostty
-  '';
 }
