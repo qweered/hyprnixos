@@ -1,7 +1,7 @@
 {
   programs.zed-editor = {
     enable = true;
-    # TODO: declarative settings
+    # CONFIG: declarative settings
     # https://wiki.nixos.org/wiki/Zed
 
     # Make Nix-built language servers available to Zed. Zed otherwise downloads

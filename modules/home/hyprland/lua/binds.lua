@@ -82,7 +82,7 @@ hl.bind("XF86AudioPrev", exec("dms ipc call mpris previous"), { locked = true })
 hl.bind("XF86AudioNext", exec("dms ipc call mpris next"), { locked = true })
 hl.bind("XF86AudioMute", exec("dms ipc call audio mute"), { locked = true })
 hl.bind("XF86AudioMicMute", exec("dms ipc call audio micmute"), { locked = true })
--- FIXME: works only on FN + SHIFT + XF86AudioMute
+-- NOTE: works only on FN + SHIFT + XF86AudioMute
 hl.bind("SHIFT + XF86AudioMute", exec("dms ipc call audio micmute"), { locked = true })
 
 -- Move windows and workspaces

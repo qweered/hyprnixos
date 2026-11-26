@@ -7,10 +7,8 @@
   nixpkgs.config = {
     allowAliases = false;
     warnUndeclaredOptions = true;
-    # checkMeta = false; should remain false, slows down eval
-    # NOTE: it defaults to true because of patch
-    # allowUnfree = true;
-    # TODO: find a way to make this check less noisy, e.g. showing only one level deep packages
+    # checkMeta = false; # NOTE: should only be enabled in ci
+    # allowUnfree = true; # NOTE: defaults to true in my config
     # showDerivationWarnings = [ "maintainerless" ];
     # Mass rebuilds:
     # strictDepsByDefault = true;
@@ -26,8 +24,8 @@
     package = inputs.determinate.packages.${config.hardware.facter.report.system}.default;
     channel.enable = false;
 
-    # improve desktop responsiveness when updating the system
-    # daemonCPUSchedPolicy = "batch"; TODO: configure only for low end devices
+    # NOTE: improve desktop responsiveness when updating the system, configure for low end devices
+    # daemonCPUSchedPolicy = "batch";
 
     extraOptions = ''
       !include ${config.sops.secrets.nix-access-tokens.path}
@@ -56,14 +54,14 @@
       # Faster download and fallback
       http-connections = 64;
       max-substitution-jobs = 32;
-      # connect-timeout = 10; # NOTE: dead under ncro
+      # connect-timeout = 10; # dead under ncro
       stalled-download-timeout = 30;
       download-attempts = 3;
       fallback = true;
 
-      #lazy-trees = true;
-      #lazy-locks = true; # TODO: check that install command works correctly
-      #eval-cores = 0;
+      lazy-trees = true;
+      lazy-locks = true;
+      eval-cores = 0;
 
       use-cgroups = true;
       auto-allocate-uids = true;

@@ -2,7 +2,7 @@
 
 {
   # Perlless https://github.com/NixOS/nixpkgs/blob/0260f927b7c1578b5c7cdefd7db7b660565cd362/nixos/modules/profiles/perlless.nix
-  # TODO: Check that the system does not contain a Nix store path that contains the string "perl".
+  # TODO: Check that the system does not contain a Nix store path that contains the string "perl", same for "haskell" next
   # system.forbiddenDependenciesRegexes = [ "perl" ];
 
   # Remove unnecessary packages
@@ -54,9 +54,9 @@
     mutable = true; # Did you read comment above?
   };
 
-  # TODO: enable upstream, also one of the last haskell packages in closure
+  # CONFIG: enable upstream, also one of the last haskell packages in closure
   systemd.enableStrictShellChecks = true;
 
-  # TODO: enable upstream
+  # CONFIG: enable upstream
   programs.fish.useBabelfish = true;
 }

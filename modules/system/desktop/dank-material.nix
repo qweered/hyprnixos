@@ -23,7 +23,6 @@ in
     defaultSession = "hyprland-uwsm";
     dux-greeter = {
       enable = true;
-      # TODO: multiuser
       configHome = cfg.users.qweered.homeDirectory;
       compositor = {
         name = "hyprland";

@@ -22,7 +22,7 @@ in
 {
   environment.systemPackages = with pkgs; [
     uutils-coreutils-noprefix
-    # TODO: enable once stable enough
+    # TODO: enable once stable enough, but only whats missing in nushell
     #uutils-diffutils
     #uutils-findutils
     #uutils-util-linux
