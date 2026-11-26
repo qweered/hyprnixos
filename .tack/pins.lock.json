@@ -120,9 +120,9 @@
     "type": "github",
     "owner": "xddxdd",
     "repo": "nix-cachyos-kernel",
-    "rev": "920a3823872b21640181fe8065a5fb35fcb06e3f",
-    "narHash": "sha256-ZExeqyTk0uCPbR7u2GGbNgjne+F3tanByxr/aS+8rdk=",
-    "lastModified": 1795490956,
+    "rev": "7c2981ca35651aa3aae60531a9c605a3750cc889",
+    "narHash": "sha256-fzTG9H+M/Ct2qyiFHZAYOHb8n2G4CSCHf3tv1fCRYfg=",
+    "lastModified": 1795570543,
     "public": true
   },
   "nix-index-database": {
@@ -138,9 +138,9 @@
     "type": "github",
     "owner": "kaylorben",
     "repo": "nixcord",
-    "rev": "5d97cb99ebb458e985b69996b90c78e3ca1270b2",
-    "narHash": "sha256-KT6yKUgJGXjLEZr8FYu6vQ8Dj5Ihb+JwA3QVl0P5Cgo=",
-    "lastModified": 1795537996,
+    "rev": "acc90616dbd6bf39878a6f0d82a9c0fae376ef37",
+    "narHash": "sha256-/xiVYUABaEKCbAcObbfTQ6zEIG1k5cLYCbkiLa6z1tI=",
+    "lastModified": 1795568598,
     "public": true
   },
   "nixpkgs": {
@@ -151,8 +151,8 @@
     "narHash": "sha256-f/VVvxf5RsQgWVhUtefoca5ktVg0DA2bnkMOcmSnozo=",
     "lastModified": 1795234589,
     "patched": {
-      "path": "/nix/store/44jyi2kzcrpcayb2s9ybgcn7ldf88k71-source",
-      "narHash": "sha256-A5/S07mSh+ZnBTaZgjUwjt9imSgxi6Ic2hMTYx9+tTM=",
+      "path": "/nix/store/6kgiv3mw808apkfqdf0j7l2i31hs67kq-source",
+      "narHash": "sha256-7XJPUnNL+uuaYbPJCAK6FZOhpUX115MSyE19kpjeqg8=",
       "lastModified": 1795234589,
       "patches": [
         {
@@ -161,9 +161,16 @@
           "file": "patches/nixpkgs/pr-8.patch",
           "sha256": "2f75eaf023e535a190a3124b47ce72379ef27eaf1b8876ac482304bcab9ca0b3",
           "head": "f28636ca03dde8eec3940cbf5a0e438799ced7d8"
+        },
+        {
+          "source": "nixpkgs-pr:593698",
+          "url": "https://github.com/NixOS/nixpkgs/pull/593698",
+          "file": "patches/nixpkgs/pr-593698.patch",
+          "sha256": "09b3258288f783146c5ecc28290194c02351c5da93c9e419e1194915a74adfcd",
+          "head": "532774a20afa9fd7063c26e29dea3f70f0caa688"
         }
       ],
-      "diff": "4c2c1a58c3dbbc1d741e6db2b71ee427f5bb2470aad6a69db4966105e4176536"
+      "diff": "eae06299af8351e47b7bbe5444a5a7999d489082c71b7eb1172d7731efefe1bc"
     }
   },
   "nvf": {
