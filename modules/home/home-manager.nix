@@ -1,4 +1,5 @@
 {
+  config,
   user,
   cfg,
   ...
@@ -31,6 +32,14 @@
   };
 
   xdg = {
+    # TODO: upstream
+    configFile."uwsm/env".text = ''
+      # Load Home Manager session variables for UWSM-managed Wayland sessions
+      if [ -f "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh" ]; then
+        . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
+      fi
+    '';
+
     userDirs = {
       enable = true;
       createDirectories = true;
